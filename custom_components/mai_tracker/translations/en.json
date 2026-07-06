@@ -29,7 +29,16 @@
         "data": {
           "temp_sensor": "Temperature Sensor",
           "humidity_sensor": "Humidity Sensor",
-          "weather_entity": "Weather Entity"
+          "weather_entity": "Weather Entity",
+          "environment_label": "========== [1] ENVIRONMENT SENSORS ==========",
+          "bio_label": "========== [2] BIO WEARABLES & SENSORS ==========",
+          "sync_label": "========== [3] COMPANION APP SYNC ==========",
+          "notify_dev_label": "========== [1] NOTIFICATION RECIPIENT ROLES ==========",
+          "tts_voice_label": "========== [2] TTS SPEAKER & ANNOUNCEMENTS ==========",
+          "water_cycle_label": "========== [3] WATER DRINKING REMINDERS ==========",
+          "templates_label": "========== [4] CUSTOM MESSAGE TEMPLATES ==========",
+          "calendar_label": "========== [1] CALENDAR INTEGRATION & AGENDAS ==========",
+          "med_label": "========== [2] MEDICINE REMINDER LOGISTICS (Medicine 1 to 10) =========="
         }
       },
       "notifications": {
@@ -46,7 +55,16 @@
           "water_reminder_notify_management": "Monitoring water reminder template (use '{hours}', '{person_name}')",
           "drink_log_notify_personal": "Personal drink logged template (use '{amount}', '{drink_name}')",
           "drink_log_notify_management": "Monitoring drink logged template (use '{person_name}', '{amount}', '{drink_name}')",
-          "drink_log_notify_remove": "Undo logged notification template (use '{person_name}')"
+          "drink_log_notify_remove": "Undo logged notification template (use '{person_name}')",
+          "environment_label": "========== [1] ENVIRONMENT SENSORS ==========",
+          "bio_label": "========== [2] BIO WEARABLES & SENSORS ==========",
+          "sync_label": "========== [3] COMPANION APP SYNC ==========",
+          "notify_dev_label": "========== [1] NOTIFICATION RECIPIENT ROLES ==========",
+          "tts_voice_label": "========== [2] TTS SPEAKER & ANNOUNCEMENTS ==========",
+          "water_cycle_label": "========== [3] WATER DRINKING REMINDERS ==========",
+          "templates_label": "========== [4] CUSTOM MESSAGE TEMPLATES ==========",
+          "calendar_label": "========== [1] CALENDAR INTEGRATION & AGENDAS ==========",
+          "med_label": "========== [2] MEDICINE REMINDER LOGISTICS (Medicine 1 to 10) =========="
         }
       },
       "medicine": {
@@ -102,7 +120,16 @@
           "medicine_7_notify_secondary": "Secondary Notify Device [7]",
           "medicine_8_notify_secondary": "Secondary Notify Device [8]",
           "medicine_9_notify_secondary": "Secondary Notify Device [9]",
-          "medicine_10_notify_secondary": "Secondary Notify Device [10]"
+          "medicine_10_notify_secondary": "Secondary Notify Device [10]",
+          "environment_label": "========== [1] ENVIRONMENT SENSORS ==========",
+          "bio_label": "========== [2] BIO WEARABLES & SENSORS ==========",
+          "sync_label": "========== [3] COMPANION APP SYNC ==========",
+          "notify_dev_label": "========== [1] NOTIFICATION RECIPIENT ROLES ==========",
+          "tts_voice_label": "========== [2] TTS SPEAKER & ANNOUNCEMENTS ==========",
+          "water_cycle_label": "========== [3] WATER DRINKING REMINDERS ==========",
+          "templates_label": "========== [4] CUSTOM MESSAGE TEMPLATES ==========",
+          "calendar_label": "========== [1] CALENDAR INTEGRATION & AGENDAS ==========",
+          "med_label": "========== [2] MEDICINE REMINDER LOGISTICS (Medicine 1 to 10) =========="
         }
       }
     },
@@ -113,7 +140,7 @@
   "options": {
     "step": {
       "init": {
-        "title": "Basic Settings (Step 1/5)",
+        "title": "Basic Settings (Step 1/4)",
         "description": "Configure your basic body metrics and water/caffeine targets.",
         "data": {
           "water_goal": "Daily Water Goal (ml)",
@@ -127,16 +154,25 @@
         }
       },
       "environment": {
-        "title": "Sensors & Sync (Step 2/5)",
+        "title": "Sensors & Sync (Step 2/4)",
         "description": "Select temperature and humidity sensors for automatic water goal adjustments during hot weather.",
         "data": {
           "temp_sensor": "Temperature Sensor",
           "humidity_sensor": "Humidity Sensor",
-          "weather_entity": "Weather Entity"
+          "weather_entity": "Weather Entity",
+          "environment_label": "========== [1] ENVIRONMENT SENSORS ==========",
+          "bio_label": "========== [2] BIO WEARABLES & SENSORS ==========",
+          "sync_label": "========== [3] COMPANION APP SYNC ==========",
+          "notify_dev_label": "========== [1] NOTIFICATION RECIPIENT ROLES ==========",
+          "tts_voice_label": "========== [2] TTS SPEAKER & ANNOUNCEMENTS ==========",
+          "water_cycle_label": "========== [3] WATER DRINKING REMINDERS ==========",
+          "templates_label": "========== [4] CUSTOM MESSAGE TEMPLATES ==========",
+          "calendar_label": "========== [1] CALENDAR INTEGRATION & AGENDAS ==========",
+          "med_label": "========== [2] MEDICINE REMINDER LOGISTICS (Medicine 1 to 10) =========="
         }
       },
       "notifications": {
-        "title": "Notification & TTS Hub (Step 3/5)",
+        "title": "Notification & TTS Hub (Step 3/4)",
         "description": "Set up phone notifications and voice broadcast reminder targets.",
         "data": {
           "notify_target": "Personal Notification Device (Addressing 'Bạn')",
@@ -149,11 +185,20 @@
           "water_reminder_notify_management": "Monitoring water reminder template (use '{hours}', '{person_name}')",
           "drink_log_notify_personal": "Personal drink logged template (use '{amount}', '{drink_name}')",
           "drink_log_notify_management": "Monitoring drink logged template (use '{person_name}', '{amount}', '{drink_name}')",
-          "drink_log_notify_remove": "Undo logged notification template (use '{person_name}')"
+          "drink_log_notify_remove": "Undo logged notification template (use '{person_name}')",
+          "environment_label": "========== [1] ENVIRONMENT SENSORS ==========",
+          "bio_label": "========== [2] BIO WEARABLES & SENSORS ==========",
+          "sync_label": "========== [3] COMPANION APP SYNC ==========",
+          "notify_dev_label": "========== [1] NOTIFICATION RECIPIENT ROLES ==========",
+          "tts_voice_label": "========== [2] TTS SPEAKER & ANNOUNCEMENTS ==========",
+          "water_cycle_label": "========== [3] WATER DRINKING REMINDERS ==========",
+          "templates_label": "========== [4] CUSTOM MESSAGE TEMPLATES ==========",
+          "calendar_label": "========== [1] CALENDAR INTEGRATION & AGENDAS ==========",
+          "med_label": "========== [2] MEDICINE REMINDER LOGISTICS (Medicine 1 to 10) =========="
         }
       },
       "medicine": {
-        "title": "Schedule & Medicine Hub (Step 4/5)",
+        "title": "Schedule & Medicine Hub (Step 4/4)",
         "description": "Set up to 10 medicine reminder schedules. Leave the Medicine Name empty to disable a slot.",
         "data": {
           "medicine_1_name": "-------- [1] MEDICINE NAME --------",
@@ -205,7 +250,16 @@
           "medicine_7_notify_secondary": "Secondary Notify Device [7]",
           "medicine_8_notify_secondary": "Secondary Notify Device [8]",
           "medicine_9_notify_secondary": "Secondary Notify Device [9]",
-          "medicine_10_notify_secondary": "Secondary Notify Device [10]"
+          "medicine_10_notify_secondary": "Secondary Notify Device [10]",
+          "environment_label": "========== [1] ENVIRONMENT SENSORS ==========",
+          "bio_label": "========== [2] BIO WEARABLES & SENSORS ==========",
+          "sync_label": "========== [3] COMPANION APP SYNC ==========",
+          "notify_dev_label": "========== [1] NOTIFICATION RECIPIENT ROLES ==========",
+          "tts_voice_label": "========== [2] TTS SPEAKER & ANNOUNCEMENTS ==========",
+          "water_cycle_label": "========== [3] WATER DRINKING REMINDERS ==========",
+          "templates_label": "========== [4] CUSTOM MESSAGE TEMPLATES ==========",
+          "calendar_label": "========== [1] CALENDAR INTEGRATION & AGENDAS ==========",
+          "med_label": "========== [2] MEDICINE REMINDER LOGISTICS (Medicine 1 to 10) =========="
         }
       }
     }

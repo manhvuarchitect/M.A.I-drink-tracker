@@ -290,12 +290,12 @@ class MaiTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         # Gộp toàn bộ Cảm biến đầu vào & đồng bộ Companion vào chung Bước 3/5
         # Thay ConstantSelector bằng một trick: dùng vol.Optional với chuỗi thuần hiển thị chỉ đọc (hoặc description)
         schema = {
-            vol.Optional("environment_label", default="========== [1] CẢM BIẾN MÔI TRƯỜNG (Environment) =========="): str,
+            vol.Optional("environment_label", default=""): selector.TextSelector(selector.TextSelectorConfig(read_only=True)),
             vol.Optional(CONF_TEMP_SENSOR, default=""): vol.In(temp_dict),
             vol.Optional(CONF_HUMIDITY_SENSOR, default=""): vol.In(hum_dict),
             vol.Optional(CONF_WEATHER_ENTITY, default=""): vol.In(weather_dict),
             
-            vol.Optional("bio_label", default="========== [2] CẢM BIẾN SINH HỌC & ĐỒ ĐEO (Bio Wearables) =========="): str,
+            vol.Optional("bio_label", default=""): selector.TextSelector(selector.TextSelectorConfig(read_only=True)),
             vol.Optional("heart_rate_sensors", default=[]): selector.EntitySelector(
                 selector.EntitySelectorConfig(multiple=True, domain="sensor")
             ),
@@ -306,7 +306,7 @@ class MaiTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 selector.EntitySelectorConfig(multiple=False, domain="sensor")
             ),
 
-            vol.Optional("sync_label", default="========== [3] CHU KỲ ĐỒNG BỘ ĐIỆN THOẠI (Companion Sync) =========="): str,
+            vol.Optional("sync_label", default=""): selector.TextSelector(selector.TextSelectorConfig(read_only=True)),
             vol.Optional("bio_sync_interval", default="60"): selector.SelectSelector(
                 selector.SelectSelectorConfig(
                     options=[
@@ -346,7 +346,7 @@ class MaiTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         notify_options = [{"value": f"notify.{svc}", "label": f"notify.{svc}"} for svc in self.hass.services.async_services().get("notify", {}).keys()]
 
         schema = {
-            vol.Optional("notify_dev_label", default="========== [1] PHÂN CẤP THIẾT BỊ NHẬN THÔNG BÁO =========="): str,
+            vol.Optional("notify_dev_label", default=""): selector.TextSelector(selector.TextSelectorConfig(read_only=True)),
             vol.Optional(CONF_NOTIFY_TARGET, default=[]): selector.SelectSelector(
                 selector.SelectSelectorConfig(
                     options=notify_options,
@@ -362,13 +362,13 @@ class MaiTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 )
             ),
 
-            vol.Optional("tts_voice_label", default="========== [2] PHÁT THANH GIỌNG NÓI & NỘI DUNG TTS =========="): str,
+            vol.Optional("tts_voice_label", default=""): selector.TextSelector(selector.TextSelectorConfig(read_only=True)),
             vol.Optional(CONF_TTS_TARGET, default=""): vol.In(tts_dict),
             vol.Optional(CONF_TTS_MESSAGE, default=DEFAULT_TTS_MESSAGE): selector.TextSelector(
                 selector.TextSelectorConfig(multiline=True)
             ),
 
-            vol.Optional("water_cycle_label", default="========== [3] CHU KỲ NHẮC NHỞ UỐNG NƯỚC =========="): str,
+            vol.Optional("water_cycle_label", default=""): selector.TextSelector(selector.TextSelectorConfig(read_only=True)),
             vol.Required(CONF_WATER_REMINDER_INTERVAL, default=120): selector.NumberSelector(
                 selector.NumberSelectorConfig(
                     min=0, max=480, step=15,
@@ -377,7 +377,7 @@ class MaiTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 )
             ),
 
-            vol.Optional("templates_label", default="========== [4] KHO MẪU CÂU THOẠI TÙY BIẾN (Templates) =========="): str,
+            vol.Optional("templates_label", default=""): selector.TextSelector(selector.TextSelectorConfig(read_only=True)),
             vol.Optional(CONF_WATER_REMINDER_TTS, default=DEFAULT_WATER_REMINDER_TTS): selector.TextSelector(
                 selector.TextSelectorConfig(multiline=True)
             ),
@@ -424,12 +424,12 @@ class MaiTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             tts_dict[state.entity_id] = f"{state.name} ({state.entity_id})"
 
         schema = {
-            vol.Optional("calendar_label", default="========== [1] TÍCH HỢP LỊCH TRÌNH & BẢN TIN AGENDAS =========="): str,
+            vol.Optional("calendar_label", default=""): selector.TextSelector(selector.TextSelectorConfig(read_only=True)),
             vol.Optional("calendars", default=[]): selector.EntitySelector(
                 selector.EntitySelectorConfig(multiple=True, domain="calendar")
             ),
 
-            vol.Optional("med_label", default="========== [2] LỊCH NHẮC UỐNG THUỐC LEO THANG (Medicine 1 đến 10) =========="): str,
+            vol.Optional("med_label", default=""): selector.TextSelector(selector.TextSelectorConfig(read_only=True)),
         }
         for i in range(1, 11):
             notify_options = [{"value": k, "label": v} for k, v in notify_dict.items()]
@@ -577,12 +577,12 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
         cur_sync = str(self._get("bio_sync_interval", "60"))
 
         schema = {
-            vol.Optional("environment_label", default="========== [1] CẢM BIẾN MÔI TRƯỜNG (Environment) =========="): str,
+            vol.Optional("environment_label", default=""): selector.TextSelector(selector.TextSelectorConfig(read_only=True)),
             vol.Optional(CONF_TEMP_SENSOR, default=cur_temp): vol.In(temp_dict),
             vol.Optional(CONF_HUMIDITY_SENSOR, default=cur_hum): vol.In(hum_dict),
             vol.Optional(CONF_WEATHER_ENTITY, default=cur_weather): vol.In(weather_dict),
 
-            vol.Optional("bio_label", default="========== [2] CẢM BIẾN SINH HỌC & ĐỒ ĐEO (Bio Wearables) =========="): str,
+            vol.Optional("bio_label", default=""): selector.TextSelector(selector.TextSelectorConfig(read_only=True)),
             vol.Optional("heart_rate_sensors", default=cur_hr): selector.EntitySelector(
                 selector.EntitySelectorConfig(multiple=True, domain="sensor")
             ),
@@ -599,7 +599,7 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
                 selector.EntitySelectorConfig(multiple=False, domain="sensor")
             )
 
-        schema[vol.Optional("sync_label", default="========== [3] CHU KỲ ĐỒNG BỘ ĐIỆN THOẠI (Companion Sync) ==========")] = str
+        schema[vol.Optional("sync_label", default="")] = selector.TextSelector(selector.TextSelectorConfig(read_only=True))
         schema[vol.Optional("bio_sync_interval", default=cur_sync)] = selector.SelectSelector(
             selector.SelectSelectorConfig(
                 options=[
@@ -667,7 +667,7 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
         cur_drink_log_notify_remove = str(self._get(CONF_DRINK_LOG_NOTIFY_REMOVE, DEFAULT_DRINK_LOG_NOTIFY_REMOVE))
 
         schema = {
-            vol.Optional("notify_dev_label", default="========== [1] PHÂN CẤP THIẾT BỊ NHẬN THÔNG BÁO =========="): str,
+            vol.Optional("notify_dev_label", default=""): selector.TextSelector(selector.TextSelectorConfig(read_only=True)),
             vol.Optional(CONF_NOTIFY_TARGET, default=cur_notify): selector.SelectSelector(
                 selector.SelectSelectorConfig(
                     options=notify_options,
@@ -683,13 +683,13 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
                 )
             ),
 
-            vol.Optional("tts_voice_label", default="========== [2] PHÁT THANH GIỌNG NÓI & NỘI DUNG TTS =========="): str,
+            vol.Optional("tts_voice_label", default=""): selector.TextSelector(selector.TextSelectorConfig(read_only=True)),
             vol.Optional(CONF_TTS_TARGET, default=cur_tts): vol.In(tts_dict),
             vol.Optional(CONF_TTS_MESSAGE, default=cur_msg): selector.TextSelector(
                 selector.TextSelectorConfig(multiline=True)
             ),
 
-            vol.Optional("water_cycle_label", default="========== [3] CHU KỲ NHẮC NHỞ UỐNG NƯỚC =========="): str,
+            vol.Optional("water_cycle_label", default=""): selector.TextSelector(selector.TextSelectorConfig(read_only=True)),
             vol.Required(CONF_WATER_REMINDER_INTERVAL, default=cur_water_interval): selector.NumberSelector(
                 selector.NumberSelectorConfig(
                     min=0, max=480, step=15,
@@ -698,7 +698,7 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
                 )
             ),
 
-            vol.Optional("templates_label", default="========== [4] KHO MẪU CÂU THOẠI TÙY BIẾN (Templates) =========="): str,
+            vol.Optional("templates_label", default=""): selector.TextSelector(selector.TextSelectorConfig(read_only=True)),
             vol.Optional(CONF_WATER_REMINDER_TTS, default=cur_water_tts): selector.TextSelector(
                 selector.TextSelectorConfig(multiline=True)
             ),
@@ -751,12 +751,12 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
             cur_calendars = [cur_calendars] if cur_calendars else []
 
         schema = {
-            vol.Optional("calendar_label", default="========== [1] TÍCH HỢP LỊCH TRÌNH & BẢN TIN AGENDAS =========="): str,
+            vol.Optional("calendar_label", default=""): selector.TextSelector(selector.TextSelectorConfig(read_only=True)),
             vol.Optional("calendars", default=cur_calendars): selector.EntitySelector(
                 selector.EntitySelectorConfig(multiple=True, domain="calendar")
             ),
 
-            vol.Optional("med_label", default="========== [2] LỊCH NHẮC UỐNG THUỐC LEO THANG (Medicine 1 đến 10) =========="): str,
+            vol.Optional("med_label", default=""): selector.TextSelector(selector.TextSelectorConfig(read_only=True)),
         }
         for i in range(1, 11):
             cur_name = str(self._get(f"medicine_{i}_name", ""))
