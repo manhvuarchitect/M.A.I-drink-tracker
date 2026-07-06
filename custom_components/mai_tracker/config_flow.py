@@ -496,6 +496,35 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
         if user_input is not None:
             self._options.update(user_input)
             self._first_time = False
+            return await self.async_step_basic_settings()
+
+        cur_name = str(self._get(CONF_PERSON_NAME, self.config_entry.data.get(CONF_PERSON_NAME, "")))
+        user_options = await async_get_user_options(self.hass)
+        user_options.insert(0, {"value": "", "label": "Không liên kết"})
+        cur_linked_user = str(self._get(CONF_LINKED_USER, ""))
+
+        schema = {
+            vol.Required(CONF_PERSON_NAME, default=cur_name): selector.TextSelector(
+                selector.TextSelectorConfig(type=selector.TextSelectorType.TEXT, read_only=True)
+            ),
+            vol.Optional(CONF_LINKED_USER, default=cur_linked_user): selector.SelectSelector(
+                selector.SelectSelectorConfig(
+                    options=user_options,
+                    mode=selector.SelectSelectorMode.DROPDOWN,
+                )
+            ),
+        }
+
+        return self.async_show_form(
+            step_id="init",
+            data_schema=vol.Schema(schema),
+        )
+
+    async def async_step_basic_settings(
+        self, user_input: dict[str, Any] | None = None
+    ) -> config_entries.ConfigFlowResult:
+        if user_input is not None:
+            self._options.update(user_input)
             return await self.async_step_environment()
 
         current_water_goal = int(self._get(CONF_WATER_GOAL, 2000))
@@ -506,11 +535,7 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
         current_weight = float(self._get(CONF_WEIGHT_KG, DEFAULT_WEIGHT_KG))
         current_gender = str(self._get(CONF_GENDER, DEFAULT_GENDER))
 
-        user_options = await async_get_user_options(self.hass)
-        user_options.insert(0, {"value": "", "label": "Không liên kết"})
-        cur_linked_user = str(self._get(CONF_LINKED_USER, ""))
-
-        base_schema = _settings_schema(
+        schema = _settings_schema(
             current_water_goal,
             current_half_life,
             current_sleep_safe,
@@ -520,19 +545,9 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
             current_gender,
         ).schema
 
-        schema_dict = dict(base_schema)
-        schema_dict[
-            vol.Optional(CONF_LINKED_USER, default=cur_linked_user)
-        ] = selector.SelectSelector(
-            selector.SelectSelectorConfig(
-                options=user_options,
-                mode=selector.SelectSelectorMode.DROPDOWN,
-            )
-        )
-
         return self.async_show_form(
-            step_id="init",
-            data_schema=vol.Schema(schema_dict),
+            step_id="basic_settings",
+            data_schema=vol.Schema(schema),
         )
 
     async def async_step_environment(
