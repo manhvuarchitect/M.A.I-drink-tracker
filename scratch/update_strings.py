@@ -70,6 +70,49 @@ def update_strings():
         
     json.dump(d, open(f, 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
     
+    # Định nghĩa bản dịch cho step init của options flow
+    d['options']['step']['init']['data'] = {
+        "person_name": "Tên thành viên (Prefix)",
+        "linked_user": "Tài khoản liên kết (User)"
+    }
+    
+    # Định nghĩa bản dịch cho step environment của options flow
+    d['options']['step']['environment']['data'] = {
+        "temp_sensor": "Cảm biến nhiệt độ",
+        "humidity_sensor": "Cảm biến độ ẩm",
+        "weather_entity": "Thực thể thời tiết",
+        "heart_rate_sensors": "Cảm biến nhịp tim (Heart Rate)",
+        "step_sensors": "Cảm biến số bước (Steps)",
+        "weight_sensor": "Cảm biến cân nặng (Weight)",
+        "bio_sync_interval": "Chu kỳ đồng bộ tự động"
+    }
+
+    # Định nghĩa bản dịch cho step notifications của options flow
+    d['options']['step']['notifications']['data'] = {
+        "notify_target": "Thiết bị nhận thông báo Cá nhân (Xưng hô 'Bạn')",
+        "notify_target_management": "Thiết bị nhận thông báo Giám sát (Xưng hô '{person_name}')",
+        "tts_target": "Loa phát thanh (TTS Target)",
+        "tts_message": "Nội dung phát thanh nhắc uống nước",
+        "water_reminder_interval": "Chu kỳ nhắc uống nước (Phút, 0 để tắt)",
+        "water_reminder_tts": "Mẫu phát nhắc nước qua Loa (dùng '{hours}')",
+        "water_reminder_notify": "Mẫu nhắc nước Cá nhân (dùng '{hours}')",
+        "water_reminder_notify_management": "Mẫu nhắc nước Giám sát (dùng '{hours}', '{person_name}')",
+        "drink_log_notify_personal": "Mẫu báo uống nước Cá nhân (dùng '{amount}', '{drink_name}')",
+        "drink_log_notify_management": "Mẫu báo uống nước Giám sát (dùng '{person_name}', '{amount}', '{drink_name}')",
+        "drink_log_notify_remove": "Mẫu báo hoàn tác uống nước (dùng '{person_name}')"
+    }
+
+    # Định nghĩa bản dịch cho step medicine của options flow
+    d['options']['step']['medicine']['data'] = {
+        "calendars": "Chọn lịch trình (Calendars)"
+    }
+    for i in range(1, 11):
+        d['options']['step']['medicine']['data'][f"medicine_{i}_name"] = f"-------- [{i}] TÊN THUỐC --------"
+        d['options']['step']['medicine']['data'][f"medicine_{i}_time"] = "Giờ uống"
+        d['options']['step']['medicine']['data'][f"medicine_{i}_notify"] = "Điện thoại nhận thông báo"
+        d['options']['step']['medicine']['data'][f"medicine_{i}_notify_secondary"] = f"Điện thoại nhận thông báo phụ [{i}]"
+        d['options']['step']['medicine']['data'][f"medicine_{i}_tts"] = "Loa phát thanh (TTS)"
+
     # Vietnam translation (đồng bộ từ strings.json)
     vi_f = f.replace('strings.json', 'translations/vi.json')
     json.dump(d, open(vi_f, 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
@@ -92,6 +135,11 @@ def update_strings():
         
     # Options Flow (English)
     d_en['options']['step']['init']['title'] = 'Edit Profile (Step 1/5)'
+    d_en['options']['step']['init']['data'] = {
+        "person_name": "Member Name (Prefix)",
+        "linked_user": "Linked User Account"
+    }
+
     d_en['options']['step']['basic_settings'] = {
         "title": "Basic Settings (Step 2/5)",
         "description": "Configure your basic body metrics and water/caffeine targets.",
@@ -106,40 +154,47 @@ def update_strings():
         }
     }
     d_en['options']['step']['environment']['title'] = 'Sensors & Sync (Step 3/5)'
+    d_en['options']['step']['environment']['data'] = {
+        "temp_sensor": "Temperature Sensor",
+        "humidity_sensor": "Humidity Sensor",
+        "weather_entity": "Weather Entity",
+        "heart_rate_sensors": "Heart rate sensors",
+        "step_sensors": "Step sensors",
+        "weight_sensor": "Weight sensor",
+        "bio_sync_interval": "Sync interval"
+    }
+
     d_en['options']['step']['notifications']['title'] = 'Notification & TTS Hub (Step 4/5)'
+    d_en['options']['step']['notifications']['data'] = {
+        "notify_target": "Personal Notification Device (Addressing 'Bạn')",
+        "notify_target_management": "Monitoring Notification Device (Addressing '{person_name}')",
+        "tts_target": "TTS Target (Media Player)",
+        "tts_message": "TTS reminder message",
+        "water_reminder_interval": "Water Reminder Interval (Minutes, 0 to disable)",
+        "water_reminder_tts": "TTS water reminder template (use '{hours}')",
+        "water_reminder_notify": "Personal water reminder template (use '{hours}')",
+        "water_reminder_notify_management": "Monitoring water reminder template (use '{hours}', '{person_name}')",
+        "drink_log_notify_personal": "Personal drink logged template (use '{amount}', '{drink_name}')",
+        "drink_log_notify_management": "Monitoring drink logged template (use '{person_name}', '{amount}', '{drink_name}')",
+        "drink_log_notify_remove": "Undo logged notification template (use '{person_name}')"
+    }
+
     d_en['options']['step']['medicine']['title'] = 'Schedule & Medicine Hub (Step 5/5)'
+    d_en['options']['step']['medicine']['data'] = {
+        "calendars": "Calendars"
+    }
+    for i in range(1, 11):
+        d_en['options']['step']['medicine']['data'][f"medicine_{i}_name"] = f"-------- [{i}] MEDICINE NAME --------"
+        d_en['options']['step']['medicine']['data'][f"medicine_{i}_time"] = "Time"
+        d_en['options']['step']['medicine']['data'][f"medicine_{i}_notify"] = "Notify Device"
+        d_en['options']['step']['medicine']['data'][f"medicine_{i}_notify_secondary"] = f"Secondary Notify Device [{i}]"
+        d_en['options']['step']['medicine']['data'][f"medicine_{i}_tts"] = "TTS Speaker"
     
     if 'calendars' in d_en['options']['step']:
         del d_en['options']['step']['calendars']
     if 'bio_sensors' in d_en['options']['step']:
         del d_en['options']['step']['bio_sensors']
 
-    labels_en = {
-        "environment_label": "========== [1] ENVIRONMENT SENSORS ==========",
-        "bio_label": "========== [2] BIO WEARABLES & SENSORS ==========",
-        "sync_label": "========== [3] COMPANION APP SYNC ==========",
-        "notify_dev_label": "========== [1] NOTIFICATION RECIPIENT ROLES ==========",
-        "tts_voice_label": "========== [2] TTS SPEAKER & ANNOUNCEMENTS ==========",
-        "water_cycle_label": "========== [3] WATER DRINKING REMINDERS ==========",
-        "templates_label": "========== [4] CUSTOM MESSAGE TEMPLATES ==========",
-        "calendar_label": "========== [1] CALENDAR INTEGRATION & AGENDAS ==========",
-        "med_label": "========== [2] MEDICINE REMINDER LOGISTICS (Medicine 1 to 10) =========="
-    }
-
-    # Cập nhật nhãn phân vùng vào data của config (English)
-    for step_key in ['environment', 'notifications', 'medicine']:
-        if step_key in d_en['config']['step']:
-            for k, v in labels_en.items():
-                d_en['config']['step'][step_key]['data'][k] = v
-
-    # Cập nhật nhãn phân vùng vào data của options (English)
-    for step_key in ['environment', 'notifications', 'medicine']:
-        if step_key in d_en['options']['step']:
-            if 'data' not in d_en['options']['step'][step_key]:
-                d_en['options']['step'][step_key]['data'] = {}
-            for k, v in labels_en.items():
-                d_en['options']['step'][step_key]['data'][k] = v
-        
     json.dump(d_en, open(en_f, 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
     print("Successfully updated strings and translations!")
 
