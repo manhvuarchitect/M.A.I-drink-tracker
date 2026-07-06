@@ -114,6 +114,13 @@
           "weight_sensor": "Smart Scale Sensor (Optional)",
           "bio_sync_interval": "Phone Sensors Sync Interval"
         }
+      },
+      "calendars": {
+        "title": "Calendars Config",
+        "description": "Select calendar entities to integrate with your health news report.",
+        "data": {
+          "calendars": "Calendar Entities"
+        }
       }
     },
     "error": {
@@ -226,6 +233,13 @@
           "step_sensors": "Step Sensors (Multiple)",
           "weight_sensor": "Smart Scale Sensor (Optional)",
           "bio_sync_interval": "Phone Sensors Sync Interval"
+        }
+      },
+      "calendars": {
+        "title": "Calendars Config",
+        "description": "Select calendar entities to integrate with your health news report.",
+        "data": {
+          "calendars": "Calendar Entities"
         }
       }
     }

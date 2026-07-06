@@ -369,7 +369,7 @@ class MaiTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     ) -> config_entries.ConfigFlowResult:
         if user_input is not None:
             self._data.update(user_input)
-            return await self.async_step_bio_sensors()
+            return await self.async_step_calendars()
 
         notify_dict = {"": "Không sử dụng"}
         for svc in self.hass.services.async_services().get("notify", {}).keys():
@@ -407,6 +407,24 @@ class MaiTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         return self.async_show_form(
             step_id="medicine",
+            data_schema=vol.Schema(schema),
+        )
+
+    async def async_step_calendars(
+        self, user_input: dict[str, Any] | None = None
+    ) -> config_entries.ConfigFlowResult:
+        if user_input is not None:
+            self._data.update(user_input)
+            return await self.async_step_bio_sensors()
+
+        schema = {
+            vol.Optional("calendars", default=[]): selector.EntitySelector(
+                selector.EntitySelectorConfig(multiple=True, domain="calendar")
+            ),
+        }
+
+        return self.async_show_form(
+            step_id="calendars",
             data_schema=vol.Schema(schema),
         )
 
@@ -667,7 +685,7 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
         if user_input is not None:
             self._options.update(user_input)
             
-            return await self.async_step_bio_sensors()
+            return await self.async_step_calendars()
 
         notify_dict = {"": "Không sử dụng"}
         for svc in self.hass.services.async_services().get("notify", {}).keys():
@@ -714,6 +732,28 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
 
         return self.async_show_form(
             step_id="medicine",
+            data_schema=vol.Schema(schema),
+        )
+
+    async def async_step_calendars(
+        self, user_input: dict[str, Any] | None = None
+    ) -> config_entries.ConfigFlowResult:
+        if user_input is not None:
+            self._options.update(user_input)
+            return await self.async_step_bio_sensors()
+
+        cur_calendars = self._get("calendars", [])
+        if isinstance(cur_calendars, str):
+            cur_calendars = [cur_calendars] if cur_calendars else []
+
+        schema = {
+            vol.Optional("calendars", default=cur_calendars): selector.EntitySelector(
+                selector.EntitySelectorConfig(multiple=True, domain="calendar")
+            ),
+        }
+
+        return self.async_show_form(
+            step_id="calendars",
             data_schema=vol.Schema(schema),
         )
 

@@ -114,6 +114,13 @@
           "weight_sensor": "Cân thông minh (Chọn cảm biến cân nặng nếu có)",
           "bio_sync_interval": "Chu kỳ đồng bộ cảm biến điện thoại"
         }
+      },
+      "calendars": {
+        "title": "Cấu hình Lịch trình",
+        "description": "Chọn các thực thể lịch trình (calendar) để tích hợp vào bản tin sức khỏe.",
+        "data": {
+          "calendars": "Danh sách Lịch biểu (Calendar Entities)"
+        }
       }
     },
     "error": {
@@ -226,6 +233,13 @@
           "step_sensors": "Cảm biến Bước chân (Chọn nhiều, tự gõ chữ 'step' để tìm)",
           "weight_sensor": "Cân thông minh (Chọn cảm biến cân nặng nếu có)",
           "bio_sync_interval": "Chu kỳ đồng bộ cảm biến điện thoại"
+        }
+      },
+      "calendars": {
+        "title": "Cấu hình Lịch trình",
+        "description": "Chọn các thực thể lịch trình (calendar) để tích hợp vào bản tin sức khỏe.",
+        "data": {
+          "calendars": "Danh sách Lịch biểu (Calendar Entities)"
         }
       }
     }
