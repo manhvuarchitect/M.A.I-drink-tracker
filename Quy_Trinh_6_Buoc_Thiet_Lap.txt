@@ -1,0 +1,34 @@
+============================================================
+           M.A.I TRACKER - QUY TRÌNH THIẾT LẬP 6 BƯỚC
+============================================================
+Phiên bản áp dụng: v2.2.15 trở lên
+
+[Bước 1/6] THÔNG TIN CƠ BẢN (Basic Settings)
+- Mục tiêu nước uống ngày mặc định (ml).
+- Cân nặng cá nhân (kg) & Giới tính (Nam/Nữ) để tính toán sinh học.
+- Chu kỳ bán rã của caffeine (giờ) & Ngưỡng caffeine an toàn cho giấc ngủ.
+
+[Bước 2/6] CẢM BIẾN MÔI TRƯỜNG (Environment Sensors)
+- Cảm biến nhiệt độ vật lý (Temperature Sensor).
+- Cảm biến độ ẩm vật lý (Humidity Sensor).
+- Thực thể thời tiết dự phòng (Weather Entity) - tự động fallback khi cảm biến vật lý lỗi.
+
+[Bước 3/6] CẤU HÌNH THÔNG BÁO & LOA (Notifications)
+- Điện thoại chính nhận thông báo uống nước.
+- Loa phát thanh (TTS Target) & Tin nhắn TTS nhắc nhở.
+- Thiết lập cảnh báo người giám sát, tin nhắn nhật ký uống nước cá nhân.
+
+[Bước 4/6] NHẮC LỊCH UỐNG THUỐC (Medicine Settings)
+- Khai báo tối đa 10 loại thuốc uống (Tên thuốc, Giờ uống).
+- Điện thoại chính và Loa phát thanh nhận nhắc nhở của từng loại thuốc.
+- Điện thoại phụ (Người giám sát thứ hai) để cảnh báo leo thang sau 15 phút nếu chưa uống thuốc.
+
+[Bước 5/6] CẤU HÌNH LỊCH TRÌNH (Calendar Integration)
+- Khai báo danh sách các thực thể lịch trình (calendar.*) của bạn.
+- Dữ liệu lịch trình sẽ được M.A.I Tracker tổng hợp vào bản tin sức khỏe tự động.
+
+[Bước 6/6] CẢM BIẾN SINH HỌC (Bio Sensors)
+- Thực thể đo nhịp tim (Heart Rate Sensors) - Tự động lấy giá trị mới nhất.
+- Thực thể đếm bước chân (Step Sensors) - Tự động cộng dồn & tự động bù nước thông minh (+50ml nước/1000 bước chân).
+- Thực thể đo cân nặng (Weight Sensor).
+- Chu kỳ đồng bộ cảm biến điện thoại (5 phút / 15 phút / 30 phút / 1 tiếng / Không đồng bộ) - chủ động đánh thức ứng dụng Companion trên điện thoại.

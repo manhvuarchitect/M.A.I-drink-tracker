@@ -106,7 +106,7 @@
         }
       },
       "bio_sensors": {
-        "title": "Cảm biến Sinh học (Bước 6/6)",
+        "title": "Cảm biến Sinh học (Hoàn tất)",
         "description": "Lựa chọn thiết bị đo sinh học (WearOS, Điện thoại, Cân thông minh) để M.A.I Tracker tự tính toán bước chân, nhịp tim và đồng bộ cân nặng tự động.",
         "data": {
           "heart_rate_sensors": "Cảm biến Nhịp tim (Chọn nhiều)",
@@ -116,7 +116,7 @@
         }
       },
       "calendars": {
-        "title": "Cấu hình Lịch trình",
+        "title": "Cấu hình Lịch trình (Bước 6/6)",
         "description": "Chọn các thực thể lịch trình (calendar) để tích hợp vào bản tin sức khỏe.",
         "data": {
           "calendars": "Danh sách Lịch biểu (Calendar Entities)"
@@ -130,7 +130,7 @@
   "options": {
     "step": {
       "init": {
-        "title": "Thông số Thể trạng & Mục tiêu (Bước 1/5)",
+        "title": "Thông số Thể trạng & Mục tiêu (Bước 1/6)",
         "description": "Cấu hình lại các thông số cơ thể và mục tiêu Cafein/Nước của bạn.",
         "data": {
           "water_goal": "Mục tiêu nước (ml)",
@@ -144,7 +144,7 @@
         }
       },
       "environment": {
-        "title": "Cảm biến Môi trường (Bước 2/5)",
+        "title": "Cảm biến Môi trường (Bước 2/6)",
         "description": "Lựa chọn các cảm biến để M.A.I Tracker tự động điều chỉnh lượng nước khi trời nóng.",
         "data": {
           "temp_sensor": "Cảm biến nhiệt độ",
@@ -153,7 +153,7 @@
         }
       },
       "notifications": {
-        "title": "Thông báo & Phát thanh (Bước 3/5)",
+        "title": "Thông báo & Phát thanh (Bước 3/6)",
         "description": "Thiết lập các cảnh báo y tế và nhắc nhở uống nước bằng giọng nói (TTS).",
         "data": {
           "notify_target": "Thiết bị nhận thông báo Cá nhân (Xưng hô 'Bạn')",
@@ -170,7 +170,7 @@
         }
       },
       "medicine": {
-        "title": "Lịch Uống Thuốc (Bước 4/5)",
+        "title": "Lịch Uống Thuốc (Bước 4/6)",
         "description": "Khai báo tối đa 10 khung giờ uống thuốc nhắc qua Loa phát thanh hoặc Điện thoại.",
         "data": {
           "medicine_1_name": "-------- [1] TÊN THUỐC --------",
@@ -226,7 +226,7 @@
         }
       },
       "bio_sensors": {
-        "title": "Cảm biến Sinh học (Bước 5/5)",
+        "title": "Cảm biến Sinh học (Bước 6/6)",
         "description": "Lựa chọn thiết bị đo sinh học (WearOS, Điện thoại, Cân thông minh) để M.A.I Tracker tự tính toán bước chân, nhịp tim và đồng bộ cân nặng tự động.",
         "data": {
           "heart_rate_sensors": "Cảm biến Nhịp tim (Chọn nhiều)",
@@ -236,7 +236,7 @@
         }
       },
       "calendars": {
-        "title": "Cấu hình Lịch trình",
+        "title": "Cấu hình Lịch trình (Bước 5/6)",
         "description": "Chọn các thực thể lịch trình (calendar) để tích hợp vào bản tin sức khỏe.",
         "data": {
           "calendars": "Danh sách Lịch biểu (Calendar Entities)"
