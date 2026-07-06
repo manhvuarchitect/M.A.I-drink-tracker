@@ -796,4 +796,3 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
             step_id="medicine",
             data_schema=vol.Schema(schema),
         )
-        )
