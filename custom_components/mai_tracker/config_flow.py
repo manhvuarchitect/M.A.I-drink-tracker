@@ -285,10 +285,46 @@ class MaiTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         for state in self.hass.states.async_all("weather"):
             weather_dict[state.entity_id] = f"{state.name} ({state.entity_id})"
 
+        # Gộp toàn bộ Cảm biến đầu vào & đồng bộ Companion vào chung Bước 3/5
         schema = {
+            # --- [1] CẢM BIẾN MÔI TRƯỜNG ---
+            vol.Optional("environment_label"): selector.ConstantSelector(
+                selector.ConstantSelectorConfig(value="", label="========== [1] CẢM BIẾN MÔI TRƯỜNG (Environment) ==========")
+            ),
             vol.Optional(CONF_TEMP_SENSOR, default=""): vol.In(temp_dict),
             vol.Optional(CONF_HUMIDITY_SENSOR, default=""): vol.In(hum_dict),
             vol.Optional(CONF_WEATHER_ENTITY, default=""): vol.In(weather_dict),
+            
+            # --- [2] CẢM BIẾN SINH HỌC & ĐỒ ĐEO ---
+            vol.Optional("bio_label"): selector.ConstantSelector(
+                selector.ConstantSelectorConfig(value="", label="========== [2] CẢM BIẾN SINH HỌC & ĐỒ ĐEO (Bio Wearables) ==========")
+            ),
+            vol.Optional("heart_rate_sensors", default=[]): selector.EntitySelector(
+                selector.EntitySelectorConfig(multiple=True, domain="sensor")
+            ),
+            vol.Optional("step_sensors", default=[]): selector.EntitySelector(
+                selector.EntitySelectorConfig(multiple=True, domain="sensor")
+            ),
+            vol.Optional("weight_sensor"): selector.EntitySelector(
+                selector.EntitySelectorConfig(multiple=False, domain="sensor")
+            ),
+
+            # --- [3] CHU KỲ ĐỒNG BỘ ĐIỆN THOẠI ---
+            vol.Optional("sync_label"): selector.ConstantSelector(
+                selector.ConstantSelectorConfig(value="", label="========== [3] CHU KỲ ĐỒNG BỘ ĐIỆN THOẠI (Companion Sync) ==========")
+            ),
+            vol.Optional("bio_sync_interval", default="60"): selector.SelectSelector(
+                selector.SelectSelectorConfig(
+                    options=[
+                        {"value": "0", "label": "Không đồng bộ tự động"},
+                        {"value": "5", "label": "Mỗi 5 phút"},
+                        {"value": "15", "label": "Mỗi 15 phút"},
+                        {"value": "30", "label": "Mỗi 30 phút"},
+                        {"value": "60", "label": "Mỗi 1 tiếng (Mặc định)"}
+                    ],
+                    mode=selector.SelectSelectorMode.DROPDOWN,
+                )
+            ),
         }
 
         return self.async_show_form(
@@ -300,7 +336,9 @@ class MaiTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         self, user_input: dict[str, Any] | None = None
     ) -> config_entries.ConfigFlowResult:
         if user_input is not None:
-            self._data.update(user_input)
+            # Loại bỏ các label ảo trước khi lưu dữ liệu thực tế
+            input_data = {k: v for k, v in user_input.items() if not k.endswith("_label")}
+            self._data.update(input_data)
             return await self.async_step_medicine()
 
         notify_dict = {"": "Không sử dụng"}
@@ -314,6 +352,10 @@ class MaiTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         notify_options = [{"value": f"notify.{svc}", "label": f"notify.{svc}"} for svc in self.hass.services.async_services().get("notify", {}).keys()]
 
         schema = {
+            # --- [1] PHÂN CẤP THIẾT BỊ NHẬN THÔNG BÁO ---
+            vol.Optional("notify_dev_label"): selector.ConstantSelector(
+                selector.ConstantSelectorConfig(value="", label="========== [1] PHÂN CẤP THIẾT BỊ NHẬN THÔNG BÁO ==========")
+            ),
             vol.Optional(CONF_NOTIFY_TARGET, default=[]): selector.SelectSelector(
                 selector.SelectSelectorConfig(
                     options=notify_options,
@@ -328,9 +370,19 @@ class MaiTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     mode=selector.SelectSelectorMode.DROPDOWN,
                 )
             ),
+
+            # --- [2] PHÁT THANH GIỌNG NÓI & NỘI DUNG TTS ---
+            vol.Optional("tts_voice_label"): selector.ConstantSelector(
+                selector.ConstantSelectorConfig(value="", label="========== [2] PHÁT THANH GIỌNG NÓI & NỘI DUNG TTS ==========")
+            ),
             vol.Optional(CONF_TTS_TARGET, default=""): vol.In(tts_dict),
             vol.Optional(CONF_TTS_MESSAGE, default=DEFAULT_TTS_MESSAGE): selector.TextSelector(
                 selector.TextSelectorConfig(multiline=True)
+            ),
+
+            # --- [3] CHU KỲ NHẮC NHỞ UỐNG NƯỚC ---
+            vol.Optional("water_cycle_label"): selector.ConstantSelector(
+                selector.ConstantSelectorConfig(value="", label="========== [3] CHU KỲ NHẮC NHỞ UỐNG NƯỚC ==========")
             ),
             vol.Required(CONF_WATER_REMINDER_INTERVAL, default=120): selector.NumberSelector(
                 selector.NumberSelectorConfig(
@@ -338,6 +390,11 @@ class MaiTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     mode=selector.NumberSelectorMode.BOX,
                     unit_of_measurement="phút"
                 )
+            ),
+
+            # --- [4] KHO MẪU CÂU THOẠI TÙY BIẾN ---
+            vol.Optional("templates_label"): selector.ConstantSelector(
+                selector.ConstantSelectorConfig(value="", label="========== [4] KHO MẪU CÂU THOẠI TÙY BIẾN (Templates) ==========")
             ),
             vol.Optional(CONF_WATER_REMINDER_TTS, default=DEFAULT_WATER_REMINDER_TTS): selector.TextSelector(
                 selector.TextSelectorConfig(multiline=True)
@@ -368,8 +425,13 @@ class MaiTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         self, user_input: dict[str, Any] | None = None
     ) -> config_entries.ConfigFlowResult:
         if user_input is not None:
-            self._data.update(user_input)
-            return await self.async_step_calendars()
+            # Loại bỏ các label ảo trước khi ghi lưu cấu hình và tạo Entry
+            input_data = {k: v for k, v in user_input.items() if not k.endswith("_label")}
+            self._data.update(input_data)
+            return self.async_create_entry(
+                title=self._new_name,
+                data=self._data,
+            )
 
         notify_dict = {"": "Không sử dụng"}
         for svc in self.hass.services.async_services().get("notify", {}).keys():
@@ -379,7 +441,20 @@ class MaiTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         for state in self.hass.states.async_all("media_player"):
             tts_dict[state.entity_id] = f"{state.name} ({state.entity_id})"
 
-        schema = {}
+        schema = {
+            # --- [1] TÍCH HỢP LÌCH TRÌNH ---
+            vol.Optional("calendar_label"): selector.ConstantSelector(
+                selector.ConstantSelectorConfig(value="", label="========== [1] TÍCH HỢP LỊCH TRÌNH & BẢN TIN AGENDAS ==========")
+            ),
+            vol.Optional("calendars", default=[]): selector.EntitySelector(
+                selector.EntitySelectorConfig(multiple=True, domain="calendar")
+            ),
+
+            # --- [2] LỊCH NHẮC UỐNG THUỐC LEO THANG ---
+            vol.Optional("med_label"): selector.ConstantSelector(
+                selector.ConstantSelectorConfig(value="", label="========== [2] LỊCH NHẮC UỐNG THUỐC LEO THANG (Medicine 1 đến 10) ==========")
+            ),
+        }
         for i in range(1, 11):
             notify_options = [{"value": k, "label": v} for k, v in notify_dict.items()]
             tts_options = [{"value": k, "label": v} for k, v in tts_dict.items()]
@@ -407,63 +482,6 @@ class MaiTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         return self.async_show_form(
             step_id="medicine",
-            data_schema=vol.Schema(schema),
-        )
-
-    async def async_step_calendars(
-        self, user_input: dict[str, Any] | None = None
-    ) -> config_entries.ConfigFlowResult:
-        if user_input is not None:
-            self._data.update(user_input)
-            return await self.async_step_bio_sensors()
-
-        schema = {
-            vol.Optional("calendars", default=[]): selector.EntitySelector(
-                selector.EntitySelectorConfig(multiple=True, domain="calendar")
-            ),
-        }
-
-        return self.async_show_form(
-            step_id="calendars",
-            data_schema=vol.Schema(schema),
-        )
-
-    async def async_step_bio_sensors(
-        self, user_input: dict[str, Any] | None = None
-    ) -> config_entries.ConfigFlowResult:
-        if user_input is not None:
-            self._data.update(user_input)
-            return self.async_create_entry(
-                title=self._new_name,
-                data=self._data,
-            )
-
-        schema = {
-            vol.Optional("heart_rate_sensors", default=[]): selector.EntitySelector(
-                selector.EntitySelectorConfig(multiple=True, domain="sensor")
-            ),
-            vol.Optional("step_sensors", default=[]): selector.EntitySelector(
-                selector.EntitySelectorConfig(multiple=True, domain="sensor")
-            ),
-            vol.Optional("weight_sensor"): selector.EntitySelector(
-                selector.EntitySelectorConfig(multiple=False, domain="sensor")
-            ),
-            vol.Optional("bio_sync_interval", default="60"): selector.SelectSelector(
-                selector.SelectSelectorConfig(
-                    options=[
-                        {"value": "0", "label": "Không đồng bộ tự động"},
-                        {"value": "5", "label": "Mỗi 5 phút"},
-                        {"value": "15", "label": "Mỗi 15 phút"},
-                        {"value": "30", "label": "Mỗi 30 phút"},
-                        {"value": "60", "label": "Mỗi 1 tiếng (Mặc định)"}
-                    ],
-                    mode=selector.SelectSelectorMode.DROPDOWN,
-                )
-            ),
-        }
-
-        return self.async_show_form(
-            step_id="bio_sensors",
             data_schema=vol.Schema(schema),
         )
 
@@ -545,7 +563,9 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
         self, user_input: dict[str, Any] | None = None
     ) -> config_entries.ConfigFlowResult:
         if user_input is not None:
-            self._options.update(user_input)
+            # Loại bỏ các label ảo trước khi lưu dữ liệu thực tế
+            input_data = {k: v for k, v in user_input.items() if not k.endswith("_label")}
+            self._options.update(input_data)
             return await self.async_step_notifications()
 
         temp_dict = {"": "Không sử dụng"}
@@ -571,11 +591,60 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
         cur_weather = str(self._get(CONF_WEATHER_ENTITY, ""))
         if cur_weather and cur_weather not in weather_dict: weather_dict[cur_weather] = cur_weather
 
+        cur_hr = self._get("heart_rate_sensors", [])
+        if isinstance(cur_hr, str): cur_hr = [cur_hr] if cur_hr else []
+        
+        cur_steps = self._get("step_sensors", [])
+        if isinstance(cur_steps, str): cur_steps = [cur_steps] if cur_steps else []
+        
+        cur_weight = str(self._get("weight_sensor", ""))
+        cur_sync = str(self._get("bio_sync_interval", "60"))
+
         schema = {
+            # --- [1] CẢM BIẾN MÔI TRƯỜNG ---
+            vol.Optional("environment_label"): selector.ConstantSelector(
+                selector.ConstantSelectorConfig(value="", label="========== [1] CẢM BIẾN MÔI TRƯỜNG (Environment) ==========")
+            ),
             vol.Optional(CONF_TEMP_SENSOR, default=cur_temp): vol.In(temp_dict),
             vol.Optional(CONF_HUMIDITY_SENSOR, default=cur_hum): vol.In(hum_dict),
             vol.Optional(CONF_WEATHER_ENTITY, default=cur_weather): vol.In(weather_dict),
+
+            # --- [2] CẢM BIẾN SINH HỌC & ĐỒ ĐEO ---
+            vol.Optional("bio_label"): selector.ConstantSelector(
+                selector.ConstantSelectorConfig(value="", label="========== [2] CẢM BIẾN SINH HỌC & ĐỒ ĐEO (Bio Wearables) ==========")
+            ),
+            vol.Optional("heart_rate_sensors", default=cur_hr): selector.EntitySelector(
+                selector.EntitySelectorConfig(multiple=True, domain="sensor")
+            ),
+            vol.Optional("step_sensors", default=cur_steps): selector.EntitySelector(
+                selector.EntitySelectorConfig(multiple=True, domain="sensor")
+            ),
         }
+        if cur_weight:
+            schema[vol.Optional("weight_sensor", default=cur_weight)] = selector.EntitySelector(
+                selector.EntitySelectorConfig(multiple=False, domain="sensor")
+            )
+        else:
+            schema[vol.Optional("weight_sensor")] = selector.EntitySelector(
+                selector.EntitySelectorConfig(multiple=False, domain="sensor")
+            )
+
+        # --- [3] CHU KỲ ĐỒNG BỘ ĐIỆN THOẠI ---
+        schema[vol.Optional("sync_label")] = selector.ConstantSelector(
+            selector.ConstantSelectorConfig(value="", label="========== [3] CHU KỲ ĐỒNG BỘ ĐIỆN THOẠI (Companion Sync) ==========")
+        )
+        schema[vol.Optional("bio_sync_interval", default=cur_sync)] = selector.SelectSelector(
+            selector.SelectSelectorConfig(
+                options=[
+                    {"value": "0", "label": "Không đồng bộ tự động"},
+                    {"value": "5", "label": "Mỗi 5 phút"},
+                    {"value": "15", "label": "Mỗi 15 phút"},
+                    {"value": "30", "label": "Mỗi 30 phút"},
+                    {"value": "60", "label": "Mỗi 1 tiếng (Mặc định)"}
+                ],
+                mode=selector.SelectSelectorMode.DROPDOWN,
+            )
+        )
 
         return self.async_show_form(
             step_id="environment",
@@ -586,7 +655,9 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
         self, user_input: dict[str, Any] | None = None
     ) -> config_entries.ConfigFlowResult:
         if user_input is not None:
-            self._options.update(user_input)
+            # Loại bỏ các label ảo trước khi lưu dữ liệu thực tế
+            input_data = {k: v for k, v in user_input.items() if not k.endswith("_label")}
+            self._options.update(input_data)
             return await self.async_step_medicine()
 
         notify_options = [{"value": f"notify.{svc}", "label": f"notify.{svc}"} for svc in self.hass.services.async_services().get("notify", {}).keys()]
@@ -629,6 +700,10 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
         cur_drink_log_notify_remove = str(self._get(CONF_DRINK_LOG_NOTIFY_REMOVE, DEFAULT_DRINK_LOG_NOTIFY_REMOVE))
 
         schema = {
+            # --- [1] PHÂN CẤP THIẾT BỊ NHẬN THÔNG BÁO ---
+            vol.Optional("notify_dev_label"): selector.ConstantSelector(
+                selector.ConstantSelectorConfig(value="", label="========== [1] PHÂN CẤP THIẾT BỊ NHẬN THÔNG BÁO ==========")
+            ),
             vol.Optional(CONF_NOTIFY_TARGET, default=cur_notify): selector.SelectSelector(
                 selector.SelectSelectorConfig(
                     options=notify_options,
@@ -643,9 +718,19 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
                     mode=selector.SelectSelectorMode.DROPDOWN,
                 )
             ),
+
+            # --- [2] PHÁT THANH GIỌNG NÓI & NỘI DUNG TTS ---
+            vol.Optional("tts_voice_label"): selector.ConstantSelector(
+                selector.ConstantSelectorConfig(value="", label="========== [2] PHÁT THANH GIỌNG NÓI & NỘI DUNG TTS ==========")
+            ),
             vol.Optional(CONF_TTS_TARGET, default=cur_tts): vol.In(tts_dict),
             vol.Optional(CONF_TTS_MESSAGE, default=cur_msg): selector.TextSelector(
                 selector.TextSelectorConfig(multiline=True)
+            ),
+
+            # --- [3] CHU KỲ NHẮC NHỞ UỐNG NƯỚC ---
+            vol.Optional("water_cycle_label"): selector.ConstantSelector(
+                selector.ConstantSelectorConfig(value="", label="========== [3] CHU KỲ NHẮC NHỞ UỐNG NƯỚC ==========")
             ),
             vol.Required(CONF_WATER_REMINDER_INTERVAL, default=cur_water_interval): selector.NumberSelector(
                 selector.NumberSelectorConfig(
@@ -653,6 +738,11 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
                     mode=selector.NumberSelectorMode.BOX,
                     unit_of_measurement="phút"
                 )
+            ),
+
+            # --- [4] KHO MẪU CÂU THOẠI TÙY BIẾN ---
+            vol.Optional("templates_label"): selector.ConstantSelector(
+                selector.ConstantSelectorConfig(value="", label="========== [4] KHO MẪU CÂU THOẠI TÙY BIẾN (Templates) ==========")
             ),
             vol.Optional(CONF_WATER_REMINDER_TTS, default=cur_water_tts): selector.TextSelector(
                 selector.TextSelectorConfig(multiline=True)
@@ -683,9 +773,15 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
         self, user_input: dict[str, Any] | None = None
     ) -> config_entries.ConfigFlowResult:
         if user_input is not None:
-            self._options.update(user_input)
+            # Loại bỏ các label ảo trước khi lưu dữ liệu thực tế và hoàn tất
+            input_data = {k: v for k, v in user_input.items() if not k.endswith("_label")}
+            self._options.update(input_data)
             
-            return await self.async_step_calendars()
+            final_options = dict(self.config_entry.options)
+            final_options.update(self._options)
+            if CONF_MEDICINE_SCHEDULE in final_options:
+                del final_options[CONF_MEDICINE_SCHEDULE]
+            return self.async_create_entry(title="", data=final_options)
 
         notify_dict = {"": "Không sử dụng"}
         for svc in self.hass.services.async_services().get("notify", {}).keys():
@@ -695,7 +791,24 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
         for state in self.hass.states.async_all("media_player"):
             tts_dict[state.entity_id] = f"{state.name} ({state.entity_id})"
 
-        schema = {}
+        cur_calendars = self._get("calendars", [])
+        if isinstance(cur_calendars, str):
+            cur_calendars = [cur_calendars] if cur_calendars else []
+
+        schema = {
+            # --- [1] TÍCH HỢP LỊCH TRÌNH ---
+            vol.Optional("calendar_label"): selector.ConstantSelector(
+                selector.ConstantSelectorConfig(value="", label="========== [1] TÍCH HỢP LỊCH TRÌNH & BẢN TIN AGENDAS ==========")
+            ),
+            vol.Optional("calendars", default=cur_calendars): selector.EntitySelector(
+                selector.EntitySelectorConfig(multiple=True, domain="calendar")
+            ),
+
+            # --- [2] LỊCH NHẮC UỐNG THUỐC LEO THANG ---
+            vol.Optional("med_label"): selector.ConstantSelector(
+                selector.ConstantSelectorConfig(value="", label="========== [2] LỊCH NHẮC UỐNG THUỐC LEO THANG (Medicine 1 đến 10) ==========")
+            ),
+        }
         for i in range(1, 11):
             cur_name = str(self._get(f"medicine_{i}_name", ""))
             cur_time = str(self._get(f"medicine_{i}_time", ""))
@@ -734,81 +847,4 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
             step_id="medicine",
             data_schema=vol.Schema(schema),
         )
-
-    async def async_step_calendars(
-        self, user_input: dict[str, Any] | None = None
-    ) -> config_entries.ConfigFlowResult:
-        if user_input is not None:
-            self._options.update(user_input)
-            return await self.async_step_bio_sensors()
-
-        cur_calendars = self._get("calendars", [])
-        if isinstance(cur_calendars, str):
-            cur_calendars = [cur_calendars] if cur_calendars else []
-
-        schema = {
-            vol.Optional("calendars", default=cur_calendars): selector.EntitySelector(
-                selector.EntitySelectorConfig(multiple=True, domain="calendar")
-            ),
-        }
-
-        return self.async_show_form(
-            step_id="calendars",
-            data_schema=vol.Schema(schema),
-        )
-
-    async def async_step_bio_sensors(
-        self, user_input: dict[str, Any] | None = None
-    ) -> config_entries.ConfigFlowResult:
-        if user_input is not None:
-            self._options.update(user_input)
-            
-            final_options = dict(self.config_entry.options)
-            final_options.update(self._options)
-            if CONF_MEDICINE_SCHEDULE in final_options:
-                del final_options[CONF_MEDICINE_SCHEDULE]
-            return self.async_create_entry(title="", data=final_options)
-
-        cur_hr = self._get("heart_rate_sensors", [])
-        if isinstance(cur_hr, str): cur_hr = [cur_hr] if cur_hr else []
-        
-        cur_steps = self._get("step_sensors", [])
-        if isinstance(cur_steps, str): cur_steps = [cur_steps] if cur_steps else []
-        
-        cur_weight = str(self._get("weight_sensor", ""))
-        cur_sync = str(self._get("bio_sync_interval", "60"))
-
-        schema = {
-            vol.Optional("heart_rate_sensors", default=cur_hr): selector.EntitySelector(
-                selector.EntitySelectorConfig(multiple=True, domain="sensor")
-            ),
-            vol.Optional("step_sensors", default=cur_steps): selector.EntitySelector(
-                selector.EntitySelectorConfig(multiple=True, domain="sensor")
-            ),
-        }
-        if cur_weight:
-            schema[vol.Optional("weight_sensor", default=cur_weight)] = selector.EntitySelector(
-                selector.EntitySelectorConfig(multiple=False, domain="sensor")
-            )
-        else:
-            schema[vol.Optional("weight_sensor")] = selector.EntitySelector(
-                selector.EntitySelectorConfig(multiple=False, domain="sensor")
-            )
-            
-        schema[vol.Optional("bio_sync_interval", default=cur_sync)] = selector.SelectSelector(
-            selector.SelectSelectorConfig(
-                options=[
-                    {"value": "0", "label": "Không đồng bộ tự động"},
-                    {"value": "5", "label": "Mỗi 5 phút"},
-                    {"value": "15", "label": "Mỗi 15 phút"},
-                    {"value": "30", "label": "Mỗi 30 phút"},
-                    {"value": "60", "label": "Mỗi 1 tiếng (Mặc định)"}
-                ],
-                mode=selector.SelectSelectorMode.DROPDOWN,
-            )
-        )
-
-        return self.async_show_form(
-            step_id="bio_sensors",
-            data_schema=vol.Schema(schema),
         )

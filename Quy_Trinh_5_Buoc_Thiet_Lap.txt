@@ -1,0 +1,83 @@
+==========================================================================================
+                              M.A.I TRACKER (MEDICAL AI TRACKER)
+                          QUY TRÌNH THIẾT LẬP CHUẨN HÓA 5 BƯỚC (v2.2.17)
+==========================================================================================
+Áp dụng từ phiên bản: v2.2.17 | Cấu trúc mô-đun hóa, chia tách trực quan các nhóm trong từng bước.
+
+──────────────────────────────────────────────────────────────────────────────────────────
+[BƯỚC 1/5] THÔNG SỐ NỀN TẢNG & SINH LÝ CƠ BẢN (Core Profile)
+──────────────────────────────────────────────────────────────────────────────────────────
+Mục đích: Khai báo định danh thực thể người dùng và các chỉ số sinh lý học cơ bản không thay đổi.
+Các trường cấu hình:
+  - Tên người dùng (person_name)
+  - Tài khoản liên kết (linked_user)
+  - Giới tính (gender)
+  - Cân nặng mặc định (weight_kg)
+
+──────────────────────────────────────────────────────────────────────────────────────────
+[BƯỚC 2/5] QUẢN LÝ DUNG NẠP CHẤT KÍCH THÍCH & DỊCH THỂ (Intake Management)
+──────────────────────────────────────────────────────────────────────────────────────────
+Mục đích: Thiết lập lượng nước uống mục tiêu hàng ngày và các thuật toán hấp thụ, đào thải chất kích thích nâng cao.
+Các trường cấu hình:
+  - Mục tiêu uống nước mặc định (water_goal)
+  - Bật hấp thụ dần (enable_absorption)
+  - Thời gian hấp thụ đỉnh (absorption_time_min)
+  - Thời gian bán phân hủy Cafein (half_life_hours)
+  - Ngưỡng Cafein an toàn để ngủ (sleep_safe_mg)
+
+──────────────────────────────────────────────────────────────────────────────────────────
+[BƯỚC 3/5] HỆ THỐNG CẢM BIẾN ĐẦU VÀO & ĐIỀU PHỐI ĐỒNG BỘ (Input Sensors & Sync)
+──────────────────────────────────────────────────────────────────────────────────────────
+Giao diện phân vùng trực quan (Visual Separation):
+
+  ========== [1] CẢM BIẾN MÔI TRƯỜNG (Environment) ==========
+  - Cảm biến nhiệt độ (temp_sensor)
+  - Cảm biến độ ẩm (humidity_sensor)
+  - Thực thể thời tiết (weather_entity)
+
+  ========== [2] CẢM BIẾN SINH HỌC & ĐỒ ĐEO (Bio Wearables) ==========
+  - Cảm biến Nhịp tim (heart_rate_sensors)
+  - Cảm biến Bước chân (step_sensors)
+  - Cảm biến Cân nặng (weight_sensor)
+
+  ========== [3] CHU KỲ ĐỒNG BỘ ĐIỆN THOẠI (Companion Sync) ==========
+  - Chu kỳ đồng bộ cảm biến điện thoại (bio_sync_interval)
+
+──────────────────────────────────────────────────────────────────────────────────────────
+[BƯỚC 4/5] TRUNG TÂM THÔNG BÁO & LOA PHÁT THANH (Notification & TTS Hub)
+──────────────────────────────────────────────────────────────────────────────────────────
+Giao diện phân vùng trực quan (Visual Separation):
+
+  ========== [1] PHÂN CẤP THIẾT BỊ NHẬN THÔNG BÁO ==========
+  - Thiết bị nhận thông báo cá nhân (notify_target)
+  - Thiết bị nhận thông báo giám sát (notify_target_management)
+
+  ========== [2] PHÁT THANH GIỌNG NÓI & NỘI DUNG TTS ==========
+  - Loa phát thanh hành động (tts_target)
+  - Nội dung phát thanh nhắc uống nước (tts_message)
+
+  ========== [3] CHU KỲ NHẮC NHỞ UỐNG NƯỚC ==========
+  - Chu kỳ nhắc nhở uống nước (water_reminder_interval)
+
+  ========== [4] KHO MẪU CÂU THOẠI TÙY BIẾN (Templates) ==========
+  - Mẫu TTS cá nhân (water_reminder_tts)
+  - Mẫu Notify cá nhân (water_reminder_notify)
+  - Mẫu Notify giám sát (water_reminder_notify_management)
+  - Mẫu thông báo uống nước (drink_log_notify_personal)
+  - Mẫu thông báo uống nước giám sát (drink_log_notify_management)
+  - Mẫu thông báo khi hoàn tác (drink_log_notify_remove)
+
+──────────────────────────────────────────────────────────────────────────────────────────
+[BƯỚC 5/5] LỊCH TRÌNH Y TẾ & BẢN TIN SỨC KHỎE (Schedule & Medicine Hub)
+──────────────────────────────────────────────────────────────────────────────────────────
+Giao diện phân vùng trực quan (Visual Separation):
+
+  ========== [1] TÍCH HỢP LỊCH TRÌNH & BẢN TIN AGENDAS ==========
+  - Thực thể Lịch (calendars)
+
+  ========== [2] LỊCH NHẮC UỐNG THUỐC LEO THANG (Medicine 1 đến 10) ==========
+  *(Cho phép khai báo tối đa 10 loại thuốc, mỗi loại phân tách rõ ràng theo nhóm)*
+  - [Thuốc 1]: Tên thuốc | Giờ uống | Điện thoại chính | Điện thoại phụ | Loa nhắc
+  ...
+  - [Thuốc 10]: Tên thuốc | Giờ uống | Điện thoại chính | Điện thoại phụ | Loa nhắc
+==========================================================================================

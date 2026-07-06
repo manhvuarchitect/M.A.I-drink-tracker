@@ -1,34 +1,76 @@
-============================================================
-           M.A.I TRACKER - QUY TRÌNH THIẾT LẬP 6 BƯỚC
-============================================================
-Phiên bản áp dụng: v2.2.15 trở lên
+==========================================================================================
+                              M.A.I TRACKER (MEDICAL AI TRACKER)
+                             QUY TRÌNH THIẾT LẬP CHI TIẾT 6 BƯỚC
+==========================================================================================
+Áp dụng từ phiên bản: v2.2.16 | Tài liệu chuẩn hóa cấu hình & giao diện tích hợp.
 
-[Bước 1/6] THÔNG TIN CƠ BẢN (Basic Settings)
-- Mục tiêu nước uống ngày mặc định (ml).
-- Cân nặng cá nhân (kg) & Giới tính (Nam/Nữ) để tính toán sinh học.
-- Chu kỳ bán rã của caffeine (giờ) & Ngưỡng caffeine an toàn cho giấc ngủ.
+──────────────────────────────────────────────────────────────────────────────────────────
+[BƯỚC 1/6] THÔNG SỐ THỂ TRẠNG & MỤC TIÊU CƠ BẢN (Basic Settings)
+──────────────────────────────────────────────────────────────────────────────────────────
+Mục đích: Thiết lập các chỉ số sinh lý cá nhân và mục tiêu cơ bản để làm nền tảng tính toán.
+Các trường cấu hình:
+  - Mục tiêu uống nước mặc định (ml): Lượng nước lọc cơ bản cần đạt được mỗi ngày (mặc định 2000ml).
+  - Cân nặng mặc định (kg): Trọng lượng cơ thể dùng để tính toán nồng độ cồn trong máu (BAC) và caffeine.
+  - Giới tính (Nam/Nữ): Quyết định hệ số phân rã cồn và tốc độ chuyển hóa chất trong cơ thể.
+  - Bật hấp thụ dần (Boolean): Nếu bật, caffeine/alcohol sẽ được tính toán ngấm dần từ dạ dày vào máu thay vì ngấm ngay lập tức.
+  - Thời gian hấp thụ (Phút): Thời gian để lượng caffeine nạp vào đạt đỉnh trong máu (mặc định 15 phút).
+  - Thời gian bán phân hủy Cafein (Giờ): Thời gian để cơ thể đào thải một nửa lượng caffeine (mặc định 5.0 giờ).
+  - Ngưỡng Cafein an toàn để ngủ (mg): Lượng caffeine tối đa còn lại trong máu mà người dùng vẫn có thể ngủ ngon (mặc định 50mg).
+  - Tài khoản liên kết (User): Liên kết thực thể với một tài khoản người dùng cụ thể trong hệ thống Home Assistant.
 
-[Bước 2/6] CẢM BIẾN MÔI TRƯỜNG (Environment Sensors)
-- Cảm biến nhiệt độ vật lý (Temperature Sensor).
-- Cảm biến độ ẩm vật lý (Humidity Sensor).
-- Thực thể thời tiết dự phòng (Weather Entity) - tự động fallback khi cảm biến vật lý lỗi.
+──────────────────────────────────────────────────────────────────────────────────────────
+[BƯỚC 2/6] CẢM BIẾN MÔI TRƯỜNG & DỰ PHÒNG THỜI TIẾT (Environment Sensors)
+──────────────────────────────────────────────────────────────────────────────────────────
+Mục đích: Thu thập dữ liệu nhiệt độ, độ ẩm để tính chỉ số oi bức (Heat Index) và tự động tăng mục tiêu nước uống.
+Các trường cấu hình:
+  - Cảm biến nhiệt độ vật lý (sensor.temp): Lấy nhiệt độ thực tế tại khu vực phòng hoặc nhà của người dùng.
+  - Cảm biến độ ẩm vật lý (sensor.humidity): Lấy độ ẩm không khí thực tế.
+  - Thực thể thời tiết (weather.*): Nguồn dự phòng (forecast) từ các dịch vụ thời tiết.
+Cơ chế hoạt động:
+  - Ưu tiên sử dụng cảm biến vật lý cục bộ để có độ chính xác cao nhất.
+  - Nếu cảm biến vật lý bị lỗi (unknown/unavailable), hệ thống sẽ tự động chuyển sang đọc thuộc tính nhiệt độ và độ ẩm của thực thể thời tiết làm phương án dự phòng (fallback).
 
-[Bước 3/6] CẤU HÌNH THÔNG BÁO & LOA (Notifications)
-- Điện thoại chính nhận thông báo uống nước.
-- Loa phát thanh (TTS Target) & Tin nhắn TTS nhắc nhở.
-- Thiết lập cảnh báo người giám sát, tin nhắn nhật ký uống nước cá nhân.
+──────────────────────────────────────────────────────────────────────────────────────────
+[BƯỚC 3/6] CẤU HÌNH THÔNG BÁO & LOA PHÁT THANH (Notifications & TTS)
+──────────────────────────────────────────────────────────────────────────────────────────
+Mục đích: Thiết lập các kênh thông tin gửi nhắc nhở và phát giọng nói cảnh báo người dùng.
+Các trường cấu hình:
+  - Thiết bị nhận thông báo cá nhân: Gửi thông báo trực tiếp cho người sử dụng (Xưng hô 'Bạn', ví dụ: 'Bạn vừa uống 200ml nước').
+  - Thiết bị nhận thông báo giám sát: Gửi thông báo cho người thân/người thứ hai theo dõi (Xưng hô tên người dùng, ví dụ: 'Bố vừa uống 200ml nước').
+  - Loa phát thanh (media_player.*): Thiết bị loa thông minh (như Google Home, Alexa) phát cảnh báo giọng nói (TTS).
+  - Nội dung phát thanh nhắc uống nước: Câu thoại phát qua loa khi mục tiêu nước tự động tăng lên do thời tiết nóng.
+  - Chu kỳ nhắc nhở uống nước (Phút): Khoảng thời gian không có hoạt động uống nước để kích hoạt cảnh báo (0 để tắt).
+  - Các mẫu câu thông báo tùy chỉnh (Mẫu TTS cá nhân, Mẫu Notify cá nhân, Mẫu Notify giám sát, Mẫu thông báo uống nước, Mẫu thông báo khi hoàn tác xóa đồ uống).
 
-[Bước 4/6] NHẮC LỊCH UỐNG THUỐC (Medicine Settings)
-- Khai báo tối đa 10 loại thuốc uống (Tên thuốc, Giờ uống).
-- Điện thoại chính và Loa phát thanh nhận nhắc nhở của từng loại thuốc.
-- Điện thoại phụ (Người giám sát thứ hai) để cảnh báo leo thang sau 15 phút nếu chưa uống thuốc.
+──────────────────────────────────────────────────────────────────────────────────────────
+[BƯỚC 4/6] LỊCH UỐNG THUỐC & CẢNH BÁO LEO THANG (Medicine Settings)
+──────────────────────────────────────────────────────────────────────────────────────────
+Mục đích: Thiết lập lịch uống thuốc an toàn và tự động nhắc nhở nhiều lớp tránh quên thuốc.
+Các trường cấu hình (Cho phép khai báo tối đa 10 loại thuốc):
+  - Tên thuốc: Tên biệt dược hoặc nhãn thuốc cần uống (để trống nếu không dùng).
+  - Giờ uống: Thời gian cụ thể trong ngày cần uống thuốc.
+  - Điện thoại chính nhận thông báo: Nhận tin nhắn nhắc nhở trực tiếp kèm nút xác nhận ("Đã uống" / "Nhắc lại sau 15 phút").
+  - Loa phát thanh nhắc thuốc (TTS): Loa phát giọng nói thông báo đến giờ uống thuốc.
+  - Điện thoại phụ nhận thông báo (Người thứ 2): Nhận tin nhắn cảnh báo chuyển tiếp nếu sau 15 phút người dùng không xác nhận hoặc nhấn nút "Chưa uống".
 
-[Bước 5/6] CẤU HÌNH LỊCH TRÌNH (Calendar Integration)
-- Khai báo danh sách các thực thể lịch trình (calendar.*) của bạn.
-- Dữ liệu lịch trình sẽ được M.A.I Tracker tổng hợp vào bản tin sức khỏe tự động.
+──────────────────────────────────────────────────────────────────────────────────────────
+[BƯỚC 5/6] TÍCH HỢP LỊCH TRÌNH & BẢN TIN SỨC KHỎE (Calendar Integration)
+──────────────────────────────────────────────────────────────────────────────────────────
+Mục đích: Liên kết các lịch biểu làm việc hoặc lịch sinh hoạt để tổng hợp bản tin agenda hàng ngày.
+Các trường cấu hình:
+  - Thực thể Lịch (calendar.*): Chọn một hoặc nhiều lịch biểu đang hoạt động trong Home Assistant (Lịch Việt, Google Calendar, Lịch công tác...).
+Cơ chế hoạt động:
+  - M.A.I Tracker sẽ tự động đọc các sự kiện diễn ra trong ngày từ các lịch này để chuẩn bị bản tin phát âm (Agenda Speech) kết hợp với báo cáo sức khỏe buổi sáng/buổi chiều.
 
-[Bước 6/6] CẢM BIẾN SINH HỌC (Bio Sensors)
-- Thực thể đo nhịp tim (Heart Rate Sensors) - Tự động lấy giá trị mới nhất.
-- Thực thể đếm bước chân (Step Sensors) - Tự động cộng dồn & tự động bù nước thông minh (+50ml nước/1000 bước chân).
-- Thực thể đo cân nặng (Weight Sensor).
-- Chu kỳ đồng bộ cảm biến điện thoại (5 phút / 15 phút / 30 phút / 1 tiếng / Không đồng bộ) - chủ động đánh thức ứng dụng Companion trên điện thoại.
+──────────────────────────────────────────────────────────────────────────────────────────
+[BƯỚC 6/6] CẢM BIẾN SINH HỌC & ĐỒNG BỘ THIẾT BỊ ĐEO (Bio Sensors & Sync)
+──────────────────────────────────────────────────────────────────────────────────────────
+Mục đích: Tích hợp dữ liệu sức khỏe từ vòng đeo tay, đồng hồ thông minh hoặc cân điện tử.
+Các trường cấu hình:
+  - Cảm biến nhịp tim (Heart Rate Sensors): Chọn các cảm biến nhịp tim (có thể chọn nhiều). Hệ thống tự lấy giá trị mới nhất.
+  - Cảm biến bước chân (Step Sensors): Chọn các cảm biến đếm bước (có thể chọn nhiều). Tự động tính chênh lệch tăng thêm (Delta) để cộng dồn và tự động bù nước thông minh (+50ml nước cho mỗi 1,000 bước chân).
+  - Cảm biến cân nặng (Weight Sensor): Chọn thực thể cân đo sức khỏe.
+  - Chu kỳ đồng bộ cảm biến điện thoại (Phút): Lựa chọn chu kỳ (Không đồng bộ, 5 phút, 15 phút, 30 phút, 60 phút).
+Cơ chế hoạt động:
+  - Trong khung giờ sinh hoạt (07:00 - 22:00), M.A.I Tracker sẽ tự động gửi lệnh `homeassistant.update_entity` đến các cảm biến trên điện thoại Companion theo chu kỳ đã chọn để đánh thức điện thoại đẩy dữ liệu sinh học mới về HASS.
+==========================================================================================

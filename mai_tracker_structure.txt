@@ -1,0 +1,107 @@
+==========================================================================================
+                     M.A.I TRACKER (MEDICAL AI TRACKER)
+                TÀI LIỆU CHUẨN HÓA CẤU HÌNH & MODULE CHỨC NĂNG
+==========================================================================================
+Áp dụng từ phiên bản: v2.2.16 | Định hướng cấu trúc mở rộng, mô-đun hóa hệ thống.
+
+──────────────────────────────────────────────────────────────────────────────────────────
+MODULE 1: THÔNG SỐ NỀN TẢNG & SINH LÝ CƠ BẢN (Core Profile)
+──────────────────────────────────────────────────────────────────────────────────────────
+Mục đích: Thiết lập định danh thực thể và các chỉ số sinh lý học bất biến làm nền tảng 
+tính toán tốc độ chuyển hóa trong cơ thể.
+
+Các trường cấu hình:
+  - Tài khoản liên kết (User):
+      * Kiểu dữ liệu: entity_id (person.* / user)
+      * Chi tiết: Liên kết thực thể M.A.I Tracker với một tài khoản người dùng cụ thể trong Home Assistant.
+  - Giới tính:
+      * Kiểu dữ liệu: select (Nam / Nữ)
+      * Chi tiết: Quyết định hệ số phân rã cồn (BAC) và tốc độ chuyển hóa các chất cơ bản.
+  - Cân nặng mặc định (kg):
+      * Kiểu dữ liệu: number
+      * Chi tiết: Trọng lượng cơ thể dùng để tính toán nồng độ cồn trong máu và lượng caffeine phân rã.
+
+──────────────────────────────────────────────────────────────────────────────────────────
+MODULE 2: QUẢN LÝ DUNG NẠP CHẤT KÍCH THÍCH & DỊCH THỂ (Intake Management)
+──────────────────────────────────────────────────────────────────────────────────────────
+Mục đích: Cấu hình mục tiêu dung nạp chất lỏng mặc định và các thuật toán hấp thụ, 
+đào thải nâng cao cho các chất kích thích (Caffeine, Alcohol).
+
+Các trường cấu hình:
+  - Mục tiêu uống nước mặc định (ml):
+      * Kiểu dữ liệu: number (Mặc định: 2000ml)
+      * Chi tiết: Lượng nước lọc cơ bản cần đạt được mỗi ngày khi chưa tính biến động môi trường/vận động.
+  - Bật hấp thụ dần:
+      * Kiểu dữ liệu: boolean (True / False)
+      * Chi tiết: Nếu bật, caffeine/alcohol sẽ được tính toán ngấm dần từ dạ dày vào máu thay vì ngấm ngay lập tức.
+  - Thời gian hấp thụ đỉnh (Phút):
+      * Kiểu dữ liệu: number (Mặc định: 15 phút)
+      * Chi tiết: Khoảng thời gian để lượng caffeine nạp vào đạt đỉnh điểm nồng độ trong máu.
+  - Thời gian bán phân hủy Cafein (Giờ):
+      * Kiểu dữ liệu: number (Mặc định: 5.0 giờ)
+      * Chi tiết: Thời gian để cơ thể đào thải hoàn toàn một nửa lượng caffeine đã hấp thụ.
+  - Ngưỡng Cafein an toàn để ngủ (mg):
+      * Kiểu dữ liệu: number (Mặc định: 50mg)
+      * Chi tiết: Lượng caffeine tối đa còn tồn dư trong máu mà người dùng vẫn có thể đạt giấc ngủ ngon.
+
+──────────────────────────────────────────────────────────────────────────────────────────
+MODULE 3: HỆ THỐNG CẢM BIẾN ĐẦU VÀO & ĐIỀU PHỐI ĐỒNG BỘ (Input Sensors & Sync)
+──────────────────────────────────────────────────────────────────────────────────────────
+Mục đích: Thu thập dữ liệu thời gian thực từ môi trường xung quanh và thiết bị đeo thông minh, 
+tự động tính toán mục tiêu động (Dynamic Target) và giữ kết nối liên tục với thiết bị di động.
+
+1. Khối Cảm biến Môi trường (Environment Fallback Logic)
+  - Cảm biến nhiệt độ vật lý (sensor.temp): Nhiệt độ thực tế tại khu vực phòng hoặc nhà của người dùng.
+  - Cảm biến độ ẩm vật lý (sensor.humidity): Độ ẩm không khí thực tế tại khu vực.
+  - Thực thể thời tiết dự phòng (weather.*): Nguồn dự báo (forecast) từ các dịch vụ thời tiết đám mây.
+  * Cơ chế hoạt động: Ưu tiên sử dụng cảm biến vật lý cục bộ. Nếu cảm biến vật lý bị lỗi (unknown/unavailable), 
+    hệ thống tự động chuyển sang đọc thuộc tính của thực thể thời tiết làm phương án dự phòng (fallback) 
+    để tính chỉ số oi bức (Heat Index) và tự động tăng mục tiêu nước uống.
+
+2. Khối Cảm biến Sinh học (Bio Wearables Integration)
+  - Cảm biến nhịp tim (Heart Rate Sensors): Cho phép chọn nhiều cảm biến nhịp tim từ thiết bị đeo. Hệ thống tự động lấy giá trị mới nhất.
+  - Cảm biến bước chân (Step Sensors): Cho phép chọn nhiều cảm biến đếm bước. Tự động tính toán chênh lệch tăng thêm (Delta) 
+    để cộng dồn và tự động bù nước thông minh (+50ml nước cho mỗi 1,000 bước chân).
+  - Cảm biến cân nặng (Weight Sensor): Chọn thực thể từ cân điện tử đo sức khỏe để cập nhật lại Module 1.
+
+3. Khối Điều phối Đồng bộ (Companion App Sync Control)
+  - Chu kỳ đồng bộ cảm biến điện thoại (Phút): Lựa chọn chu kỳ (Không đồng bộ, 5, 15, 30, 60 phút).
+  * Cơ chế hoạt động: Trong khung giờ sinh hoạt (07:00 - 22:00), hệ thống tự động gửi lệnh `homeassistant.update_entity` 
+    đến các cảm biến trên điện thoại Companion theo chu kỳ nhằm đánh thức điện thoại đẩy dữ liệu sinh học mới về HASS.
+
+──────────────────────────────────────────────────────────────────────────────────────────
+MODULE 4: TRUNG TÂM THÔNG BÁO & LOA PHÁT THANH (Notification & TTS Hub)
+──────────────────────────────────────────────────────────────────────────────────────────
+Mục đích: Thiết lập luồng dữ liệu đầu ra, phân cấp thiết bị nhận và cấu hình các mẫu câu 
+xưng hô tùy chỉnh theo kịch bản cá nhân hoặc giám sát.
+
+Các trường cấu hình:
+  - Thiết bị nhận thông báo cá nhân: Gửi thông báo trực tiếp cho người sử dụng (Xưng hô 'Bạn', ví dụ: 'Bạn vừa uống 200ml nước').
+  - Thiết bị nhận thông báo giám sát: Gửi thông báo cho người thân/người thứ hai theo dõi (Xưng hô theo tên, ví dụ: 'Bố vừa uống 200ml nước').
+  - Loa phát thanh hành động (media_player.*): Các thiết bị loa thông minh (Google Home, Alexa...) phát cảnh báo giọng nói (TTS).
+  - Chu kỳ nhắc nhở uống nước (Phút): Khoảng thời gian không có hoạt động uống nước để kích hoạt cảnh báo (Đặt 0 để tắt).
+  - Nội dung phát thanh nhắc uống nước: Câu thoại phát qua loa khi mục tiêu nước tự động tăng lên do thời tiết nóng.
+  - Kho mẫu câu thông báo tùy chỉnh (Templates):
+      * Mẫu TTS cá nhân
+      * Mẫu Notify cá nhân
+      * Mẫu Notify giám sát
+      * Mẫu thông báo uống nước định kỳ
+      * Mẫu thông báo khi hoàn tác xóa đồ uống (Undo)
+
+──────────────────────────────────────────────────────────────────────────────────────────
+MODULE 5: LỊCH TRÌNH Y TẾ & BẢN TIN SỨC KHỎE (Schedule & Medicine Hub)
+──────────────────────────────────────────────────────────────────────────────────────────
+Mục đích: Liên kết lịch trình sinh hoạt và quản lý việc uống thuốc an toàn thông qua cơ chế 
+cảnh báo leo thang nhiều lớp (Escalation Alerts).
+
+1. Quản lý Lịch uống thuốc (Tối đa 10 loại thuốc):
+  - Các trường khai báo cho từng loại: Tên thuốc (Biệt dược/nhãn) | Giờ uống cụ thể.
+  - Cơ chế cảnh báo leo thang (3 Lớp):
+      * Lớp 1 (Cá nhân): Gửi thông báo đến Điện thoại chính kèm nút xác nhận hành động ("Đã uống" / "Nhắc lại sau 15 phút").
+      * Lớp 2 (Không gian): Nếu chưa xác nhận, loa phát thanh nhắc thuốc (TTS) tại nhà sẽ phát giọng nói cảnh báo.
+      * Lớp 3 (Giám sát): Sau 15 phút nếu người dùng không phản hồi hoặc nhấn "Chưa uống", hệ thống tự động chuyển tiếp tin nhắn cảnh báo đến Điện thoại phụ (Người thứ 2/Người giám sát).
+
+2. Tích hợp Lịch trình (Calendar Integration):
+  - Thực thể Lịch (calendar.*): Chọn một hoặc nhiều lịch biểu đang hoạt động trong Home Assistant (Lịch Việt, Google Calendar, Lịch công tác...).
+  * Cơ chế hoạt động: M.A.I Tracker tự động quét các sự kiện diễn ra trong ngày để tổng hợp bản tin phát âm (Agenda Speech) kết hợp với báo cáo sức khỏe định kỳ vào buổi sáng/buổi chiều.
+==========================================================================================
