@@ -140,7 +140,7 @@
   "options": {
     "step": {
       "init": {
-        "title": "Basic Settings (Step 1/4)",
+        "title": "Edit Profile (Step 1/5)",
         "description": "Configure your basic body metrics and water/caffeine targets.",
         "data": {
           "water_goal": "Daily Water Goal (ml)",
@@ -154,7 +154,7 @@
         }
       },
       "environment": {
-        "title": "Sensors & Sync (Step 2/4)",
+        "title": "Sensors & Sync (Step 3/5)",
         "description": "Select temperature and humidity sensors for automatic water goal adjustments during hot weather.",
         "data": {
           "temp_sensor": "Temperature Sensor",
@@ -172,7 +172,7 @@
         }
       },
       "notifications": {
-        "title": "Notification & TTS Hub (Step 3/4)",
+        "title": "Notification & TTS Hub (Step 4/5)",
         "description": "Set up phone notifications and voice broadcast reminder targets.",
         "data": {
           "notify_target": "Personal Notification Device (Addressing 'Bạn')",
@@ -198,7 +198,7 @@
         }
       },
       "medicine": {
-        "title": "Schedule & Medicine Hub (Step 4/4)",
+        "title": "Schedule & Medicine Hub (Step 5/5)",
         "description": "Set up to 10 medicine reminder schedules. Leave the Medicine Name empty to disable a slot.",
         "data": {
           "medicine_1_name": "-------- [1] MEDICINE NAME --------",
@@ -260,6 +260,19 @@
           "templates_label": "========== [4] CUSTOM MESSAGE TEMPLATES ==========",
           "calendar_label": "========== [1] CALENDAR INTEGRATION & AGENDAS ==========",
           "med_label": "========== [2] MEDICINE REMINDER LOGISTICS (Medicine 1 to 10) =========="
+        }
+      },
+      "basic_settings": {
+        "title": "Basic Settings (Step 2/5)",
+        "description": "Configure your basic body metrics and water/caffeine targets.",
+        "data": {
+          "water_goal": "Daily Water Goal (ml)",
+          "half_life_hours": "Caffeine Half-life (Hours)",
+          "sleep_safe_mg": "Sleep-safe threshold (mg)",
+          "enable_absorption": "Model gradual absorption",
+          "absorption_time_min": "Absorption time (Minutes)",
+          "weight_kg": "Default weight (kg)",
+          "gender": "Gender"
         }
       }
     }

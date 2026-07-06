@@ -140,7 +140,7 @@
   "options": {
     "step": {
       "init": {
-        "title": "Thông số Nền tảng & Sinh lý (Bước 1/4)",
+        "title": "M.A.I Tracker - Chỉnh sửa Hồ sơ (Bước 1/5)",
         "description": "Cấu hình lại các thông số cơ thể và mục tiêu Cafein/Nước của bạn.",
         "data": {
           "water_goal": "Mục tiêu nước (ml)",
@@ -154,7 +154,7 @@
         }
       },
       "environment": {
-        "title": "Cấu hình Cảm biến & Đồng bộ (Bước 2/4)",
+        "title": "Cấu hình Cảm biến & Đồng bộ (Bước 3/5)",
         "description": "Lựa chọn các cảm biến để M.A.I Tracker tự động điều chỉnh lượng nước khi trời nóng.",
         "data": {
           "temp_sensor": "Cảm biến nhiệt độ",
@@ -172,7 +172,7 @@
         }
       },
       "notifications": {
-        "title": "Trung tâm Thông báo & Loa (Bước 3/4)",
+        "title": "Trung tâm Thông báo & Loa (Bước 4/5)",
         "description": "Thiết lập các cảnh báo y tế và nhắc nhở uống nước bằng giọng nói (TTS).",
         "data": {
           "notify_target": "Thiết bị nhận thông báo Cá nhân (Xưng hô 'Bạn')",
@@ -198,7 +198,7 @@
         }
       },
       "medicine": {
-        "title": "Lịch trình & Thuốc uống (Bước 4/4)",
+        "title": "Lịch trình & Thuốc uống (Bước 5/5)",
         "description": "Khai báo tối đa 10 khung giờ uống thuốc nhắc qua Loa phát thanh hoặc Điện thoại.",
         "data": {
           "medicine_1_name": "-------- [1] TÊN THUỐC --------",
@@ -260,6 +260,19 @@
           "templates_label": "========== [4] KHO MẪU CÂU THOẠI TÙY BIẾN (Templates) ==========",
           "calendar_label": "========== [1] TÍCH HỢP LỊCH TRÌNH & BẢN TIN AGENDAS ==========",
           "med_label": "========== [2] LỊCH NHẮC UỐNG THUỐC LEO THANG (Medicine 1 đến 10) =========="
+        }
+      },
+      "basic_settings": {
+        "title": "Thông số Nền tảng & Sinh lý (Bước 2/5)",
+        "description": "Cấu hình lại các thông số cơ thể và mục tiêu Cafein/Nước của bạn.",
+        "data": {
+          "water_goal": "Mục tiêu nước (ml)",
+          "half_life_hours": "Thời gian bán phân hủy Cafein",
+          "sleep_safe_mg": "Ngưỡng Cafein an toàn để ngủ",
+          "enable_absorption": "Mô phỏng hấp thụ (Gradual Absorption)",
+          "absorption_time_min": "Thời gian hấp thụ (Phút)",
+          "weight_kg": "Cân nặng mặc định (kg)",
+          "gender": "Giới tính"
         }
       }
     }
