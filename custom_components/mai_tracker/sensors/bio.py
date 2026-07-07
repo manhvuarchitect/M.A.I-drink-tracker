@@ -21,14 +21,17 @@ class LastMedicineSensor(_CaffeineBase):
 
     @property
     def extra_state_attributes(self) -> dict[str, Any]:
-        if not self.coordinator.data or not self.coordinator.data.medicines:
-            return {}
-        last = self.coordinator.data.medicines[-1]
-        return {
-            "type": last.med_type,
-            "timestamp": last.timestamp.isoformat(),
-            "reminder_time": last.reminder_time.isoformat() if last.reminder_time else None
+        attrs = {
+            "calendars": self._entry.options.get("calendars", self._entry.data.get("calendars", []))
         }
+        if self.coordinator.data and self.coordinator.data.medicines:
+            last = self.coordinator.data.medicines[-1]
+            attrs.update({
+                "type": last.med_type,
+                "timestamp": last.timestamp.isoformat(),
+                "reminder_time": last.reminder_time.isoformat() if last.reminder_time else None
+            })
+        return attrs
 
 class AggregatedHeartRateSensor(_CaffeineBase):
     _attr_icon = "mdi:heart-pulse"
