@@ -76,16 +76,24 @@ def update_strings():
         "linked_user": "Tài khoản liên kết (User)"
     }
     
-    # Định nghĩa bản dịch cho step environment của options flow
-    d['options']['step']['environment']['data'] = {
-        "temp_sensor": "Cảm biến nhiệt độ",
-        "humidity_sensor": "Cảm biến độ ẩm",
-        "weather_entity": "Thực thể thời tiết",
+    # Cập nhật bản dịch cho step environment của options flow bằng cách lấy các khoá từ strings.json đã được khai báo đầy đủ
+    strings_env_data = json.load(open(f, encoding='utf-8'))['config']['step']['environment']['data']
+    if 'environment' not in d['options']['step']:
+        d['options']['step']['environment'] = {"title": "Cấu hình Cảm biến & Đồng bộ (Bước 3/5)", "data": {}}
+    if 'data' not in d['options']['step']['environment']:
+        d['options']['step']['environment']['data'] = {}
+    
+    # Kế thừa toàn bộ bản dịch từ config.step.environment.data
+    for k, v in strings_env_data.items():
+        d['options']['step']['environment']['data'][k] = v
+        
+    # Thêm các khoá đặc thù của Options Flow nếu có
+    d['options']['step']['environment']['data'].update({
         "heart_rate_sensors": "Cảm biến nhịp tim (Heart Rate)",
         "step_sensors": "Cảm biến số bước (Steps)",
         "weight_sensor": "Cảm biến cân nặng (Weight)",
         "bio_sync_interval": "Chu kỳ đồng bộ tự động"
-    }
+    })
 
     # Định nghĩa bản dịch cho step notifications của options flow
     d['options']['step']['notifications']['data'] = {
@@ -128,6 +136,34 @@ def update_strings():
     d_en['config']['step']['notifications']['title'] = 'Notification & TTS Hub (Step 4/5)'
     d_en['config']['step']['medicine']['title'] = 'Schedule & Medicine Hub (Step 5/5)'
     
+    # Định nghĩa tiếng Anh cho các trường thiết bị đeo của Config Flow
+    if 'environment' not in d_en['config']['step']:
+        d_en['config']['step']['environment'] = {"title": "Sensors & Sync (Step 3/5)", "data": {}}
+    if 'data' not in d_en['config']['step']['environment']:
+        d_en['config']['step']['environment']['data'] = {}
+        
+    d_en['config']['step']['environment']['data'].update({
+        "low_battery_threshold": "Low battery threshold (%)",
+        "wearable_label": "========== [3] SMARTWEARABLE CONFIGURATION (Wearables) ==========",
+        "wearable_1_label": "--- [1] FIRST WEARABLE DEVICE ---",
+        "wearable_1_name": "Device name (For notifications)",
+        "wearable_1_on_body": "On body status sensor (On Body)",
+        "wearable_1_battery": "Battery level sensor (Battery)",
+        "wearable_1_calories": "Daily calories sensor (Calories)",
+        "wearable_2_label": "--- [2] SECOND WEARABLE DEVICE ---",
+        "wearable_2_name": "Device name (For notifications)",
+        "wearable_2_on_body": "On body status sensor (On Body)",
+        "wearable_2_battery": "Battery level sensor (Battery)",
+        "wearable_2_calories": "Daily calories sensor (Calories)",
+        "wearable_3_label": "--- [3] THIRD WEARABLE DEVICE ---",
+        "wearable_3_name": "Device name (For notifications)",
+        "wearable_3_on_body": "On body status sensor (On Body)",
+        "wearable_3_battery": "Battery level sensor (Battery)",
+        "wearable_3_calories": "Daily calories sensor (Calories)",
+        "environment_label": "========== [1] ENVIRONMENT SENSORS ==========",
+        "bio_label": "========== [2] BIO & COMPANION SYNC =========="
+    })
+
     if 'calendars' in d_en['config']['step']:
         del d_en['config']['step']['calendars']
     if 'bio_sensors' in d_en['config']['step']:
@@ -154,7 +190,13 @@ def update_strings():
         }
     }
     d_en['options']['step']['environment']['title'] = 'Sensors & Sync (Step 3/5)'
-    d_en['options']['step']['environment']['data'] = {
+    
+    # Kế thừa toàn bộ dữ liệu config.step.environment.data tiếng Anh vừa dịch
+    d_en['options']['step']['environment']['data'] = {}
+    for k, v in d_en['config']['step']['environment']['data'].items():
+        d_en['options']['step']['environment']['data'][k] = v
+        
+    d_en['options']['step']['environment']['data'].update({
         "temp_sensor": "Temperature Sensor",
         "humidity_sensor": "Humidity Sensor",
         "weather_entity": "Weather Entity",
@@ -162,7 +204,7 @@ def update_strings():
         "step_sensors": "Step sensors",
         "weight_sensor": "Weight sensor",
         "bio_sync_interval": "Sync interval"
-    }
+    })
 
     d_en['options']['step']['notifications']['title'] = 'Notification & TTS Hub (Step 4/5)'
     d_en['options']['step']['notifications']['data'] = {
