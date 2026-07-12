@@ -21,9 +21,23 @@ class LastMedicineSensor(_CaffeineBase):
 
     @property
     def extra_state_attributes(self) -> dict[str, Any]:
+        wearables = []
+        for i in range(1, 4):
+            w_name = self._entry.options.get(f"wearable_{i}_name", self._entry.data.get(f"wearable_{i}_name", ""))
+            w_on_body = self._entry.options.get(f"wearable_{i}_on_body", self._entry.data.get(f"wearable_{i}_on_body", ""))
+            w_battery = self._entry.options.get(f"wearable_{i}_battery", self._entry.data.get(f"wearable_{i}_battery", ""))
+            w_calories = self._entry.options.get(f"wearable_{i}_calories", self._entry.data.get(f"wearable_{i}_calories", ""))
+            if w_name or w_on_body:
+                wearables.append({
+                    "name": w_name,
+                    "on_body": w_on_body,
+                    "battery": w_battery,
+                    "calories": w_calories
+                })
+
         attrs = {
             "calendars": self._entry.options.get("calendars", self._entry.data.get("calendars", [])),
-            "active_wearable_sensors": self._entry.options.get("active_wearable_sensors", self._entry.data.get("active_wearable_sensors", [])),
+            "wearables": wearables,
             "low_battery_threshold": self._entry.options.get("low_battery_threshold", self._entry.data.get("low_battery_threshold", 15))
         }
         if self.coordinator.data and self.coordinator.data.medicines:

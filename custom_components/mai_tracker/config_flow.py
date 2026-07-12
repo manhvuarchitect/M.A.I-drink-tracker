@@ -303,9 +303,6 @@ class MaiTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             vol.Optional("weight_sensor"): selector.EntitySelector(
                 selector.EntitySelectorConfig(multiple=False, domain="sensor")
             ),
-            vol.Optional("active_wearable_sensors", default=[]): selector.EntitySelector(
-                selector.EntitySelectorConfig(multiple=True, domain="binary_sensor")
-            ),
             vol.Required("low_battery_threshold", default=15): selector.NumberSelector(
                 selector.NumberSelectorConfig(
                     min=5, max=50, step=5,
@@ -313,7 +310,21 @@ class MaiTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     mode=selector.NumberSelectorMode.BOX
                 )
             ),
+        }
 
+        for i in range(1, 4):
+            schema[vol.Optional(f"wearable_{i}_name", default="")] = selector.TextSelector()
+            schema[vol.Optional(f"wearable_{i}_on_body")] = selector.EntitySelector(
+                selector.EntitySelectorConfig(multiple=False, domain="binary_sensor")
+            )
+            schema[vol.Optional(f"wearable_{i}_battery")] = selector.EntitySelector(
+                selector.EntitySelectorConfig(multiple=False, domain="sensor")
+            )
+            schema[vol.Optional(f"wearable_{i}_calories")] = selector.EntitySelector(
+                selector.EntitySelectorConfig(multiple=False, domain="sensor")
+            )
+
+        schema.update({
             vol.Optional("bio_sync_interval", default="60"): selector.SelectSelector(
                 selector.SelectSelectorConfig(
                     options=[
@@ -326,7 +337,7 @@ class MaiTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     mode=selector.SelectSelectorMode.DROPDOWN,
                 )
             ),
-        }
+        })
 
         return self.async_show_form(
             step_id="environment",
@@ -591,9 +602,6 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
         cur_weight = str(self._get("weight_sensor", ""))
         cur_sync = str(self._get("bio_sync_interval", "60"))
 
-        cur_active_wearables = self._get("active_wearable_sensors", [])
-        if isinstance(cur_active_wearables, str):
-            cur_active_wearables = [cur_active_wearables] if cur_active_wearables else []
         cur_low_battery = int(self._get("low_battery_threshold", 15))
 
         schema = {
@@ -617,10 +625,6 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
                 selector.EntitySelectorConfig(multiple=False, domain="sensor")
             )
 
-        schema[vol.Optional("active_wearable_sensors", default=cur_active_wearables)] = selector.EntitySelector(
-            selector.EntitySelectorConfig(multiple=True, domain="binary_sensor")
-        )
-
         schema[vol.Required("low_battery_threshold", default=cur_low_battery)] = selector.NumberSelector(
             selector.NumberSelectorConfig(
                 min=5, max=50, step=5,
@@ -628,6 +632,41 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
                 mode=selector.NumberSelectorMode.BOX
             )
         )
+
+        for i in range(1, 4):
+            w_name = str(self._get(f"wearable_{i}_name", ""))
+            w_on_body = str(self._get(f"wearable_{i}_on_body", ""))
+            w_battery = str(self._get(f"wearable_{i}_battery", ""))
+            w_calories = str(self._get(f"wearable_{i}_calories", ""))
+
+            schema[vol.Optional(f"wearable_{i}_name", default=w_name)] = selector.TextSelector()
+            
+            if w_on_body:
+                schema[vol.Optional(f"wearable_{i}_on_body", default=w_on_body)] = selector.EntitySelector(
+                    selector.EntitySelectorConfig(multiple=False, domain="binary_sensor")
+                )
+            else:
+                schema[vol.Optional(f"wearable_{i}_on_body")] = selector.EntitySelector(
+                    selector.EntitySelectorConfig(multiple=False, domain="binary_sensor")
+                )
+
+            if w_battery:
+                schema[vol.Optional(f"wearable_{i}_battery", default=w_battery)] = selector.EntitySelector(
+                    selector.EntitySelectorConfig(multiple=False, domain="sensor")
+                )
+            else:
+                schema[vol.Optional(f"wearable_{i}_battery")] = selector.EntitySelector(
+                    selector.EntitySelectorConfig(multiple=False, domain="sensor")
+                )
+
+            if w_calories:
+                schema[vol.Optional(f"wearable_{i}_calories", default=w_calories)] = selector.EntitySelector(
+                    selector.EntitySelectorConfig(multiple=False, domain="sensor")
+                )
+            else:
+                schema[vol.Optional(f"wearable_{i}_calories")] = selector.EntitySelector(
+                    selector.EntitySelectorConfig(multiple=False, domain="sensor")
+                )
 
         schema[vol.Optional("bio_sync_interval", default=cur_sync)] = selector.SelectSelector(
             selector.SelectSelectorConfig(
