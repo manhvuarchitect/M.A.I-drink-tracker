@@ -303,6 +303,16 @@ class MaiTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             vol.Optional("weight_sensor"): selector.EntitySelector(
                 selector.EntitySelectorConfig(multiple=False, domain="sensor")
             ),
+            vol.Optional("active_wearable_sensor"): selector.EntitySelector(
+                selector.EntitySelectorConfig(multiple=False, domain="binary_sensor")
+            ),
+            vol.Required("low_battery_threshold", default=15): selector.NumberSelector(
+                selector.NumberSelectorConfig(
+                    min=5, max=50, step=5,
+                    unit_of_measurement="%",
+                    mode=selector.NumberSelectorMode.BOX
+                )
+            ),
 
             vol.Optional("bio_sync_interval", default="60"): selector.SelectSelector(
                 selector.SelectSelectorConfig(
@@ -581,6 +591,9 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
         cur_weight = str(self._get("weight_sensor", ""))
         cur_sync = str(self._get("bio_sync_interval", "60"))
 
+        cur_active_wearable = str(self._get("active_wearable_sensor", ""))
+        cur_low_battery = int(self._get("low_battery_threshold", 15))
+
         schema = {
             vol.Optional(CONF_TEMP_SENSOR, default=cur_temp): vol.In(temp_dict),
             vol.Optional(CONF_HUMIDITY_SENSOR, default=cur_hum): vol.In(hum_dict),
@@ -601,6 +614,23 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
             schema[vol.Optional("weight_sensor")] = selector.EntitySelector(
                 selector.EntitySelectorConfig(multiple=False, domain="sensor")
             )
+
+        if cur_active_wearable:
+            schema[vol.Optional("active_wearable_sensor", default=cur_active_wearable)] = selector.EntitySelector(
+                selector.EntitySelectorConfig(multiple=False, domain="binary_sensor")
+            )
+        else:
+            schema[vol.Optional("active_wearable_sensor")] = selector.EntitySelector(
+                selector.EntitySelectorConfig(multiple=False, domain="binary_sensor")
+            )
+
+        schema[vol.Required("low_battery_threshold", default=cur_low_battery)] = selector.NumberSelector(
+            selector.NumberSelectorConfig(
+                min=5, max=50, step=5,
+                unit_of_measurement="%",
+                mode=selector.NumberSelectorMode.BOX
+            )
+        )
 
         schema[vol.Optional("bio_sync_interval", default=cur_sync)] = selector.SelectSelector(
             selector.SelectSelectorConfig(

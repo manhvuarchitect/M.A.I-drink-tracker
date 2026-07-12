@@ -30,6 +30,8 @@
           "temp_sensor": "Cảm biến nhiệt độ",
           "humidity_sensor": "Cảm biến độ ẩm",
           "weather_entity": "Thực thể thời tiết",
+          "active_wearable_sensor": "Cảm biến trạng thái đeo (đang đeo đồng hồ nào)",
+          "low_battery_threshold": "Ngưỡng báo pin yếu của đồng hồ (%)",
           "environment_label": "========== [1] CẢM BIẾN MÔI TRƯỜNG (Environment) ==========",
           "bio_label": "========== [2] CẢM BIẾN SINH HỌC & ĐỒ ĐEO (Bio Wearables) ==========",
           "sync_label": "========== [3] CHU KỲ ĐỒNG BỘ ĐIỆN THOẠI (Companion Sync) ==========",
