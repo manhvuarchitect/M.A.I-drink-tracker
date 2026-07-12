@@ -23,7 +23,7 @@ class LastMedicineSensor(_CaffeineBase):
     def extra_state_attributes(self) -> dict[str, Any]:
         attrs = {
             "calendars": self._entry.options.get("calendars", self._entry.data.get("calendars", [])),
-            "active_wearable_sensor": self._entry.options.get("active_wearable_sensor", self._entry.data.get("active_wearable_sensor", "")),
+            "active_wearable_sensors": self._entry.options.get("active_wearable_sensors", self._entry.data.get("active_wearable_sensors", [])),
             "low_battery_threshold": self._entry.options.get("low_battery_threshold", self._entry.data.get("low_battery_threshold", 15))
         }
         if self.coordinator.data and self.coordinator.data.medicines:

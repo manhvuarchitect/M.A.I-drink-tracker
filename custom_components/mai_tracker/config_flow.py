@@ -303,8 +303,8 @@ class MaiTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             vol.Optional("weight_sensor"): selector.EntitySelector(
                 selector.EntitySelectorConfig(multiple=False, domain="sensor")
             ),
-            vol.Optional("active_wearable_sensor"): selector.EntitySelector(
-                selector.EntitySelectorConfig(multiple=False, domain="binary_sensor")
+            vol.Optional("active_wearable_sensors", default=[]): selector.EntitySelector(
+                selector.EntitySelectorConfig(multiple=True, domain="binary_sensor")
             ),
             vol.Required("low_battery_threshold", default=15): selector.NumberSelector(
                 selector.NumberSelectorConfig(
@@ -591,7 +591,9 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
         cur_weight = str(self._get("weight_sensor", ""))
         cur_sync = str(self._get("bio_sync_interval", "60"))
 
-        cur_active_wearable = str(self._get("active_wearable_sensor", ""))
+        cur_active_wearables = self._get("active_wearable_sensors", [])
+        if isinstance(cur_active_wearables, str):
+            cur_active_wearables = [cur_active_wearables] if cur_active_wearables else []
         cur_low_battery = int(self._get("low_battery_threshold", 15))
 
         schema = {
@@ -615,14 +617,9 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
                 selector.EntitySelectorConfig(multiple=False, domain="sensor")
             )
 
-        if cur_active_wearable:
-            schema[vol.Optional("active_wearable_sensor", default=cur_active_wearable)] = selector.EntitySelector(
-                selector.EntitySelectorConfig(multiple=False, domain="binary_sensor")
-            )
-        else:
-            schema[vol.Optional("active_wearable_sensor")] = selector.EntitySelector(
-                selector.EntitySelectorConfig(multiple=False, domain="binary_sensor")
-            )
+        schema[vol.Optional("active_wearable_sensors", default=cur_active_wearables)] = selector.EntitySelector(
+            selector.EntitySelectorConfig(multiple=True, domain="binary_sensor")
+        )
 
         schema[vol.Required("low_battery_threshold", default=cur_low_battery)] = selector.NumberSelector(
             selector.NumberSelectorConfig(

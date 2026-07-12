@@ -49,21 +49,26 @@ actions:
   - variables:
       muc_tieu: 6000
       buoc_chan: "{{ states('sensor.mait_manhvuarchitect_aggregated_steps') | int(0) }}"
-      # ĐỌC THỰC THỂ CẢM BIẾN ĐANG ĐEO VÀ NGƯỠNG PIN ĐỘNG TỪ LAST_MEDICINE SENSOR
-      wearable_entity: "{{ state_attr('sensor.mait_manhvuarchitect_last_medicine', 'active_wearable_sensor') }}"
+      # ĐỌC DANH SÁCH CẢM BIẾN ĐANG ĐEO VÀ NGƯỠNG PIN ĐỘNG TỪ LAST_MEDICINE SENSOR
+      wearable_sensors: "{{ state_attr('sensor.mait_manhvuarchitect_last_medicine', 'active_wearable_sensors') or [] }}"
       low_battery_threshold: "{{ state_attr('sensor.mait_manhvuarchitect_last_medicine', 'low_battery_threshold') | int(15) }}"
       
+      # Tìm kiếm thực thể đồng hồ thực tế đang đeo (trạng thái là 'on' hoặc 'home')
+      wearable_entity: >-
+        {% set ns = namespace(found="") %}
+        {% for s in wearable_sensors %}
+          {% if states(s) in ['on', 'home'] %}
+            {% set ns.found = s %}
+          {% endif %}
+        {% endfor %}
+        {{ ns.found }}
+      
       # Trạng thái đeo thiết bị
-      thiet_bi_on: >-
-        {% if wearable_entity and states(wearable_entity) in ['on', 'home'] %}
-          true
-        {% else %}
-          false
-        {% endif %}
+      thiet_bi_on: "{{ wearable_entity | trim != '' }}"
         
-      # Tên đồng hồ tự động trích xuất từ tên hiển thị thực thể
+      # Tên đồng hồ tự động trích xuất từ tên hiển thị thực thể đang đeo
       ten_dong_ho: >-
-        {% if wearable_entity %}
+        {% if wearable_entity | trim != '' %}
           {{ state_attr(wearable_entity, 'friendly_name') | replace(' on body sensor', '') | replace(' On Body', '') | replace(' On-body', '') }}
         {% else %}
           đồng hồ
@@ -73,7 +78,7 @@ actions:
       
       # Trích xuất dung lượng pin từ cảm biến tương ứng dựa theo tên thực thể đeo
       pin_dong_ho: >-
-        {% if wearable_entity %}
+        {% if wearable_entity | trim != '' %}
           {% set base_id = wearable_entity.replace('binary_sensor.', '').replace('_on_body_sensor', '') %}
           {% set battery_sensor = 'sensor.' ~ base_id ~ '_battery_level' %}
           {{ states(battery_sensor) | int(100) }}
@@ -83,7 +88,7 @@ actions:
         
       calo_tieu_thu: |-
         {% set cal_watch = 0 %}
-        {% if wearable_entity %}
+        {% if wearable_entity | trim != '' %}
           {% set base_id = wearable_entity.replace('binary_sensor.', '').replace('_on_body_sensor', '') %}
           {% set cal_sensor = 'sensor.' ~ base_id ~ '_daily_calories' %}
           {% set cal_watch = states(cal_sensor) | int(0) %}
