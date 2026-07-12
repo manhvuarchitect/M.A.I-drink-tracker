@@ -310,9 +310,11 @@ class MaiTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     mode=selector.NumberSelectorMode.BOX
                 )
             ),
+            vol.Optional("wearable_label", default=""): selector.TextSelector(selector.TextSelectorConfig(read_only=True)),
         }
 
         for i in range(1, 4):
+            schema[vol.Optional(f"wearable_{i}_label", default="")] = selector.TextSelector(selector.TextSelectorConfig(read_only=True))
             schema[vol.Optional(f"wearable_{i}_name", default="")] = selector.TextSelector()
             schema[vol.Optional(f"wearable_{i}_on_body")] = selector.EntitySelector(
                 selector.EntitySelectorConfig(multiple=False, domain="binary_sensor")
@@ -633,12 +635,15 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
             )
         )
 
+        schema[vol.Optional("wearable_label", default="")] = selector.TextSelector(selector.TextSelectorConfig(read_only=True))
+
         for i in range(1, 4):
             w_name = str(self._get(f"wearable_{i}_name", ""))
             w_on_body = str(self._get(f"wearable_{i}_on_body", ""))
             w_battery = str(self._get(f"wearable_{i}_battery", ""))
             w_calories = str(self._get(f"wearable_{i}_calories", ""))
 
+            schema[vol.Optional(f"wearable_{i}_label", default="")] = selector.TextSelector(selector.TextSelectorConfig(read_only=True))
             schema[vol.Optional(f"wearable_{i}_name", default=w_name)] = selector.TextSelector()
             
             if w_on_body:
