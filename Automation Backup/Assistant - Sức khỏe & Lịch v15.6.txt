@@ -1,5 +1,5 @@
-alias: Assistant - Sức khỏe & Lịch v15.5 (Tích hợp Lịch tự động & Cảm biến M.A.I Tracker)
-description: Đồng bộ hóa đầy đủ danh sách Lịch động & Nhận diện đúng các thực thể M.A.I Tracker v2.2.26
+alias: Assistant - Sức khỏe & Lịch v15.6 (Tích hợp Lịch tự động & Cảm biến M.A.I Tracker)
+description: Đồng bộ hóa đầy đủ danh sách Lịch động, Thiết bị đeo & Hỗ trợ ép sync đa thiết bị M.A.I Tracker v2.2.27
 triggers:
   - trigger: time_pattern
     minutes: /1
