@@ -38,7 +38,8 @@ class LastMedicineSensor(_CaffeineBase):
         attrs = {
             "calendars": self._entry.options.get("calendars", self._entry.data.get("calendars", [])),
             "wearables": wearables,
-            "low_battery_threshold": self._entry.options.get("low_battery_threshold", self._entry.data.get("low_battery_threshold", 15))
+            "low_battery_threshold": self._entry.options.get("low_battery_threshold", self._entry.data.get("low_battery_threshold", 15)),
+            "notify_target": self._entry.options.get("notify_target", self._entry.data.get("notify_target", []))
         }
         if self.coordinator.data and self.coordinator.data.medicines:
             last = self.coordinator.data.medicines[-1]

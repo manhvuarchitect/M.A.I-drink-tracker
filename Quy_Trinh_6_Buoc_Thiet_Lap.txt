@@ -9,14 +9,17 @@
 ──────────────────────────────────────────────────────────────────────────────────────────
 Mục đích: Thiết lập các chỉ số sinh lý cá nhân và mục tiêu cơ bản để làm nền tảng tính toán.
 Các trường cấu hình:
-  - Mục tiêu uống nước mặc định (ml): Lượng nước lọc cơ bản cần đạt được mỗi ngày (mặc định 2000ml).
+  - Tài khoản liên kết (User): Liên kết thực thể với một tài khoản người dùng cụ thể trong hệ thống Home Assistant.
   - Cân nặng mặc định (kg): Trọng lượng cơ thể dùng để tính toán nồng độ cồn trong máu (BAC) và caffeine.
   - Giới tính (Nam/Nữ): Quyết định hệ số phân rã cồn và tốc độ chuyển hóa chất trong cơ thể.
+
+[BƯỚC 2/]  MỤC TIÊU CƠ BẢN (Basic Settings)  
+  - Mục tiêu uống nước mặc định (ml): Lượng nước lọc cơ bản cần đạt được mỗi ngày (mặc định 2000ml).
   - Bật hấp thụ dần (Boolean): Nếu bật, caffeine/alcohol sẽ được tính toán ngấm dần từ dạ dày vào máu thay vì ngấm ngay lập tức.
   - Thời gian hấp thụ (Phút): Thời gian để lượng caffeine nạp vào đạt đỉnh trong máu (mặc định 15 phút).
   - Thời gian bán phân hủy Cafein (Giờ): Thời gian để cơ thể đào thải một nửa lượng caffeine (mặc định 5.0 giờ).
   - Ngưỡng Cafein an toàn để ngủ (mg): Lượng caffeine tối đa còn lại trong máu mà người dùng vẫn có thể ngủ ngon (mặc định 50mg).
-  - Tài khoản liên kết (User): Liên kết thực thể với một tài khoản người dùng cụ thể trong hệ thống Home Assistant.
+
 
 ──────────────────────────────────────────────────────────────────────────────────────────
 [BƯỚC 2/6] CẢM BIẾN MÔI TRƯỜNG & DỰ PHÒNG THỜI TIẾT (Environment Sensors)

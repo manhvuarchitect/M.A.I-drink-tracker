@@ -27,6 +27,18 @@ conditions:
           {{ now().hour != states('input_number.last_notified_hour_manhhome') |
           float(0) | int(-1) }}
 actions:
+  # ÉP ĐỒNG BỘ DỮ LIỆU CẢM BIẾN (FORCE SYNC) TỪ ĐA THIẾT BỊ ĐEO VÀ ĐIỆN THOẠI
+  - repeat:
+      for_each: "{{ state_attr('sensor.mait_manhvuarchitect_last_medicine', 'notify_target') or [] }}"
+      sequence:
+        - action: "{{ repeat.item }}"
+          data:
+            message: "request_location_update"
+            data:
+              ttl: 0
+              priority: high
+  - delay: "00:00:05"
+
   # LẤY ĐỘNG DANH SÁCH LỊCH ĐÃ CẤU HÌNH TRONG M.A.I TRACKER
   - variables:
       cac_lich_tong_hop: >-
