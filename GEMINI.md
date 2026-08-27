@@ -5,7 +5,7 @@
   - `YYYY.MM.DD`: Năm.Tháng.Ngày hiện tại.
   - `bx`: Số thứ tự bản build / thay đổi trong ngày, tự động tăng dần (`b1`, `b2`, `b3`...).
 - **Quy trình thực hiện bắt buộc**:
-  - Sau mỗi lần thay đổi mã nguồn hoặc thực hiện build, luôn tạo bản build / cập nhật `manifest.json` có tên phiên bản theo định dạng `YYYY.MM.DD.bx`.
+  - Sau mỗi lần thay đổi mã nguồn hoặc thực hiện build, luôn cập nhật `manifest.json`, `CHANGELOG.md` và `README.md` với tên phiên bản theo định dạng `YYYY.MM.DD.bx`.
   - Tự động kiểm tra các bản build / tag đã có trong cùng ngày để xác định chỉ số `bx` tiếp theo chính xác.
   - Tiến hành commit và đẩy (push) toàn bộ mã nguồn cùng tag lên GitHub repository.
 

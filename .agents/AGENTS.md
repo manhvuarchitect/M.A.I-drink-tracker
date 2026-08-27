@@ -14,5 +14,5 @@
 * **Quy trình bắt buộc sau mỗi lần thay đổi mã nguồn hoặc build**:
   1. Chạy trình biên dịch kiểm tra lỗi cú pháp Python:
      `py -m py_compile custom_components/mai_tracker/config_flow.py`
-  2. Tạo bản build / tag / release có tên phiên bản theo định dạng `YYYY.MM.DD.bx` tương ứng và cập nhật `manifest.json`.
+  2. Cập nhật `manifest.json`, `CHANGELOG.md` và `README.md` theo tên phiên bản `YYYY.MM.DD.bx` tương ứng.
   3. Tiến hành commit, gắn tag phiên bản `YYYY.MM.DD.bx` và đẩy (push) toàn bộ mã nguồn lên GitHub.

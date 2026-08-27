@@ -1,12 +1,14 @@
 # M.A.I Tracker (Home Assistant Custom Component)
 
-**Current Version: v2.0.17**
+**Current Version: 2026.08.27.b1**
 
-A powerful Home Assistant integration to track daily fluid intake, manage caffeine half-life, monitor sleep-safe caffeine levels, and calculate heat index. This is a rebuilt and optimized version based on `caffeine_tracker`.
+A powerful Home Assistant integration to track daily fluid intake, manage caffeine half-life, monitor sleep metrics (score, stages, duration, efficiency), track medicines, and calculate heat index.
 
 ---
 
-## 🚀 Features in v2.0.0
+## 🚀 Key Features
+- **Sleep Index Tracking (Theo dõi chỉ số giấc ngủ)**: Tích hợp đầy đủ 8 chỉ số giấc ngủ chuyên sâu (Điểm số, Thời lượng, Ngủ sâu, REM, Ngủ nông, Thức, Hiệu suất, Trạng thái) tương ứng với từng thiết bị đeo thông minh (Wearable 1..3).
+- **Smart Wearables Integration**: Hỗ trợ đồng bộ đa thiết bị đeo (Apple Watch, Garmin, Galaxy Watch...) với cảm biến on-body, pin, calo, nhịp tim, bước chân và giấc ngủ.
 - **Profile Cloning (Sao chép cấu hình)**: Easily duplicate complex settings (medicines, environment, notification devices) from an existing user when creating a new one!
 - **Medicine Tracking**: Schedule up to 10 medicines with reminder times, actionable mobile notifications, and TTS alerts. Includes interaction warnings (e.g. taking iron/antibiotics near caffeine).
 - **Dynamic Water Goal**: Automatically increases your daily water goal on hot/humid days based on the Heat Index.
@@ -22,13 +24,22 @@ A powerful Home Assistant integration to track daily fluid intake, manage caffei
 
 | Entity | Description |
 |--------|-------------|
-| `sensor.{prefix}_water_today` | Total water consumed today (ml) |
-| `sensor.{prefix}_current` | Active caffeine level currently in your body (mg) |
-| `sensor.{prefix}_consumed_today` | Total caffeine consumed today (mg) |
-| `sensor.{prefix}_consumed_today_count` | Number of caffeinated drinks today |
-| `sensor.{prefix}_sleep_safe_at` | The exact time your caffeine will drop below your sleep threshold |
-| `sensor.{prefix}_peak` | Estimated peak caffeine level (if absorption is enabled) |
-| `sensor.{prefix}_heat_index` | Heat Index calculated from Temp & Humidity (°C) |
+| `sensor.mait_{person}_water_today` | Total water consumed today (ml) |
+| `sensor.mait_{person}_current` | Active caffeine level currently in your body (mg) |
+| `sensor.mait_{person}_consumed_today` | Total caffeine consumed today (mg) |
+| `sensor.mait_{person}_consumed_today_count` | Number of caffeinated drinks today |
+| `sensor.mait_{person}_sleep_safe_at` | The exact time your caffeine will drop below your sleep threshold |
+| `sensor.mait_{person}_peak` | Estimated peak caffeine level (if absorption is enabled) |
+| `sensor.mait_{person}_heat_index` | Heat Index calculated from Temp & Humidity (°C) |
+| `sensor.mait_{person}_sleep_score` | Điểm số chất lượng giấc ngủ (Sleep Score) |
+| `sensor.mait_{person}_sleep_duration` | Tổng thời lượng ngủ (Sleep Duration) |
+| `sensor.mait_{person}_deep_sleep` | Thời gian ngủ sâu (Deep Sleep) |
+| `sensor.mait_{person}_rem_sleep` | Thời gian ngủ REM (REM Sleep) |
+| `sensor.mait_{person}_light_sleep` | Thời gian ngủ nông (Light Sleep) |
+| `sensor.mait_{person}_awake_time` | Thời gian thức trong đêm (Awake Time) |
+| `sensor.mait_{person}_sleep_efficiency` | Hiệu suất giấc ngủ (Sleep Efficiency %) |
+| `sensor.mait_{person}_sleep_state` | Trạng thái giấc ngủ thời gian thực (Sleep State) |
+| `sensor.mait_{person}_sleep_summary` | Tổng quan tóm tắt giấc ngủ kèm đầy đủ giai đoạn (Summary) |
 
 ---
 
