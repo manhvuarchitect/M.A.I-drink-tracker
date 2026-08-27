@@ -1,3 +1,67 @@
-# Obfuscated Code for Protection
-import base64, zlib
-exec(zlib.decompress(base64.b64decode('eJwlljcO3IgBAPt7hQAXksDzMafCBTO5zDl0y5xzfr0huxsM5gHzrx9mWh5b9t2L/Ac35cWPclp/WOu0F9neTONfzTBP6/4j/W4Fgf394+2b9K/iLrJff+ifvMimYV6Lbfv1/+KflMD+yLz49bP4XH3fZiaqTCwbHbk9MZr75ekhMPGX7/aMKrIMSGc+H3NMktSAIsBynucivJOtLnEPTdUGB/vdIiB46M5tRZK7Bg1dAFewNYx90hjwRF8yOSEHFSKkAEBaoIvE0K+VChGwJEDKp9VYBuXTaukF5o6zp97sjc+76dFjHulWdD8L5PV16W8doGMDWt4zAenqE9mRpTqj9Hp69LJl4Rc3/6nqUzMaHk3y13WpAY0i78sYXF/WpKE30sMaIDjJvc/M/umNfkDb/cXb36avhdIgUMYTUqaz9aV1PEyYMxBnupeI/NF9upjzS5nscoWgA37Tu2QsmYNEbl/YUd6yhocoeketkY0sz14k4A6G78z6Lu8ZZcY7MfoViGm6JLAGm4uFTFRdrTMn4JzN+Y4kZGMq9sbN6rxxZdStb/uBQflCmnV0UN/Rxf0Gop1ORD+tL2pFdBi4XJ8oEMO21F4RGO7p9LWd54nFp3ZhKZCgilD0WqQM6mPjyDJK55iPiqEf6SjiktpLU53ne47MDQcMSTVaJraND3JYEJqqQ73PNQ0GRM9V0JSAqewiC/AiUZB/+QJ3zu/TSbNh8xSMxVghqrXbO+o9sVwiM/X4iaQelBTOtrdIXdXxpnAdUMw0XboEgwfQezZxT96qLHh3a1pIFLA6UjSvrJjyozhqY8gtnu46Q/cS351yH2YT5cRiYLs+38MrGarzMJAPlTyDEqwmCTGMPM+A0NSsAtRcixd2L9f9RqstOx/LqAcdE9QwZlHMFSGrd9+To+uOrjx75bjPIQncCcTMrPWopaMZZFqZFNEu7zkPkkcHIbSiqPdBrFKSOTOagOksyurp5+NqkVbh0LsF6R1m/Uq6vuidTWWz9iPCrnTYlEmyhgt137t+16VWO9sT8Ixk+alRiFvK1VfNooiwVUfCuwuo6pHnmTFGx9j18kbvjYHxILJ+jAX2lglp6n4I2F1YvHW1IB1VL9LxUXa6DzaSoPBTdfcyv4PCpv161nfE3s7OUPMsuVnYCjEEmplI9hWNEd8y5A9lObJibNAytE0QV7lRWbapRsPh2DFnN5tyXkLkc2eyCHCKM9HTMM1lUtVsG8TH5tOp0qA4hBHD2CCJf4rNOWr+sqPjpt4DsiGQlHmGgNsvUBR3pAeBu3ZRQaSVI2O62b1OucTBkehbFudkNurrBORSkKe5+HVKUy3I6/M0sGmoUAxJ4lka9qCgDvsUwGwYlEVmflwsU07zeKo4/iBK3pP1MAYfSfnqIOkvHK7J9tPm0rIVYJR5AsQzCoFo09Xtk+jAqqict72GUi1b+s2yA4ILnkrJl6l8Ty8XvcCFOf3Jrzrh1rqiLcSpUN/rpQpQTZ0xPizwUB8ZYh/n1fJpphEObjan81qjc5h5seGVe1vf0/HcyD7icgAZ2SMOZ/Lfe+3QUi4o0ghLUGKe9M0XO4ygqEc3VxDuehAfrWuxli53+uppPmo/qf9+hevsWIqj3bqLrMlM7aTq2wJ8OVZnAHmT8IYCPtcXe/38zts+efFV5Nagam/JRb6uM6eZIMsfgNpMF4MuE5Gx4TN9d9vQAlhOEiSuvdvId0n0effKXftmwXx3lFuVG+2E1yH7ul5dyhQbPRLmJNU7OlaHbPkrGGjWFlyrzzHJz3JaTjYpamgXnZFE3SVyhMF8rhyXkM3uVcn4YDJiKQ/RzxId3xuL0pXxRZXMX2kAtsbUC7y4NgmptZ7Ge0Xz+QIGUqEwokrzLERl0PcYEZmfF/X7DDQmu57XBaifD1VdVpUV9EennTahX7aZeF3UW0vmWsHD2oK4wxGTzozu51b1YcnTg4/rKIFZL5Pg22NjWwhMfamsvZBqbFOG3G5a93lH2gU150lTW9JbEPOVYtAgOHTapm5yuLHLsw6Du1Hxees424GXb/TNSYRTE+9gg4MX4ljNoisJdG8hRRX7nI7FMPI+fiIzESYGROftuhYuY3XsMqqMOqltuV86hLiBnxvHN1Qeq8zhAiDU16xbx3c9M7uiMwMGcdvKoR2iArjhjP2rao8b/8Qy3HzaywtTseuR67P079CeFYHQV1jNegHM53fgbB7QtcnZwEv3aqOsFq+7gTidrhmUWABfgRJ6FD/A0d6/TYYj39Ytnnuzr1FNLNUcXI/CBPgVCwwhYiucacaJtutgVkS9GmplJskhR0ZNT2ZlORpAzE66AuWsC+9+5wDh63TJCh2uku2QGrkAhwoC02TlDkSWI0TMZ7UOEARF31rL3HNGbdzXg7qTGUQPFSpBALS02FwAIFOEZzJHaDE15s/RD0Y9R1hD5IZ7sRWrSudS5dxdJiI3amJxKoteyTaHosaz4YTkQVqYed8JMb6B/YaVv3Fz7apsxT4l2tJi78uc83TXGwebRBV+8yXS+s2TCLAAGMXDrraaLKzb27tMnoaoJ7sXna/QMEHhJ0dseHMPiAzZqnckgSqkWOa2tRRN8UA1wn3pSmBfMBL9bKnh6t4D3Gtsaaez7ySsGKfzO4/RRWmBl7akz5YXYFcSe1FaLwhwt9VoKPSfn79//2/8/jzesZf/pn7+/v3XfwFwNnL5')).decode('utf-8'))
+﻿import math
+from datetime import datetime, timedelta
+from typing import List
+from ..models import CaffeineEvent
+
+def compute_current_mg(
+    events: List[CaffeineEvent],
+    half_life_hours: float,
+    now: datetime,
+    absorption_time_min: float = 0.0,
+) -> float:
+    """Exponential decay sum; with optional absorption ramp (1 - e^(-t/t_abs))."""
+    hl_seconds = half_life_hours * 3600
+    total = 0.0
+    for event in events:
+        elapsed = max(0.0, (now - event.timestamp).total_seconds())
+        if absorption_time_min > 0:
+            absorbed = 1.0 - math.exp(-elapsed / (absorption_time_min * 60))
+        else:
+            absorbed = 1.0
+        total += event.mg * absorbed * (0.5 ** (elapsed / hl_seconds))
+    return total
+
+def compute_peak_mg(
+    events: List[CaffeineEvent],
+    half_life_hours: float,
+    absorption_time_min: float,
+    now: datetime,
+) -> float:
+    """Find the maximum caffeine level from now forward (absorption model only)."""
+    peak = compute_current_mg(events, half_life_hours, now, absorption_time_min)
+    for minutes in range(1, 181):
+        level = compute_current_mg(
+            events,
+            half_life_hours,
+            now + timedelta(minutes=minutes),
+            absorption_time_min,
+        )
+        if level > peak:
+            peak = level
+        elif level < peak * 0.98:
+            break
+    return peak
+
+def compute_sleep_safe_at(
+    current_mg: float,
+    half_life_hours: float,
+    sleep_safe_mg: float,
+    now: datetime,
+) -> datetime | None:
+    """Return the future datetime when level crosses threshold, or None if already safe."""
+    if current_mg <= sleep_safe_mg:
+        return None
+    hours_needed = half_life_hours * math.log2(current_mg / sleep_safe_mg)
+    return now + timedelta(hours=hours_needed)
+
+def compute_consumed_today_mg(
+    events: List[CaffeineEvent], midnight_utc: datetime
+) -> float:
+    """Sum of caffeine consumed since local midnight (expressed as UTC)."""
+    return sum(e.mg for e in events if e.timestamp >= midnight_utc)
+
+def compute_consumed_today_count(
+    events: List[CaffeineEvent], midnight_utc: datetime
+) -> int:
+    """Number of caffeine events since local midnight (expressed as UTC)."""
+    return sum(1 for e in events if e.timestamp >= midnight_utc)

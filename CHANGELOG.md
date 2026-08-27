@@ -4,6 +4,14 @@ Tất cả các thay đổi, tính năng mới và bản sửa lỗi của integ
 
 ---
 
+## [2026.08.27.b2] - 2026-08-27
+
+### 🐛 Sửa lỗi tương thích & Tối ưu (Bug Fixes & Improvements)
+- **Sửa lỗi không load được integration ("Not loaded")**: Khắc phục lỗi tương thích import `UTC` từ thư viện `datetime` trên môi trường Home Assistant Core/Python, chuyển sang chuẩn `timezone.utc`.
+- **Chuẩn hóa toàn bộ mã nguồn sạch**: Làm sạch mã nguồn `utils/caffeine_calc.py` và `utils/alcohol_calc.py`, loại bỏ hoàn toàn các đoạn code nén `exec` để tăng tốc độ load và độ ổn định.
+
+---
+
 ## [2026.08.27.b1] - 2026-08-27
 
 ### ✨ Tính năng mới (Features)

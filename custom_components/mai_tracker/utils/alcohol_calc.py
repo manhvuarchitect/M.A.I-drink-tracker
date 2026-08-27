@@ -1,3 +1,35 @@
-# Obfuscated Code for Protection
-import base64, zlib
-exec(zlib.decompress(base64.b64decode('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')).decode('utf-8'))
+﻿from datetime import datetime, timedelta
+from typing import List
+from ..models import CaffeineEvent
+
+def compute_current_bac(
+    events: List[CaffeineEvent],
+    weight_kg: float,
+    gender: str,
+    now: datetime
+) -> float:
+    """Compute Blood Alcohol Concentration (Widmark Formula)."""
+    if not events: return 0.0
+    r = 0.68 if gender == "male" else 0.55
+    total_grams = 0.0
+    
+    elimination_rate_bac_per_hour = 0.015
+    grams_per_hour = (elimination_rate_bac_per_hour / 100) * (weight_kg * 1000 * r)
+
+    for event in events:
+        elapsed_hours = max(0.0, (now - event.timestamp).total_seconds() / 3600.0)
+        remaining = event.mg - (grams_per_hour * elapsed_hours)
+        if remaining > 0:
+            total_grams += remaining
+
+    if total_grams <= 0: return 0.0
+    bac = (total_grams / (weight_kg * 1000 * r)) * 100
+    return max(0.0, bac)
+
+def compute_drive_safe_at(
+    current_bac: float,
+    now: datetime
+) -> datetime | None:
+    if current_bac <= 0: return None
+    hours_needed = current_bac / 0.015
+    return now + timedelta(hours=hours_needed)

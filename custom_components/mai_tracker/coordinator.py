@@ -1,9 +1,9 @@
-﻿"""M.A.I Tracker data coordinator."""
+"""M.A.I Tracker data coordinator."""
 
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import UTC, datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import logging
 import math
 from typing import Any
@@ -121,7 +121,7 @@ class CaffeineCoordinator(DataUpdateCoordinator[CaffeineData]):
             if stored.get("last_drink_time"):
                 self.last_drink_time = datetime.fromisoformat(stored["last_drink_time"])
                 if self.last_drink_time.tzinfo is None:
-                    self.last_drink_time = self.last_drink_time.replace(tzinfo=UTC)
+                    self.last_drink_time = self.last_drink_time.replace(tzinfo=timezone.utc)
                 
         self._prune_old_events()
         _LOGGER.debug("Loaded %d events for %s", len(self._events), self.person_name)
