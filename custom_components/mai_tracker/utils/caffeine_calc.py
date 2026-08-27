@@ -1,4 +1,4 @@
-﻿import math
+import math
 from datetime import datetime, timedelta
 from typing import List
 from ..models import CaffeineEvent

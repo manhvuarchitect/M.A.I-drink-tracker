@@ -4,6 +4,13 @@ Tất cả các thay đổi, tính năng mới và bản sửa lỗi của integ
 
 ---
 
+## [2026.08.27.b3] - 2026-08-27
+
+### 🐛 Sửa lỗi Encoding (Bug Fixes)
+- **Sửa lỗi không load được Config Flow do UTF-8 BOM (`unexpected character: line 1 column 1 (char 0)`)**: Loại bỏ hoàn toàn Byte Order Mark (BOM) khỏi các file `translations/en.json`, `translations/vi.json` và `strings.json`, đảm bảo file JSON thuần UTF-8 tương thích 100% với JSON parser của Home Assistant.
+
+---
+
 ## [2026.08.27.b2] - 2026-08-27
 
 ### 🐛 Sửa lỗi tương thích & Tối ưu (Bug Fixes & Improvements)
