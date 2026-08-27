@@ -1,3 +1,822 @@
-# Obfuscated Code for Protection
-import base64, zlib
-exec(zlib.decompress(base64.b64decode('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')).decode('utf-8'))
+﻿"""M.A.I Tracker data coordinator."""
+
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from datetime import UTC, datetime, timedelta
+import logging
+import math
+from typing import Any
+import uuid
+
+from homeassistant.core import HomeAssistant
+from homeassistant.helpers.storage import Store
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
+import homeassistant.util.dt as dt_util
+
+from .const import (
+    DEFAULT_ABSORPTION_TIME_MIN,
+    DEFAULT_HALF_LIFE_HOURS,
+    DEFAULT_SLEEP_SAFE_MG,
+    DOMAIN,
+    MAX_EVENT_AGE_MULTIPLIER,
+    STORAGE_KEY_PREFIX,
+    STORAGE_VERSION,
+)
+
+_LOGGER = logging.getLogger(__name__)
+
+SCAN_INTERVAL = timedelta(minutes=1)
+
+
+from .models import CaffeineEvent, MedicineEvent, CaffeineData
+from .utils.caffeine_calc import compute_current_mg, compute_peak_mg, compute_sleep_safe_at, compute_consumed_today_mg, compute_consumed_today_count
+from .utils.alcohol_calc import compute_current_bac, compute_drive_safe_at
+from .utils.date_helpers import local_midnight_utc
+
+# ---------------------------------------------------------------------------
+# Coordinator
+# ---------------------------------------------------------------------------
+
+
+class CaffeineCoordinator(DataUpdateCoordinator[CaffeineData]):
+    """Manages caffeine state for one person."""
+
+    def __init__(
+        self,
+        hass: HomeAssistant,
+        entry_id: str,
+        person_name: str,
+        half_life_hours: float = DEFAULT_HALF_LIFE_HOURS,
+        sleep_safe_mg: float = DEFAULT_SLEEP_SAFE_MG,
+        enable_absorption: bool = False,
+        absorption_time_min: float = DEFAULT_ABSORPTION_TIME_MIN,
+    ) -> None:
+        super().__init__(
+            hass,
+            logger=_LOGGER,
+            name=f"{DOMAIN}_{person_name}",
+            update_interval=SCAN_INTERVAL,
+        )
+        self.entry_id = entry_id
+        self.person_name = person_name
+        self.half_life_hours = half_life_hours
+        self.sleep_safe_mg = sleep_safe_mg
+        self.enable_absorption = enable_absorption
+        self.absorption_time_min = absorption_time_min
+        self.weight_kg = 65.0 # Updated via options
+        self.gender = "male" # Updated via options
+        self._store: Store = Store(
+            hass, STORAGE_VERSION, f"{STORAGE_KEY_PREFIX}_{entry_id}"
+        )
+        self._events: list[CaffeineEvent] = []
+        self._alcohol_events: list[CaffeineEvent] = []
+        self._medicines: list[MedicineEvent] = []
+        self._caffeine_history: list[dict[str, Any]] = []
+        self.water_total: float = 0.0
+        self.drinks_total: dict[str, float] = {}
+        self._fired_medicines: set[str] = set()
+        
+        self.aggregated_heart_rate: float | None = None
+        self.aggregated_steps: int = 0
+        self._last_step_values: dict[str, float] = {}
+        self.last_drink_time: datetime | None = None
+        # Medicine actionable reminders: dict mapping unique_key to { "name": med_name, "user_1": notify_1, "user_2": notify_2, "fired_at": datetime, "level": 1, "task": CancelableCallback }
+        self.active_med_reminders: dict[str, dict[str, Any]] = {}
+        self.last_bio_sync: datetime | None = None
+
+    async def async_load(self) -> None:
+        """Load persisted events from storage."""
+        stored = await self._store.async_load()
+        if stored:
+            if "events" in stored:
+                self._events = [CaffeineEvent.from_dict(e) for e in stored["events"]]
+            if "alcohol_events" in stored:
+                self._alcohol_events = [CaffeineEvent.from_dict(e) for e in stored["alcohol_events"]]
+            if "medicines" in stored:
+                self._medicines = [MedicineEvent.from_dict(e) for e in stored["medicines"]]
+            if "caffeine_history" in stored:
+                self._caffeine_history = stored["caffeine_history"]
+            
+            today = datetime.now().strftime("%Y-%m-%d")
+            if stored.get("date") == today:
+                self.water_total = float(stored.get("water_total", 0.0))
+                self.drinks_total = stored.get("drinks_total", {})
+            else:
+                # If a new day started while HA was off, push yesterday's total to history
+                last_date = stored.get("date")
+                last_total = float(stored.get("last_consumed_today_mg", 0.0))
+                if last_date and last_total > 0:
+                    self._caffeine_history.append({"date": last_date, "mg": last_total})
+                    if len(self._caffeine_history) > 5:
+                        self._caffeine_history.pop(0)
+                self.water_total = 0.0
+                self.drinks_total = {}
+                self.aggregated_steps = 0
+                self._last_step_values = {}
+                
+            # Load stored steps if available
+            self.aggregated_steps = int(stored.get("aggregated_steps", self.aggregated_steps))
+            self._last_step_values = stored.get("last_step_values", self._last_step_values)
+            if stored.get("last_drink_time"):
+                self.last_drink_time = datetime.fromisoformat(stored["last_drink_time"])
+                if self.last_drink_time.tzinfo is None:
+                    self.last_drink_time = self.last_drink_time.replace(tzinfo=UTC)
+                
+        self._prune_old_events()
+        _LOGGER.debug("Loaded %d events for %s", len(self._events), self.person_name)
+
+    async def _async_save(self) -> None:
+        today = datetime.now().strftime("%Y-%m-%d")
+        now = dt_util.utcnow()
+        midnight = local_midnight_utc(now)
+        today_mg = compute_consumed_today_mg(self._events, midnight)
+        
+        await self._store.async_save({
+            "events": [e.to_dict() for e in self._events],
+            "alcohol_events": [e.to_dict() for e in self._alcohol_events],
+            "medicines": [e.to_dict() for e in self._medicines],
+            "caffeine_history": self._caffeine_history,
+            "water_total": self.water_total,
+            "drinks_total": self.drinks_total,
+            "date": today,
+            "last_consumed_today_mg": today_mg,
+            "aggregated_steps": self.aggregated_steps,
+            "last_step_values": self._last_step_values,
+            "last_drink_time": self.last_drink_time.isoformat() if self.last_drink_time else None
+        })
+
+    def _prune_old_events(self) -> None:
+        cutoff = dt_util.utcnow() - timedelta(
+            hours=MAX_EVENT_AGE_MULTIPLIER * self.half_life_hours
+        )
+        before = len(self._events)
+        self._events = [e for e in self._events if e.timestamp > cutoff]
+        pruned = before - len(self._events)
+        if pruned:
+            _LOGGER.debug("Pruned %d stale events for %s", pruned, self.person_name)
+
+    async def _async_update_data(self) -> CaffeineData:
+        self._prune_old_events()
+        now = dt_util.utcnow()
+        abs_min = self.absorption_time_min if self.enable_absorption else 0.0
+        current = compute_current_mg(self._events, self.half_life_hours, now, abs_min)
+        midnight = local_midnight_utc(now)
+        today_mg = compute_consumed_today_mg(self._events, midnight)
+        today_count = compute_consumed_today_count(self._events, midnight)
+
+        today_str = datetime.now().strftime("%Y-%m-%d")
+        stored = await self._store.async_load()
+        if stored and stored.get("date") != today_str:
+            # Auto-clear trigger
+            last_date = stored.get("date")
+            last_total = float(stored.get("last_consumed_today_mg", 0.0))
+            if last_date and last_total > 0:
+                self._caffeine_history.append({"date": last_date, "mg": last_total})
+                if len(self._caffeine_history) > 5:
+                    self._caffeine_history.pop(0)
+            self.water_total = 0.0
+            self.drinks_total = {}
+            self.aggregated_steps = 0
+            self._last_step_values = {}
+            self.last_drink_time = None
+            await self._async_save()
+
+        # Compute BAC
+        entry = self.hass.config_entries.async_get_entry(self.entry_id)
+        if entry:
+            self.weight_kg = float(entry.options.get("weight_kg", entry.data.get("weight_kg", 65.0)))
+            self.gender = entry.options.get("gender", entry.data.get("gender", "male"))
+            
+            # Bio Sensors Aggregation
+            hr_sensors = entry.options.get("heart_rate_sensors", [])
+            if isinstance(hr_sensors, str): hr_sensors = [hr_sensors] if hr_sensors else []
+            step_sensors = entry.options.get("step_sensors", [])
+            if isinstance(step_sensors, str): step_sensors = [step_sensors] if step_sensors else []
+            weight_sensor = entry.options.get("weight_sensor", "")
+            
+            # Auto Sync Phone Companion Sensors (wake up phone)
+            sync_interval_mins = int(entry.options.get("bio_sync_interval", entry.data.get("bio_sync_interval", 60)))
+            local_now_check = dt_util.as_local(now)
+            if sync_interval_mins > 0 and 7 <= local_now_check.hour < 22:
+                # Check if it's time to sync
+                should_sync = False
+                if self.last_bio_sync is None:
+                    should_sync = True
+                else:
+                    elapsed_sync = (now - self.last_bio_sync).total_seconds() / 60.0
+                    if elapsed_sync >= sync_interval_mins:
+                        should_sync = True
+                
+                if should_sync:
+                    self.last_bio_sync = now
+                    entities_to_update = []
+                    entities_to_update.extend(hr_sensors)
+                    entities_to_update.extend(step_sensors)
+                    for i in range(1, 4):
+                        for k in ("sleep_score", "sleep_duration", "sleep_deep", "sleep_rem", "sleep_light", "sleep_awake", "sleep_efficiency", "sleep_state"):
+                            sid = entry.options.get(f"wearable_{i}_{k}", entry.data.get(f"wearable_{i}_{k}", ""))
+                            if sid:
+                                entities_to_update.append(sid)
+                    if weight_sensor:
+                        entities_to_update.append(weight_sensor)
+                        
+                    entities_to_update = [e for e in entities_to_update if e]
+                    if entities_to_update:
+                        _LOGGER.info("M.A.I Tracker: Auto-syncing phone companion sensors: %s", entities_to_update)
+                        self.hass.async_create_task(
+                            self.hass.services.async_call(
+                                "homeassistant",
+                                "update_entity",
+                                {"entity_id": entities_to_update},
+                                blocking=False
+                            )
+                        )
+
+            # 1. Weight Sensor Auto-update
+            if weight_sensor:
+                w_state = self.hass.states.get(weight_sensor)
+                if w_state and w_state.state not in ("unknown", "unavailable"):
+                    try:
+                        w_val = float(w_state.state)
+                        if 30.0 <= w_val <= 200.0:
+                            self.weight_kg = w_val
+                    except ValueError:
+                        pass
+
+            # 2. Heart Rate Fallback Aggregation
+            best_hr = None
+            best_time = None
+            for sensor_id in hr_sensors:
+                state_obj = self.hass.states.get(sensor_id)
+                if state_obj and state_obj.state not in ("unknown", "unavailable"):
+                    try:
+                        hr_val = float(state_obj.state)
+                        if 30 <= hr_val <= 220:
+                            if not best_time or state_obj.last_updated > best_time:
+                                best_time = state_obj.last_updated
+                                best_hr = hr_val
+                    except ValueError:
+                        pass
+            self.aggregated_heart_rate = round(best_hr, 1) if best_hr is not None else None
+
+            # 3. Step Delta Summation
+            max_delta = 0.0
+            for sensor_id in step_sensors:
+                state_obj = self.hass.states.get(sensor_id)
+                if state_obj and state_obj.state not in ("unknown", "unavailable"):
+                    try:
+                        current_val = float(state_obj.state)
+                        last_val = self._last_step_values.get(sensor_id, current_val)
+                        delta = current_val - last_val
+                        if delta > 0:
+                            if delta > max_delta:
+                                max_delta = delta
+                        elif delta < -1000:
+                            # Sensor reset (e.g. at midnight for a daily step tracker)
+                            pass 
+                        self._last_step_values[sensor_id] = current_val
+                    except ValueError:
+                        pass
+            
+            if max_delta > 0:
+                self.aggregated_steps += int(max_delta)
+                # Auto-hydrate: add 50ml per 1000 steps
+                water_to_add = (int(max_delta) / 1000.0) * 50.0
+                self.water_total += water_to_add
+                _LOGGER.debug("Added %d steps, compensated %.1f ml water", int(max_delta), water_to_add)
+
+            # 4. Sleep Metrics Aggregation from Wearables
+            best_sleep_score = None
+            best_sleep_duration = None
+            best_sleep_deep = None
+            best_sleep_rem = None
+            best_sleep_light = None
+            best_sleep_awake = None
+            best_sleep_efficiency = None
+            best_sleep_state = None
+            best_sleep_wearable = None
+
+            # First pass: check wearable with on_body == 'on'
+            active_wearable_idx = None
+            for i in range(1, 4):
+                on_body_entity = entry.options.get(f"wearable_{i}_on_body", entry.data.get(f"wearable_{i}_on_body", ""))
+                if on_body_entity:
+                    ob_state = self.hass.states.get(on_body_entity)
+                    if ob_state and ob_state.state in ("on", "true", "1"):
+                        active_wearable_idx = i
+                        break
+
+            target_indices = [active_wearable_idx] if active_wearable_idx else [1, 2, 3]
+
+            for i in target_indices:
+                w_name = entry.options.get(f"wearable_{i}_name", entry.data.get(f"wearable_{i}_name", f"Wearable {i}"))
+
+                # Sleep Score
+                score_id = entry.options.get(f"wearable_{i}_sleep_score", entry.data.get(f"wearable_{i}_sleep_score", ""))
+                if score_id:
+                    s_obj = self.hass.states.get(score_id)
+                    if s_obj and s_obj.state not in ("unknown", "unavailable"):
+                        try:
+                            val = float(s_obj.state)
+                            if best_sleep_score is None:
+                                best_sleep_score = val
+                                best_sleep_wearable = w_name
+                        except ValueError:
+                            pass
+
+                # Sleep Duration
+                dur_id = entry.options.get(f"wearable_{i}_sleep_duration", entry.data.get(f"wearable_{i}_sleep_duration", ""))
+                if dur_id:
+                    s_obj = self.hass.states.get(dur_id)
+                    if s_obj and s_obj.state not in ("unknown", "unavailable"):
+                        try:
+                            val = float(s_obj.state)
+                            if best_sleep_duration is None:
+                                best_sleep_duration = val
+                                if not best_sleep_wearable:
+                                    best_sleep_wearable = w_name
+                        except ValueError:
+                            pass
+
+                # Deep Sleep
+                deep_id = entry.options.get(f"wearable_{i}_sleep_deep", entry.data.get(f"wearable_{i}_sleep_deep", ""))
+                if deep_id:
+                    s_obj = self.hass.states.get(deep_id)
+                    if s_obj and s_obj.state not in ("unknown", "unavailable"):
+                        try:
+                            val = float(s_obj.state)
+                            if best_sleep_deep is None:
+                                best_sleep_deep = val
+                        except ValueError:
+                            pass
+
+                # REM Sleep
+                rem_id = entry.options.get(f"wearable_{i}_sleep_rem", entry.data.get(f"wearable_{i}_sleep_rem", ""))
+                if rem_id:
+                    s_obj = self.hass.states.get(rem_id)
+                    if s_obj and s_obj.state not in ("unknown", "unavailable"):
+                        try:
+                            val = float(s_obj.state)
+                            if best_sleep_rem is None:
+                                best_sleep_rem = val
+                        except ValueError:
+                            pass
+
+                # Light Sleep
+                light_id = entry.options.get(f"wearable_{i}_sleep_light", entry.data.get(f"wearable_{i}_sleep_light", ""))
+                if light_id:
+                    s_obj = self.hass.states.get(light_id)
+                    if s_obj and s_obj.state not in ("unknown", "unavailable"):
+                        try:
+                            val = float(s_obj.state)
+                            if best_sleep_light is None:
+                                best_sleep_light = val
+                        except ValueError:
+                            pass
+
+                # Awake Time
+                awake_id = entry.options.get(f"wearable_{i}_sleep_awake", entry.data.get(f"wearable_{i}_sleep_awake", ""))
+                if awake_id:
+                    s_obj = self.hass.states.get(awake_id)
+                    if s_obj and s_obj.state not in ("unknown", "unavailable"):
+                        try:
+                            val = float(s_obj.state)
+                            if best_sleep_awake is None:
+                                best_sleep_awake = val
+                        except ValueError:
+                            pass
+
+                # Sleep Efficiency
+                eff_id = entry.options.get(f"wearable_{i}_sleep_efficiency", entry.data.get(f"wearable_{i}_sleep_efficiency", ""))
+                if eff_id:
+                    s_obj = self.hass.states.get(eff_id)
+                    if s_obj and s_obj.state not in ("unknown", "unavailable"):
+                        try:
+                            val = float(s_obj.state)
+                            if best_sleep_efficiency is None:
+                                best_sleep_efficiency = val
+                        except ValueError:
+                            pass
+
+                # Sleep State
+                state_id = entry.options.get(f"wearable_{i}_sleep_state", entry.data.get(f"wearable_{i}_sleep_state", ""))
+                if state_id:
+                    s_obj = self.hass.states.get(state_id)
+                    if s_obj and s_obj.state not in ("unknown", "unavailable"):
+                        if best_sleep_state is None:
+                            best_sleep_state = str(s_obj.state)
+
+            # Medicine Scheduler Logic
+            local_now = dt_util.as_local(now)
+            current_time_str = local_now.strftime("%H:%M:%S")
+            # If TimeSelector doesn't use seconds, we can match prefix
+            current_time_short = local_now.strftime("%H:%M")
+            today_date_str = local_now.strftime("%Y-%m-%d")
+            
+            for i in range(1, 11):
+                med_name = entry.options.get(f"medicine_{i}_name", "").strip()
+                med_time = entry.options.get(f"medicine_{i}_time", "").strip()
+                if not med_name or not med_time: continue
+                
+                # HA time selector usually returns 'HH:MM:SS' or 'HH:MM'
+                if current_time_str == med_time or current_time_short == med_time or med_time.startswith(current_time_short):
+                    fire_key = f"{today_date_str}_{med_name}_{med_time}"
+                    if fire_key not in self._fired_medicines:
+                        self._fired_medicines.add(fire_key)
+                        
+                        notify_target = entry.options.get(f"medicine_{i}_notify", "")
+                        notify_secondary = entry.options.get(f"medicine_{i}_notify_secondary", "")
+                        tts_target = entry.options.get(f"medicine_{i}_tts", "")
+                        
+                        # Send TTS
+                        if tts_target:
+                            msg = f"Đã đến giờ uống thuốc {med_name}. Bạn hãy kiểm tra điện thoại để xác nhận nhé!"
+                            self.hass.async_create_task(
+                                self.hass.services.async_call("tts", "cloud_say", {
+                                    "entity_id": tts_target,
+                                    "message": msg
+                                }, blocking=False)
+                            )
+                            
+                        # Send Actionable Notification Lớp 1 tới User 1
+                        if notify_target:
+                            target_service = notify_target.replace("notify.", "")
+                            # Unique key identifies this reminder session
+                            reminder_key = f"{self.entry_id}_{med_name}_{today_date_str}_{med_time.replace(':', '_')}"
+                            
+                            # Store in active reminders
+                            self.active_med_reminders[reminder_key] = {
+                                "name": med_name,
+                                "user_1": notify_target,
+                                "user_2": notify_secondary,
+                                "fired_at": now,
+                                "level": 1,
+                                "key": reminder_key,
+                                "i": i
+                            }
+                            
+                            action_confirm = f"MAIT_MED_CONFIRM_{reminder_key}"
+                            action_snooze = f"MAIT_MED_SNOOZE_{reminder_key}"
+                            
+                            self.hass.async_create_task(
+                                self.hass.services.async_call("notify", target_service, {
+                                    "message": f"Đến giờ uống thuốc {med_name} rồi sếp! Vui lòng xác nhận.",
+                                    "title": "Nhắc nhở Uống Thuốc 💊",
+                                    "data": {
+                                        "actions": [
+                                            {
+                                                "action": action_confirm,
+                                                "title": "Đã uống"
+                                            },
+                                            {
+                                                "action": action_snooze,
+                                                "title": "Nhắc lại sau 15 phút"
+                                            }
+                                        ]
+                                    }
+                                }, blocking=False)
+                            )
+
+            # Auto reminder Snooze & Escalation Logic (run on every scan interval)
+            keys_to_delete = []
+            for r_key, reminder in list(self.active_med_reminders.items()):
+                fired_at = reminder["fired_at"]
+                elapsed_seconds = (now - fired_at).total_seconds()
+                
+                # Level 1 -> Level 2: if 15 minutes elapsed and user didn't confirm
+                if reminder["level"] == 1 and elapsed_seconds >= 900:  # 15 minutes
+                    reminder["level"] = 2
+                    reminder["fired_at"] = now  # Reset time for Level 2
+                    user1_service = reminder["user_1"].replace("notify.", "")
+                    
+                    action_confirm = f"MAIT_MED_CONFIRM_{r_key}"
+                    action_not_taken = f"MAIT_MED_NOTTAKEN_{r_key}"
+                    
+                    self.hass.async_create_task(
+                        self.hass.services.async_call("notify", user1_service, {
+                            "message": f"Bạn vẫn chưa xác nhận uống thuốc {reminder['name']}. Vui lòng xác nhận tình trạng.",
+                            "title": "Cảnh báo Nhắc Thuốc (Lần 2) 💊",
+                            "data": {
+                                "actions": [
+                                    {
+                                        "action": action_confirm,
+                                        "title": "Đã uống"
+                                    },
+                                    {
+                                        "action": action_not_taken,
+                                        "title": "Chưa uống"
+                                    }
+                                ]
+                            }
+                        }, blocking=False)
+                    )
+                
+                # Level 2 Escalation: if 15 minutes elapsed since Level 2 (total 30 mins) with no response
+                elif reminder["level"] == 2 and elapsed_seconds >= 900:  # another 15 minutes
+                    keys_to_delete.append(r_key)
+                    # Escalate to User 2 if configured
+                    if reminder["user_2"]:
+                        user2_service = reminder["user_2"].replace("notify.", "")
+                        self.hass.async_create_task(
+                            self.hass.services.async_call("notify", user2_service, {
+                                "message": f"Cảnh báo: {self.person_name} đã quá giờ uống thuốc {reminder['name']} 30 phút nhưng hoàn toàn không phản hồi. Vui lòng liên hệ nhắc nhở!",
+                                "title": "Giám sát Nhắc Thuốc 🚨"
+                            }, blocking=False)
+                        )
+            
+            for r_key in keys_to_delete:
+                if r_key in self.active_med_reminders:
+                    del self.active_med_reminders[r_key]
+
+            # Water Reminder Logic
+            # Only remind between 07:00 and 21:00 local time
+            if 7 <= local_now.hour < 21:
+                reminder_interval = float(entry.options.get("water_reminder_interval", entry.data.get("water_reminder_interval", 120.0)))
+                if reminder_interval > 0:
+                    last_time = self.last_drink_time or midnight # fallback to midnight if no drink yet today
+                    elapsed_minutes = (now - last_time).total_seconds() / 60.0
+                    
+                    # We check if we crossed a multiple of reminder_interval in the last minute (to avoid spamming every scan)
+                    # For example, if elapsed_minutes is between reminder_interval and reminder_interval + 1.2 minutes
+                    if reminder_interval <= elapsed_minutes < reminder_interval + 1.2:
+                        hours_elapsed = round(elapsed_minutes / 60.0, 1)
+                        if hours_elapsed.is_integer():
+                            hours_str = str(int(hours_elapsed))
+                        else:
+                            hours_str = str(hours_elapsed)
+                            
+                        # Get targets
+                        raw_targets = entry.options.get("notify_target", [])
+                        if isinstance(raw_targets, str):
+                            notify_targets = [raw_targets] if raw_targets else []
+                        else:
+                            notify_targets = list(raw_targets)
+
+                        notify_target_2 = entry.options.get("notify_target_2", "")
+                        notify_target_3 = entry.options.get("notify_target_3", "")
+                        if notify_target_2 and notify_target_2 not in notify_targets:
+                            notify_targets.append(notify_target_2)
+                        if notify_target_3 and notify_target_3 not in notify_targets:
+                            notify_targets.append(notify_target_3)
+
+                        raw_mgmt = entry.options.get("notify_target_management", [])
+                        if isinstance(raw_mgmt, str):
+                            notify_targets_mgmt = [raw_mgmt] if raw_mgmt else []
+                        else:
+                            notify_targets_mgmt = list(raw_mgmt)
+
+                        tts_target = entry.options.get("tts_target", "")
+                        
+                        # Send TTS
+                        if tts_target:
+                            tts_msg_tpl = entry.options.get("water_reminder_tts", "Sếp ơi, đã {hours} tiếng trôi qua sếp chưa uống thêm nước. Sếp hãy uống một cốc nước lọc nhé!")
+                            self.hass.async_create_task(
+                                self.hass.services.async_call("tts", "cloud_say", {
+                                    "entity_id": tts_target,
+                                    "message": tts_msg_tpl.replace("{hours}", hours_str)
+                                }, blocking=False)
+                            )
+                            
+                        # Send Notify to Personal Targets (with Actionable Buttons)
+                        notify_msg_tpl = entry.options.get("water_reminder_notify", "Đã {hours} tiếng bạn chưa uống thêm nước. Uống nước đi nhé!")
+                        message = notify_msg_tpl.replace("{hours}", hours_str)
+                        for nt in notify_targets:
+                            if nt:
+                                target_service = nt.replace("notify.", "")
+                                action_250 = f"MAIT_WATER_LOG_{self.entry_id}_250"
+                                action_350 = f"MAIT_WATER_LOG_{self.entry_id}_350"
+                                self.hass.async_create_task(
+                                    self.hass.services.async_call("notify", target_service, {
+                                        "message": message,
+                                        "title": "Nhắc nhở uống nước 💧",
+                                        "data": {
+                                            "actions": [
+                                                {
+                                                    "action": action_250,
+                                                    "title": "Đã uống 250ml"
+                                                },
+                                                {
+                                                    "action": action_350,
+                                                    "title": "Đã uống 350ml"
+                                                }
+                                            ]
+                                        }
+                                    }, blocking=False)
+                                )
+
+                        # Send Notify to Management Targets
+                        notify_msg_tpl_mgmt = entry.options.get("water_reminder_notify_management", "Đã {hours} tiếng {person_name} chưa uống thêm nước.")
+                        message_mgmt = notify_msg_tpl_mgmt.replace("{hours}", hours_str).replace("{person_name}", self.person_name)
+                        for nt in notify_targets_mgmt:
+                            if nt:
+                                target_service = nt.replace("notify.", "")
+                                self.hass.async_create_task(
+                                    self.hass.services.async_call("notify", target_service, {
+                                        "message": message_mgmt,
+                                        "title": "Nhắc nhở uống nước 💧"
+                                    }, blocking=False)
+                                )
+
+        bac = compute_current_bac(self._alcohol_events, self.weight_kg, self.gender, now)
+        drive_safe = compute_drive_safe_at(bac, now)
+
+        if self.enable_absorption:
+            peak = compute_peak_mg(
+                self._events, self.half_life_hours, self.absorption_time_min, now
+            )
+            # Use peak for sleep safety — level may still be rising
+            safe_at = compute_sleep_safe_at(
+                peak, self.half_life_hours, self.sleep_safe_mg, now
+            )
+        else:
+            peak = None
+            safe_at = compute_sleep_safe_at(
+                current, self.half_life_hours, self.sleep_safe_mg, now
+            )
+
+        return CaffeineData(
+            current_mg=round(current, 1),
+            consumed_today_mg=round(today_mg, 1),
+            consumed_today_count=today_count,
+            sleep_safe_at=safe_at,
+            peak_mg=round(peak, 1) if peak is not None else None,
+            events=list(self._events),
+            water_total=round(self.water_total, 1),
+            drinks_total=dict(self.drinks_total),
+            alcohol_events=list(self._alcohol_events),
+            medicines=list(self._medicines),
+            caffeine_history=list(self._caffeine_history),
+            current_bac=round(bac, 4),
+            drive_safe_at=drive_safe,
+            aggregated_heart_rate=self.aggregated_heart_rate,
+            aggregated_steps=self.aggregated_steps,
+            last_drink_time=self.last_drink_time,
+            sleep_score=round(best_sleep_score, 1) if best_sleep_score is not None else None,
+            sleep_duration=round(best_sleep_duration, 2) if best_sleep_duration is not None else None,
+            sleep_deep=round(best_sleep_deep, 2) if best_sleep_deep is not None else None,
+            sleep_rem=round(best_sleep_rem, 2) if best_sleep_rem is not None else None,
+            sleep_light=round(best_sleep_light, 2) if best_sleep_light is not None else None,
+            sleep_awake=round(best_sleep_awake, 2) if best_sleep_awake is not None else None,
+            sleep_efficiency=round(best_sleep_efficiency, 1) if best_sleep_efficiency is not None else None,
+            sleep_state=best_sleep_state,
+            sleep_wearable_name=best_sleep_wearable,
+            sleep_attributes={
+                "device": best_sleep_wearable,
+                "score": best_sleep_score,
+                "duration": best_sleep_duration,
+                "deep": best_sleep_deep,
+                "rem": best_sleep_rem,
+                "light": best_sleep_light,
+                "awake": best_sleep_awake,
+                "efficiency": best_sleep_efficiency,
+                "state": best_sleep_state,
+            } if best_sleep_wearable else {},
+        )
+
+    # ------------------------------------------------------------------
+    # Service handlers (called by sensor entity methods)
+    # ------------------------------------------------------------------
+
+    async def async_log_drink(
+        self,
+        loai: str,
+        luong_ml: float,
+        timestamp: datetime | None = None,
+    ) -> str | None:
+        """Log a drink, update water and add caffeine event if any."""
+        from .const import DRINK_TYPES
+        if loai not in DRINK_TYPES:
+            _LOGGER.warning("Unknown drink type: %s", loai)
+            return None
+            
+        cfg = DRINK_TYPES[loai]
+        
+        # Medicine interaction check
+        now = timestamp or dt_util.utcnow()
+        if cfg["caffeine_per_100ml"] > 0:
+            for med in self._medicines:
+                if med.med_type in ["iron", "antibiotic"] and (now - med.timestamp).total_seconds() < 7200:
+                    _LOGGER.warning("Interaction alert: %s taken within 2 hours of caffeine!", med.name)
+                    self.hass.components.persistent_notification.async_create(
+                        f"Cảnh báo: Bạn vừa uống {med.name} cách đây chưa tới 2 tiếng. Uống Cafe/Trà bây giờ sẽ làm mất tác dụng của thuốc!",
+                        title="M.A.I Tracker Cảnh báo Y tế ⚠️"
+                    )
+
+        water_delta = luong_ml * cfg["water_ratio"]
+        self.water_total += water_delta
+        self.drinks_total[loai] = self.drinks_total.get(loai, 0.0) + luong_ml
+        self.last_drink_time = now
+        
+        caffeine_delta = (luong_ml / 100.0) * cfg["caffeine_per_100ml"]
+        
+        event_id = None
+        if caffeine_delta != 0:
+            event = CaffeineEvent(
+                id=str(uuid.uuid4()),
+                timestamp=now,
+                mg=caffeine_delta,
+                label=cfg["name"],
+            )
+            self._events.append(event)
+            event_id = event.id
+            _LOGGER.info("Logged %.0f mg (%s) for %s", caffeine_delta, cfg["name"], self.person_name)
+
+        alcohol_abv = cfg.get("alcohol_abv", 0.0)
+        alcohol_grams = luong_ml * alcohol_abv * 0.789
+        if alcohol_grams != 0:
+            event = CaffeineEvent(
+                id=str(uuid.uuid4()),
+                timestamp=now,
+                mg=alcohol_grams,
+                label=cfg["name"] + " (Alcohol)",
+            )
+            self._alcohol_events.append(event)
+
+        await self._async_save()
+        await self.async_refresh()
+        return event_id
+
+    async def async_log_medicine(
+        self,
+        name: str,
+        med_type: str,
+        reminder_time: datetime | None = None,
+        timestamp: datetime | None = None,
+    ) -> None:
+        """Log a medicine event."""
+        now = timestamp or dt_util.utcnow()
+        event = MedicineEvent(
+            id=str(uuid.uuid4()),
+            name=name,
+            med_type=med_type,
+            timestamp=now,
+            reminder_time=reminder_time,
+        )
+        self._medicines.append(event)
+        
+        # Keep only the last 20 medicines
+        if len(self._medicines) > 20:
+            self._medicines = self._medicines[-20:]
+            
+        await self._async_save()
+        await self.async_refresh()
+        _LOGGER.info("Logged medicine %s for %s", name, self.person_name)
+
+    async def async_set_water_total(self, value: float) -> None:
+        """Manually set the total water."""
+        self.water_total = value
+        await self._async_save()
+        await self.async_refresh()
+        _LOGGER.info("Manually set water total to %.0f ml for %s", value, self.person_name)
+
+    async def async_remove_last(self) -> bool:
+        """Remove the most recent event. Returns True if an event was removed."""
+        if not self._events:
+            return False
+        self._events.sort(key=lambda e: e.timestamp)
+        removed = self._events.pop()
+        await self._async_save()
+        await self.async_refresh()
+        _LOGGER.info(
+            "Removed last event (%s %.0f mg) for %s",
+            removed.label,
+            removed.mg,
+            self.person_name,
+        )
+        return True
+
+    async def async_remove_by_id(self, event_id: str) -> bool:
+        """Remove an event by ID. Returns True if found and removed."""
+        original = len(self._events)
+        self._events = [e for e in self._events if e.id != event_id]
+        if len(self._events) == original:
+            return False
+        await self._async_save()
+        await self.async_refresh()
+        _LOGGER.info("Removed event %s for %s", event_id, self.person_name)
+        return True
+
+    async def async_clear_today(self) -> None:
+        """Remove all events from today (local time)."""
+        now = dt_util.utcnow()
+        midnight = local_midnight_utc(now)
+        
+        # Push to history before clearing
+        today_mg = compute_consumed_today_mg(self._events, midnight)
+        today_str = dt_util.as_local(now).strftime("%Y-%m-%d")
+        if today_mg > 0:
+            self._caffeine_history.append({"date": today_str, "mg": today_mg})
+            if len(self._caffeine_history) > 5:
+                self._caffeine_history.pop(0)
+                
+        self._events = [e for e in self._events if e.timestamp < midnight]
+        self._alcohol_events = [e for e in self._alcohol_events if e.timestamp < midnight]
+        self.water_total = 0.0
+        self.drinks_total = {}
+        self.aggregated_steps = 0
+        self._last_step_values = {}
+        self.last_drink_time = None
+        await self._async_save()
+        await self.async_refresh()
+        _LOGGER.info("Cleared today's events and water for %s", self.person_name)

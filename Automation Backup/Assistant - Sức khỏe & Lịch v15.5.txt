@@ -1,0 +1,452 @@
+alias: >-
+  Assistant - Sức khỏe & Lịch v15.5 (Tích hợp Lịch tự động & Cảm biến M.A.I
+  Tracker)
+description: >-
+  Đồng bộ hóa đầy đủ danh sách Lịch động & Nhận diện đúng các thực thể M.A.I
+  Tracker v2.2.26
+triggers:
+  - trigger: time_pattern
+    minutes: /1
+conditions:
+  - alias: "Bộ lọc thông minh: Giờ giấc & Trạng thái làm việc"
+    condition: and
+    conditions:
+      - alias: Kiểm tra giờ hành chính hoặc đang làm việc
+        condition: or
+        conditions:
+          - condition: template
+            value_template: |-
+              {{ (now().hour >= 7 and now().hour < 23) or
+                 (now().hour == 23 and now().minute <= 45) }}
+          - condition: template
+            value_template: |-
+              {{ (states('sensor.ma_pc_power') | float(0) > 30) or
+                  is_state('binary_sensor.contact_sensor_door_2', 'on') }}
+      - condition: template
+        value_template: >-
+          {{ now().minute == states('input_number.random_minute_marker') |
+          float(0) | int(1) }}
+      - condition: template
+        value_template: >-
+          {{ now().hour != states('input_number.last_notified_hour_manhhome') |
+          float(0) | int(-1) }}
+actions:
+  - variables:
+      cac_lich_tong_hop: >-
+        {{ state_attr('sensor.mait_manhvuarchitect_last_medicine', 'calendars')
+        or [
+          'calendar.am_lich_viet_nam', 'calendar.manhvu_architect_gmail_com',
+          'calendar.marchinde_design', 'calendar.marchinde_build',
+          'calendar.marchinde_com_gmail_com', 'calendar.marchinde_store'
+        ] }}
+  - action: homeassistant.update_entity
+    target:
+      entity_id: "{{ cac_lich_tong_hop }}"
+  - delay: "00:00:02"
+  - action: calendar.get_events
+    target:
+      entity_id: "{{ cac_lich_tong_hop }}"
+    data:
+      start_date_time: "{{ now().strftime('%Y-%m-%d 00:00:00') }}"
+      end_date_time: "{{ now().strftime('%Y-%m-%d 23:59:59') }}"
+    response_variable: daily_agenda
+  - variables:
+      muc_tieu: 6000
+      buoc_chan: "{{ states('sensor.mait_manhvuarchitect_aggregated_steps') | int(0) }}"
+      wearables_config: >-
+        {{ state_attr('sensor.mait_manhvuarchitect_last_medicine', 'wearables')
+        or [] }}
+      low_battery_threshold: >-
+        {{ state_attr('sensor.mait_manhvuarchitect_last_medicine',
+        'low_battery_threshold') | int(15) }}
+      active_wearable: |-
+        {% set ns = namespace(found=none) %} {% for w in wearables_config %}
+          {% if w.on_body and states(w.on_body) in ['on', 'home'] %}
+            {% set ns.found = w %}
+          {% endif %}
+        {% endfor %} {{ ns.found }}
+      thiet_bi_on: "{{ active_wearable is not none }}"
+      ten_dong_ho: |-
+        {% if active_wearable is not none %}
+          {{ active_wearable.name or state_attr(active_wearable.on_body, 'friendly_name') | replace(' on body sensor', '') | replace(' On Body', '') | replace(' On-body', '') }}
+        {% else %}
+          đồng hồ
+        {% endif %}
+      nhip_tim: >-
+        {{ states('sensor.mait_manhvuarchitect_aggregated_heart_rate') | int(0)
+        }}
+      pin_dong_ho: |-
+        {% if active_wearable is not none and active_wearable.battery %}
+          {{ states(active_wearable.battery) | int(100) }}
+        {% else %}
+          100
+        {% endif %}
+      calo_tieu_thu: |-
+        {% set cal_watch = 0 %}
+        {% if active_wearable is not none and active_wearable.calories %}
+          {% set cal_watch = states(active_wearable.calories) | int(0) %}
+        {% endif %}
+        {% if cal_watch > 0 %}
+          {{ cal_watch }}
+        {% else %}
+          {{ (buoc_chan * 0.04) | int(0) }}
+        {% endif %}
+      caffeine_mg: "{{ states('sensor.mait_manhvuarchitect_consumed_today') | int(0) }}"
+      tra_ml: "{{ states('number.mait_manhvuarchitect_drink_tra') | int(0) }}"
+      ruou_ml: "{{ states('number.mait_manhvuarchitect_drink_ruou') | int(0) }}"
+      bia_ml: "{{ states('number.mait_manhvuarchitect_drink_bia') | int(0) }}"
+      nuoc_da_uong: "{{ states('number.mait_manhvuarchitect_water_today') | int(0) }}"
+      can_nang: "{{ states('sensor.mait_manhvuarchitect_weight') | float(0.0) }}"
+      hien_can_nang: >-
+        {{ can_nang > 0 and ((now().hour >= 7 and now().hour < 10) or
+        (now().hour >= 21)) }}
+      gio_ngu: >-
+        {% set st = states('sensor.mait_manhvuarchitect_sleep_safe_at') %} {%
+        set sleep_time = as_timestamp(st) if st not in ['unknown',
+        'unavailable', 'None'] else 0 %} {% if caffeine_mg > 0 and sleep_time >
+        0 %}
+          {{ sleep_time | timestamp_custom('%H giờ %M phút') }}
+        {% else %} ẩn {% endif %}
+      tg_ngoi_lau: >-
+        {% set kb = states.binary_sensor.contact_sensor_door_2 %} {{ kb is not
+        none and kb.state == 'on' and (now() - kb.last_changed).total_seconds()
+        > 3600 }}
+  - variables:
+      is_full_report: |-
+        {{ now().strftime('%H:%M') in
+           ['08:05','08:06','08:07','08:08','08:09','08:10',
+            '13:05','13:06','13:07','13:08','13:09','13:10']
+           or trigger is not defined }}
+      am_lich_hom_nay: >-
+        {% set ns = namespace(am="") %} {% for cal, content in
+        daily_agenda.items() if "am_lich" in cal and content.events is defined
+        %}
+          {% for ev in content.events %}
+            {% set parts = ev.summary.split('/') %}
+            {% set ns.am = "ngày " ~ parts[0] ~ " tháng " ~ parts[1] if parts | count >= 2 else ev.summary %}
+          {% endfor %}
+        {% endfor %} {{ ns.am }}
+      duong_lich_doc: "{{ \"ngày \" ~ now().strftime('%d') ~ \" tháng \" ~ now().strftime('%m') }}"
+      upcoming_events: >-
+        {% set ns = namespace(evs=[]) %} {% for cal, content in
+        daily_agenda.items() if "am_lich" not in cal and content.events is
+        defined %}
+          {% for ev in content.events if ev.start is string and "T" in ev.start %}
+            {% set start_ts = as_timestamp(ev.start) %}
+            {% set now_ts = as_timestamp(now()) %}
+            {% if (start_ts - now_ts) > 0 and (start_ts - now_ts) <= 7200 %}
+              {% set ns.evs = ns.evs + [ev] %}
+            {% endif %}
+          {% endfor %}
+        {% endfor %} {{ ns.evs }}
+      lich_speech: >-
+        {% set ns = namespace(txt="") %} {% set list_to_read =
+        daily_agenda.values()
+             | map(attribute='events') | select('defined') | sum(start=[])
+           if is_full_report else upcoming_events %}
+        {% set filtered = list_to_read
+             | selectattr('start', 'defined')
+             | rejectattr('summary', 'search', '/')
+             | sort(attribute='start') | list %}
+
+        {% if upcoming_events | count > 0 and not is_full_report %}
+          {% set ns.txt = "Phát hiện sự kiện sắp diễn ra trong 2 giờ tới. " %}
+        {% endif %}
+
+        {% for ev in filtered %}
+          {% if ev.start is string and "T" in ev.start %}
+            {% set ts = as_timestamp(ev.start) %}
+            {% set h = ts | timestamp_custom('%H') | int %}
+            {% set m = ts | timestamp_custom('%M') | int %}
+            {% set h12 = h if h <= 12 else h - 12 %}
+            {% set p = " rưỡi" if m == 30 else ("" if m == 0 else " " ~ m) %}
+            {% set b = " sáng" if h < 11 else (" chiều" if h >= 13 else (" trưa" if h == 12 else "")) %}
+            {% set time_str = h12 ~ " giờ" ~ p ~ b %}
+            {% if loop.first %}
+              {% set ns.txt = ns.txt ~ "Bắt đầu vào lúc " ~ time_str ~ " là: " ~ ev.summary ~ ". " %}
+            {% elif loop.last %}
+              {% set ns.txt = ns.txt ~ "Cuối cùng, vào lúc " ~ time_str ~ " anh có: " ~ ev.summary ~ ". " %}
+            {% else %}
+              {% set phrase = ["Tiếp theo, lúc ", "Vào khoảng ", "Ngay sau đó, lúc ", "Lịch trình tiếp nối với sự kiện lúc "] | random %}
+              {% set ns.txt = ns.txt ~ phrase ~ time_str ~ ": " ~ ev.summary ~ ". " %}
+            {% endif %}
+          {% elif is_full_report %}
+            {% set ns.txt = ns.txt ~ "Sự kiện cả ngày ghi nhận: " ~ ev.summary ~ ". " %}
+          {% endif %}
+        {% endfor %} {{ ns.txt }}
+      next_event_tts: |-
+        {% set ns = namespace(ev=none) %} {% if is_full_report %}
+          {% set pool = daily_agenda.values()
+               | map(attribute='events') | select('defined') | sum(start=[])
+               | selectattr('start', 'defined')
+               | rejectattr('summary', 'search', '/')
+               | sort(attribute='start') | list %}
+          {% for ev in pool if ev.start is string and "T" in ev.start %}
+            {% if ns.ev is none and as_timestamp(ev.start) > as_timestamp(now()) %}
+              {% set ns.ev = ev %}
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          {% set pool = upcoming_events
+               | selectattr('start', 'defined')
+               | rejectattr('summary', 'search', '/')
+               | sort(attribute='start') | list %}
+          {% if pool | count > 0 %}{% set ns.ev = pool[0] %}{% endif %}
+        {% endif %} {% if ns.ev is not none %}
+          {% set ts = as_timestamp(ns.ev.start) %}
+          {% set h = ts | timestamp_custom('%H') | int %}
+          {% set m = ts | timestamp_custom('%M') | int %}
+          {% set h12 = h if h <= 12 else h - 12 %}
+          {% set p = " rưỡi" if m == 30 else ("" if m == 0 else " " ~ m) %}
+          {% set b = " sáng" if h < 11 else (" chiều" if h >= 13 else (" trưa" if h == 12 else "")) %}
+          {% set mins_left = ((as_timestamp(ns.ev.start) - as_timestamp(now())) / 60) | int %}
+          {% if mins_left <= 60 %}
+            Sắp tới lúc {{ h12 }} giờ{{ p }}{{ b }}: {{ ns.ev.summary }}.
+          {% else %}
+            Tiếp theo lúc {{ h12 }} giờ{{ p }}{{ b }}: {{ ns.ev.summary }}.
+          {% endif %}
+        {% else %}
+          {% if is_full_report %}Hôm nay không còn sự kiện nào.{% endif %}
+        {% endif %}
+      lich_conflict_msg: >-
+        {% set ns = namespace(all_evs=[], times=[], msg="", seen=[]) %} {% for
+        cal, content in daily_agenda.items() if "am_lich" not in cal and
+        content.events is defined %}
+          {% for ev in content.events if ev.start is string and "T" in ev.start %}
+            {% set t_str = as_timestamp(ev.start) | timestamp_custom('%H:%M') %}
+            {% set ns.all_evs = ns.all_evs + [dict(time=t_str, title=ev.summary)] %}
+            {% set ns.times = ns.times + [t_str] %}
+          {% endfor %}
+        {% endfor %} {% for t in ns.times %}
+          {% if ns.times.count(t) > 1 and t not in ns.seen %}
+            {% set ns.seen = ns.seen + [t] %}
+            {% set titles = ns.all_evs
+                 | selectattr('time', 'equalto', t)
+                 | map(attribute='title') | list | unique | list %}
+            {% set ns.msg = ns.msg ~ "Phát hiện xung đột lịch trình lúc " ~ t
+                 ~ " giữa " ~ titles | join(" và ") ~ ". " %}
+          {% endif %}
+        {% endfor %} {{ ns.msg }}
+  - variables:
+      v_chao: |-
+        {{ ["Cập nhật sức khỏe lúc này nhé.",
+            "Đây là tình hình vận động trong ít giờ qua.",
+            "Đã có dữ liệu mới.",
+            "Cùng xem qua các chỉ số sức khỏe hiện tại nhé.",
+            "Thông tin hoạt động vừa được cập nhật.",
+            "Dữ liệu sức khỏe mới nhất đã sẵn sàng.",
+            "Điểm qua các thông số vận động gần đây.",
+            "Báo cáo chỉ số hiện tại của bạn.",
+            "Xem lại tóm tắt hoạt động trong ngày."] | random }}
+      v_ngoi_lau: |-
+        {{ ["Ngồi hơi lâu rồi, hãy đứng dậy đi lại cho thoải mái.",
+            "Đã đến lúc nghỉ giải lao và vận động nhẹ nhàng để thư giãn cơ thể.",
+            "Nên dành một ít thời gian đứng dậy vận động sau khi làm việc tập trung.",
+            "Cơ thể cần được vận động sau một khoảng thời gian ngồi lâu.",
+            "Hãy thực hiện vài động tác co duỗi nhẹ nhàng tại chỗ.",
+            "Thay đổi tư thế và đi lại một chút để cải thiện lưu thông máu.",
+            "Dành 5 phút giải lao để thư giãn xương khớp lúc này.",
+            "Đứng dậy di chuyển giúp giảm áp lực lên cột sống.",
+            "Một vài phút đi lại sẽ giúp tinh thần tỉnh táo hơn."] | random }}
+      v_muc_tieu: |-
+        {% if buoc_chan < muc_tieu %}
+          {{ ["Tiến độ hơi chậm, cố gắng đi lại nhiều hơn nhé.",
+              "Hãy dành thêm chút thời gian để hoàn thành mục tiêu vận động.",
+              "Vận động thêm một chút nhé.",
+              "Cần thêm một vài hoạt động nữa để đạt chỉ số mục tiêu.",
+              "Tiếp tục di chuyển để sớm đạt được mục tiêu trong ngày.",
+              "Chỉ còn một khoảng ngắn nữa là bạn sẽ chạm mốc vận động.",
+              "Chỉ số vận động hiện tại đang ở gần mức mục tiêu."] | random }}
+        {% else %}
+          {{ ["Tuyệt vời, hoàn thành mục tiêu vận động hôm nay rồi.",
+              "Phong độ rất tốt, mục tiêu bước chân đã đạt được, xin chúc mừng.",
+              "Làm tốt lắm, mục tiêu hôm nay đã hoàn thành xuất sắc.",
+              "Mục tiêu vận động trong ngày đã được ghi nhận hoàn tất.",
+              "Hệ thống xác nhận bạn đã hoàn thành kế hoạch vận động hôm nay.",
+              "Dữ liệu cho thấy bạn đã hoàn tất các chỉ số hoạt động cần thiết."] | random }}
+        {% endif %}
+      v_nhac_nuoc: |-
+        {% if now().hour >= 21 or now().hour < 5 %}
+          {{ ["Lưu ý là đã muộn rồi, hạn chế uống nước để ngủ ngon hơn nhé.",
+              "Sắp tới thời gian ngủ rồi, hãy giảm lượng nước lại nhé.",
+              "Nên hạn chế uống nước từ lúc này nhé.",
+              "Hạn chế tiếp nhận nước vào thời điểm này để duy trì giấc ngủ ổn định.",
+              "Nên giảm dần lượng nước uống khi tiến gần đến giờ nghỉ ngơi.",
+              "Cân nhắc lượng nước uống vừa phải để chuẩn bị cho giấc ngủ ngon."] | random }}
+        {% else %} {% endif %}
+      v_da_nap: |-
+        {{ ["Đã uống","Đã dùng","Đã nạp","Đã ghi nhận","Đã nạp thêm",
+            "Vừa uống","Đã cộng thêm","Vừa nạp","Đã bổ sung"] | random }}
+      v_ket_thuc: |-
+        {{ ["Chúc ngày làm việc hiệu quả.",
+            "Hệ thống kết thúc thông báo.",
+            "Chúc mọi việc suôn sẻ."] | random }}
+      canh_bao_pin: |-
+        {% if pin_dong_ho < low_battery_threshold and thiet_bi_on %}
+          Cảnh báo, pin {{ ten_dong_ho }} hiện chỉ còn {{ pin_dong_ho }} phần trăm, anh chú ý sạc nhé.
+        {% else %} {% endif %}
+      phone_title: >-
+        {% if tg_ngoi_lau %} Đứng dậy vận động thôi anh! 🚶 {% elif now().hour
+        >= 5 and now().hour < 8 %} Chào buổi sáng anh Mạnh! ✨ {% elif now().hour
+        >= 22 or now().hour < 5 %} Chuẩn bị nghỉ ngơi thôi anh 🌙 {% else %} Bản
+        tin Sức khỏe 👟 {% endif %}
+      co_noi_dung: true
+  - variables:
+      noi_dung_tts_1: >-
+        {{ v_chao }} Bước chân {{ buoc_chan }}, tiêu thụ {{ calo_tieu_thu }} ca
+        lo. {% if nhip_tim > 0 %} Nhịp tim {{ nhip_tim }} nhịp. {% endif %} {%
+        if tg_ngoi_lau %} {{ v_ngoi_lau }} {% endif %} {% if pin_dong_ho <
+        low_battery_threshold and thiet_bi_on %} {{ canh_bao_pin }} {% endif %}
+        {% if nuoc_da_uong > 0 or caffeine_mg > 0 %}
+          {{ v_da_nap }}
+          {%- if nuoc_da_uong > 0 and caffeine_mg > 0 -%}
+            {{ nuoc_da_uong }} mi-li-lít nước và {{ caffeine_mg }} mi-li-gam caffein.
+          {%- elif nuoc_da_uong > 0 -%}
+            {{ nuoc_da_uong }} mi-li-lít nước.
+          {%- else -%}
+            {{ caffeine_mg }} mi-li-gam caffein.
+          {%- endif -%}
+        {% endif %} {% if hien_can_nang %} Cân nặng {{ can_nang }} kg. {% endif
+        %} {% if gio_ngu != 'ẩn' and now().hour >= 18 %} Anh có thể ngủ sau {{
+        gio_ngu }}. {% endif %} {% if is_full_report or buoc_chan >= muc_tieu %}
+        {{ v_muc_tieu }} {% endif %} {% if now().hour >= 21 %} {{ v_nhac_nuoc }}
+        {% endif %} {{ v_ket_thuc }}
+      noi_dung_tts_2: |-
+        {% if next_event_tts | trim != '' %}
+          {% if is_full_report %}
+            Lịch trình hôm nay {{ duong_lich_doc }}, {{ am_lich_hom_nay }} âm lịch.
+          {% endif %}
+          {{ next_event_tts }}
+          {% if lich_conflict_msg != '' %} Lưu ý: {{ lich_conflict_msg }} {% endif %}
+        {% endif %}
+  - variables:
+      noi_dung_notify: >-
+        {% set lines = [] %}
+
+        {# DÒNG 1: CHỈ HIỆN VẬN ĐỘNG KHI ĐÃ CÓ BƯỚC CHÂN HOẶC CALO LỚN HƠN 0 #}
+        {% if buoc_chan > 0 or calo_tieu_thu > 0 %}
+          {% set status_line = "👟 " ~ buoc_chan ~ "/" ~ muc_tieu ~ " (" ~ (buoc_chan/muc_tieu*100)|round(0) ~ "%) | 🔥 " ~ calo_tieu_thu ~ "kcal" %}
+          {% if nhip_tim > 0 %}
+            {% set status_line = status_line ~ " | ❤️ " ~ nhip_tim ~ "bpm" %}
+          {% endif %}
+          {% set lines = lines + [status_line] %}
+        {% endif %}
+
+        {# DÒNG 2: CHỈ HIỆN CẢNH BÁO NGỒI LÂU KHI PHÁT HIỆN THỰC TẾ #} {% if
+        tg_ngoi_lau %}
+          {% set lines = lines + ["🚨 Cảnh báo: Bạn đã ngồi làm việc quá 1 giờ!"] %}
+        {% endif %}
+
+        {# DÒNG 3: ĐỒ UỐNG VÀ CÂN NẶNG #} {% set drinks_items = [] %}
+
+        {% if nuoc_da_uong > 0 %}
+          {% set drinks_items = drinks_items + ["💧 " ~ nuoc_da_uong ~ "ml"] %}
+        {% endif %}
+
+        {% if caffeine_mg > 0 %}
+          {% set drinks_items = drinks_items + ["☕ " ~ caffeine_mg ~ "mg"] %}
+        {% endif %}
+
+        {% if tra_ml > 0 %}
+          {% set drinks_items = drinks_items + ["🍵 Trà: " ~ tra_ml ~ "ml"] %}
+        {% endif %}
+
+        {% if ruou_ml > 0 %}
+          {% set drinks_items = drinks_items + ["🍷 Rượu: " ~ ruou_ml ~ "ml"] %}
+        {% endif %}
+
+        {% if bia_ml > 0 %}
+          {% set drinks_items = drinks_items + ["🍺 Bia: " ~ bia_ml ~ "ml"] %}
+        {% endif %}
+
+        {% if hien_can_nang %}
+          {% set drinks_items = drinks_items + ["⚖️ " ~ can_nang ~ "kg"] %}
+        {% endif %}
+
+        {% if gio_ngu != 'ẩn' %}
+          {% set drinks_items = drinks_items + ["🌙 Ngủ sau: " ~ gio_ngu] %}
+        {% endif %}
+
+        {% if drinks_items | count > 0 %}
+          {% set lines = lines + [drinks_items | join(' | ')] %}
+        {% endif %}
+
+        {# DÒNG 4: PIN ĐỒNG HỒ - CHỈ HIỆN KHI ĐANG ĐEO HOẶC CÓ KẾT NỐI #} {% if
+        thiet_bi_on %}
+          {% set lines = lines + ["🔋 " ~ ten_dong_ho ~ ": " ~ pin_dong_ho ~ "%" ~ (" ⚠️ Pin yếu" if pin_dong_ho < low_battery_threshold else "")] %}
+        {% endif %}
+
+        {# LỊCH TRÌNH VÀ CẢNH BÁO XUNG ĐỘT #} {% if is_full_report or
+        next_event_tts | trim != '' %}
+          {% set lines = lines + ["━━━━━━━━━━━━━━━━━"] %}
+        {% endif %}
+
+        {% if is_full_report %}
+          {% set lines = lines + ["📅 Hôm nay: " ~ duong_lich_doc ~ " (" ~ am_lich_hom_nay ~ ")"] %}
+        {% endif %}
+
+        {% if next_event_tts | trim != '' %}
+          {% set lines = lines + ["📌 " ~ next_event_tts | trim] %}
+        {% endif %}
+
+        {% if lich_conflict_msg != '' %}
+          {% set lines = lines + ["⚠️ " ~ lich_conflict_msg | trim] %}
+        {% endif %}
+
+        {{ lines | join('\n') }}
+  - if:
+      - condition: template
+        value_template: "{{ co_noi_dung }}"
+    then:
+      - action: notify.mobile_app_ms_iphone_12_pro_max
+        data:
+          title: "{{ phone_title }}"
+          message: "{{ noi_dung_notify }}"
+      - action: notify.mobile_app_m_galaxynote20
+        data:
+          title: "{{ phone_title }}"
+          message: "{{ noi_dung_notify }}"
+      - action: media_player.play_media
+        target:
+          entity_id: media_player.google_home_mini_homelab
+        data:
+          media:
+            media_content_id: >-
+              media-source://tts/tts.google_translate_vi_com?message={{
+              noi_dung_tts_1 | urlencode }}&language=vi
+            media_content_type: audio/mp3
+      - wait_template: "{{ states('media_player.google_home_mini_homelab') == 'playing' }}"
+        timeout: "00:00:10"
+        continue_on_timeout: true
+      - wait_template: >-
+          {{ states('media_player.google_home_mini_homelab') in ['idle',
+          'paused', 'off'] }}
+        timeout: "00:01:30"
+        continue_on_timeout: true
+      - delay: "00:00:01"
+      - if:
+          - condition: template
+            value_template: "{{ noi_dung_tts_2 | trim != '' }}"
+        then:
+          - action: media_player.play_media
+            target:
+              entity_id: media_player.google_home_mini_homelab
+            data:
+              media:
+                media_content_id: >-
+                  media-source://tts/tts.google_translate_vi_com?message={{
+                  noi_dung_tts_2 | urlencode }}&language=vi
+                media_content_type: audio/mp3
+  - action: input_number.set_value
+    target:
+      entity_id: input_number.last_notified_hour_manhhome
+    data:
+      value: "{{ now().hour }}"
+  - action: input_number.set_value
+    target:
+      entity_id: input_number.random_minute_marker
+    data:
+      value: >-
+        {{ (range(1, 59) | list | reject('in',
+        [0,5,10,15,20,25,30,35,40,45,50,55]) | list | random) }}
+mode: single

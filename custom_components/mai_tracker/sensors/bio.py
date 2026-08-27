@@ -27,12 +27,28 @@ class LastMedicineSensor(_CaffeineBase):
             w_on_body = self._entry.options.get(f"wearable_{i}_on_body", self._entry.data.get(f"wearable_{i}_on_body", ""))
             w_battery = self._entry.options.get(f"wearable_{i}_battery", self._entry.data.get(f"wearable_{i}_battery", ""))
             w_calories = self._entry.options.get(f"wearable_{i}_calories", self._entry.data.get(f"wearable_{i}_calories", ""))
+            w_sleep_score = self._entry.options.get(f"wearable_{i}_sleep_score", self._entry.data.get(f"wearable_{i}_sleep_score", ""))
+            w_sleep_duration = self._entry.options.get(f"wearable_{i}_sleep_duration", self._entry.data.get(f"wearable_{i}_sleep_duration", ""))
+            w_sleep_deep = self._entry.options.get(f"wearable_{i}_sleep_deep", self._entry.data.get(f"wearable_{i}_sleep_deep", ""))
+            w_sleep_rem = self._entry.options.get(f"wearable_{i}_sleep_rem", self._entry.data.get(f"wearable_{i}_sleep_rem", ""))
+            w_sleep_light = self._entry.options.get(f"wearable_{i}_sleep_light", self._entry.data.get(f"wearable_{i}_sleep_light", ""))
+            w_sleep_awake = self._entry.options.get(f"wearable_{i}_sleep_awake", self._entry.data.get(f"wearable_{i}_sleep_awake", ""))
+            w_sleep_efficiency = self._entry.options.get(f"wearable_{i}_sleep_efficiency", self._entry.data.get(f"wearable_{i}_sleep_efficiency", ""))
+            w_sleep_state = self._entry.options.get(f"wearable_{i}_sleep_state", self._entry.data.get(f"wearable_{i}_sleep_state", ""))
             if w_name or w_on_body:
                 wearables.append({
                     "name": w_name,
                     "on_body": w_on_body,
                     "battery": w_battery,
-                    "calories": w_calories
+                    "calories": w_calories,
+                    "sleep_score": w_sleep_score,
+                    "sleep_duration": w_sleep_duration,
+                    "sleep_deep": w_sleep_deep,
+                    "sleep_rem": w_sleep_rem,
+                    "sleep_light": w_sleep_light,
+                    "sleep_awake": w_sleep_awake,
+                    "sleep_efficiency": w_sleep_efficiency,
+                    "sleep_state": w_sleep_state,
                 })
 
         attrs = {

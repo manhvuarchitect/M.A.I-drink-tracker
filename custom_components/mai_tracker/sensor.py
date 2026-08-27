@@ -23,6 +23,17 @@ from .sensors.caffeine import (
 )
 from .sensors.alcohol import BACLevelSensor, DriveSafeAtSensor
 from .sensors.bio import LastMedicineSensor, AggregatedHeartRateSensor, AggregatedStepsSensor, WeightSensor
+from .sensors.sleep import (
+    SleepScoreSensor,
+    SleepDurationSensor,
+    DeepSleepSensor,
+    RemSleepSensor,
+    LightSleepSensor,
+    SleepAwakeSensor,
+    SleepEfficiencySensor,
+    SleepStateSensor,
+    SleepSummarySensor,
+)
 from .sensors.environment import HeatIndexSensor, DynamicWaterGoalSensor
 from .sensors.base import _CaffeineBase
 
@@ -64,5 +75,27 @@ async def async_setup_entry(
     if (temp_sensor and humidity_sensor) or weather_entity:
         entities.append(HeatIndexSensor(coordinator.hass, entry, temp_sensor, humidity_sensor, weather_entity, coordinator.person_name))
         entities.append(DynamicWaterGoalSensor(coordinator.hass, entry, coordinator))
+
+    has_sleep_config = False
+    for i in range(1, 4):
+        for key in ("sleep_score", "sleep_duration", "sleep_deep", "sleep_rem", "sleep_light", "sleep_awake", "sleep_efficiency", "sleep_state"):
+            if entry.options.get(f"wearable_{i}_{key}", entry.data.get(f"wearable_{i}_{key}", "")):
+                has_sleep_config = True
+                break
+        if has_sleep_config:
+            break
+
+    if has_sleep_config:
+        entities.extend([
+            SleepScoreSensor(coordinator, entry),
+            SleepDurationSensor(coordinator, entry),
+            DeepSleepSensor(coordinator, entry),
+            RemSleepSensor(coordinator, entry),
+            LightSleepSensor(coordinator, entry),
+            SleepAwakeSensor(coordinator, entry),
+            SleepEfficiencySensor(coordinator, entry),
+            SleepStateSensor(coordinator, entry),
+            SleepSummarySensor(coordinator, entry),
+        ])
 
     async_add_entities(entities)

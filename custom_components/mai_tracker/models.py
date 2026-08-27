@@ -83,4 +83,14 @@ class CaffeineData:
     aggregated_heart_rate: float | None = None
     aggregated_steps: int = 0
     last_drink_time: datetime | None = None
+    sleep_score: float | None = None
+    sleep_duration: float | None = None
+    sleep_deep: float | None = None
+    sleep_rem: float | None = None
+    sleep_light: float | None = None
+    sleep_awake: float | None = None
+    sleep_efficiency: float | None = None
+    sleep_state: str | None = None
+    sleep_wearable_name: str | None = None
+    sleep_attributes: dict[str, Any] = field(default_factory=dict)
 

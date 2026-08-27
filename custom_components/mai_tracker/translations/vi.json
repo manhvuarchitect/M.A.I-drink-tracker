@@ -1,379 +1,454 @@
-{
-  "config": {
-    "step": {
-      "user": {
-        "title": "M.A.I Tracker - Tạo hồ sơ (Bước 1/5)",
-        "description": "Nhập tên và tuỳ chọn thừa kế cấu hình.",
-        "data": {
-          "person_name": "Tên người dùng (Prefix)",
-          "clone_from": "Thừa kế cấu hình từ User (Chọn để sao chép)",
-          "linked_user": "Tài khoản liên kết (User)"
-        }
-      },
-      "basic_settings": {
-        "title": "Thông số Nền tảng & Sinh lý (Bước 2/5)",
-        "description": "Nhập các thông số cơ thể và mục tiêu Cafein/Nước cơ bản của bạn.",
-        "data": {
-          "water_goal": "Mục tiêu uống nước mỗi ngày (ml)",
-          "half_life_hours": "Thời gian bán phân hủy Cafein (Giờ)",
-          "sleep_safe_mg": "Ngưỡng Cafein an toàn để ngủ (mg)",
-          "enable_absorption": "Bật mô phỏng quá trình hấp thụ dần",
-          "absorption_time_min": "Thời gian Cafein ngấm vào máu (Phút)",
-          "weight_kg": "Cân nặng mặc định (kg)",
-          "gender": "Giới tính"
-        }
-      },
-      "environment": {
-        "title": "Cấu hình Cảm biến & Đồng bộ (Bước 3/5)",
-        "description": "Lựa chọn các cảm biến để M.A.I Tracker tự động điều chỉnh lượng nước uống tăng thêm khi trời nóng.",
-        "data": {
-          "temp_sensor": "Cảm biến nhiệt độ",
-          "humidity_sensor": "Cảm biến độ ẩm",
-          "weather_entity": "Thực thể thời tiết",
-          "low_battery_threshold": "Ngưỡng báo pin yếu của đồng hồ (%)",
-          "wearable_label": "========== [3] CẤU HÌNH THIẾT BỊ ĐEO THÔNG MINH (Wearables) ==========",
-          "wearable_1_label": "--- [1] THIẾT BỊ ĐEO THỨ NHẤT ---",
-          "wearable_1_name": "Tên thiết bị (Dùng khi thông báo)",
-          "wearable_1_on_body": "Cảm biến trạng thái đeo (On Body Sensor)",
-          "wearable_1_battery": "Cảm biến phần trăm pin (Battery Level)",
-          "wearable_1_calories": "Cảm biến calo tiêu thụ (Daily Calories)",
-          "wearable_2_label": "--- [2] THIẾT BỊ ĐEO THỨ HAI ---",
-          "wearable_2_name": "Tên thiết bị (Dùng khi thông báo)",
-          "wearable_2_on_body": "Cảm biến trạng thái đeo (On Body Sensor)",
-          "wearable_2_battery": "Cảm biến phần trăm pin (Battery Level)",
-          "wearable_2_calories": "Cảm biến calo tiêu thụ (Daily Calories)",
-          "wearable_3_label": "--- [3] THIẾT BỊ ĐEO THỨ BA ---",
-          "wearable_3_name": "Tên thiết bị (Dùng khi thông báo)",
-          "wearable_3_on_body": "Cảm biến trạng thái đeo (On Body Sensor)",
-          "wearable_3_battery": "Cảm biến phần trăm pin (Battery Level)",
-          "wearable_3_calories": "Cảm biến calo tiêu thụ (Daily Calories)",
-          "environment_label": "========== [1] CẢM BIẾN MÔI TRƯỜNG (Environment) ==========",
-          "bio_label": "========== [2] CẢM BIẾN SINH HỌC & ĐỒ ĐEO (Bio Wearables) ==========",
-          "sync_label": "========== [3] CHU KỲ ĐỒNG BỘ ĐIỆN THOẠI (Companion Sync) ==========",
-          "notify_dev_label": "========== [1] PHÂN CẤP THIẾT BỊ NHẬN THÔNG BÁO ==========",
-          "tts_voice_label": "========== [2] PHÁT THANH GIỌNG NÓI & NỘI DUNG TTS ==========",
-          "water_cycle_label": "========== [3] CHU KỲ NHẮC NHỞ UỐNG NƯỚC ==========",
-          "templates_label": "========== [4] KHO MẪU CÂU THOẠI TÙY BIẾN (Templates) ==========",
-          "calendar_label": "========== [1] TÍCH HỢP LỊCH TRÌNH & BẢN TIN AGENDAS ==========",
-          "med_label": "========== [2] LỊCH NHẮC UỐNG THUỐC LEO THANG (Medicine 1 đến 10) =========="
-        }
-      },
-      "notifications": {
-        "title": "Trung tâm Thông báo & Loa (Bước 4/5)",
-        "description": "Thiết lập các cảnh báo y tế và nhắc nhở uống nước bằng giọng nói (TTS).",
-        "data": {
-          "notify_target": "Thiết bị nhận thông báo Cá nhân (Xưng hô 'Bạn')",
-          "notify_target_management": "Thiết bị nhận thông báo Giám sát (Xưng hô '{person_name}')",
-          "tts_target": "Loa phát thanh (TTS Target)",
-          "tts_message": "Nội dung phát thanh nhắc uống nước",
-          "water_reminder_interval": "Chu kỳ nhắc nhở uống nước (Phút, 0 để tắt)",
-          "water_reminder_tts": "Mẫu phát thanh nhắc uống nước (dùng '{hours}')",
-          "water_reminder_notify": "Mẫu nhắc uống nước Cá nhân (dùng '{hours}')",
-          "water_reminder_notify_management": "Mẫu nhắc uống nước Giám sát (dùng '{hours}', '{person_name}')",
-          "drink_log_notify_personal": "Mẫu thông báo uống nước Cá nhân (dùng '{amount}', '{drink_name}')",
-          "drink_log_notify_management": "Mẫu thông báo uống nước Giám sát (dùng '{person_name}', '{amount}', '{drink_name}')",
-          "drink_log_notify_remove": "Mẫu thông báo khi hoàn tác (dùng '{person_name}')",
-          "environment_label": "========== [1] CẢM BIẾN MÔI TRƯỜNG (Environment) ==========",
-          "bio_label": "========== [2] CẢM BIẾN SINH HỌC & ĐỒ ĐEO (Bio Wearables) ==========",
-          "sync_label": "========== [3] CHU KỲ ĐỒNG BỘ ĐIỆN THOẠI (Companion Sync) ==========",
-          "notify_dev_label": "========== [1] PHÂN CẤP THIẾT BỊ NHẬN THÔNG BÁO ==========",
-          "tts_voice_label": "========== [2] PHÁT THANH GIỌNG NÓI & NỘI DUNG TTS ==========",
-          "water_cycle_label": "========== [3] CHU KỲ NHẮC NHỞ UỐNG NƯỚC ==========",
-          "templates_label": "========== [4] KHO MẪU CÂU THOẠI TÙY BIẾN (Templates) ==========",
-          "calendar_label": "========== [1] TÍCH HỢP LỊCH TRÌNH & BẢN TIN AGENDAS ==========",
-          "med_label": "========== [2] LỊCH NHẮC UỐNG THUỐC LEO THANG (Medicine 1 đến 10) =========="
-        }
-      },
-      "medicine": {
-        "title": "Lịch trình & Thuốc uống (Bước 5/5)",
-        "description": "Khai báo tối đa 10 khung giờ uống thuốc nhắc qua Loa phát thanh hoặc Điện thoại. Để trống Tên Thuốc nếu không dùng.",
-        "data": {
-          "medicine_1_name": "-------- [1] TÊN THUỐC --------",
-          "medicine_1_time": "Giờ uống",
-          "medicine_1_notify": "Điện thoại nhận thông báo",
-          "medicine_1_tts": "Loa phát thanh (TTS)",
-          "medicine_2_name": "-------- [2] TÊN THUỐC --------",
-          "medicine_2_time": "Giờ uống",
-          "medicine_2_notify": "Điện thoại nhận thông báo",
-          "medicine_2_tts": "Loa phát thanh (TTS)",
-          "medicine_3_name": "-------- [3] TÊN THUỐC --------",
-          "medicine_3_time": "Giờ uống",
-          "medicine_3_notify": "Điện thoại nhận thông báo",
-          "medicine_3_tts": "Loa phát thanh (TTS)",
-          "medicine_4_name": "-------- [4] TÊN THUỐC --------",
-          "medicine_4_time": "Giờ uống",
-          "medicine_4_notify": "Điện thoại nhận thông báo",
-          "medicine_4_tts": "Loa phát thanh (TTS)",
-          "medicine_5_name": "-------- [5] TÊN THUỐC --------",
-          "medicine_5_time": "Giờ uống",
-          "medicine_5_notify": "Điện thoại nhận thông báo",
-          "medicine_5_tts": "Loa phát thanh (TTS)",
-          "medicine_6_name": "-------- [6] TÊN THUỐC --------",
-          "medicine_6_time": "Giờ uống",
-          "medicine_6_notify": "Điện thoại nhận thông báo",
-          "medicine_6_tts": "Loa phát thanh (TTS)",
-          "medicine_7_name": "-------- [7] TÊN THUỐC --------",
-          "medicine_7_time": "Giờ uống",
-          "medicine_7_notify": "Điện thoại nhận thông báo",
-          "medicine_7_tts": "Loa phát thanh (TTS)",
-          "medicine_8_name": "-------- [8] TÊN THUỐC --------",
-          "medicine_8_time": "Giờ uống",
-          "medicine_8_notify": "Điện thoại nhận thông báo",
-          "medicine_8_tts": "Loa phát thanh (TTS)",
-          "medicine_9_name": "-------- [9] TÊN THUỐC --------",
-          "medicine_9_time": "Giờ uống",
-          "medicine_9_notify": "Điện thoại nhận thông báo",
-          "medicine_9_tts": "Loa phát thanh (TTS)",
-          "medicine_10_name": "-------- [10] TÊN THUỐC --------",
-          "medicine_10_time": "Giờ uống",
-          "medicine_10_notify": "Điện thoại nhận thông báo",
-          "medicine_10_tts": "Loa phát thanh (TTS)",
-          "medicine_1_notify_secondary": "Điện thoại nhận thông báo phụ [1]",
-          "medicine_2_notify_secondary": "Điện thoại nhận thông báo phụ [2]",
-          "medicine_3_notify_secondary": "Điện thoại nhận thông báo phụ [3]",
-          "medicine_4_notify_secondary": "Điện thoại nhận thông báo phụ [4]",
-          "medicine_5_notify_secondary": "Điện thoại nhận thông báo phụ [5]",
-          "medicine_6_notify_secondary": "Điện thoại nhận thông báo phụ [6]",
-          "medicine_7_notify_secondary": "Điện thoại nhận thông báo phụ [7]",
-          "medicine_8_notify_secondary": "Điện thoại nhận thông báo phụ [8]",
-          "medicine_9_notify_secondary": "Điện thoại nhận thông báo phụ [9]",
-          "medicine_10_notify_secondary": "Điện thoại nhận thông báo phụ [10]",
-          "environment_label": "========== [1] CẢM BIẾN MÔI TRƯỜNG (Environment) ==========",
-          "bio_label": "========== [2] CẢM BIẾN SINH HỌC & ĐỒ ĐEO (Bio Wearables) ==========",
-          "sync_label": "========== [3] CHU KỲ ĐỒNG BỘ ĐIỆN THOẠI (Companion Sync) ==========",
-          "notify_dev_label": "========== [1] PHÂN CẤP THIẾT BỊ NHẬN THÔNG BÁO ==========",
-          "tts_voice_label": "========== [2] PHÁT THANH GIỌNG NÓI & NỘI DUNG TTS ==========",
-          "water_cycle_label": "========== [3] CHU KỲ NHẮC NHỞ UỐNG NƯỚC ==========",
-          "templates_label": "========== [4] KHO MẪU CÂU THOẠI TÙY BIẾN (Templates) ==========",
-          "calendar_label": "========== [1] TÍCH HỢP LỊCH TRÌNH & BẢN TIN AGENDAS ==========",
-          "med_label": "========== [2] LỊCH NHẮC UỐNG THUỐC LEO THANG (Medicine 1 đến 10) =========="
-        }
-      }
-    },
-    "error": {
-      "name_taken": "Tên người dùng này đã tồn tại."
-    }
-  },
-  "options": {
-    "step": {
-      "init": {
-        "title": "M.A.I Tracker - Chỉnh sửa Hồ sơ (Bước 1/5)",
-        "description": "Cấu hình lại các thông số cơ thể và mục tiêu Cafein/Nước của bạn.",
-        "data": {
-          "person_name": "Tên thành viên (Prefix)",
-          "linked_user": "Tài khoản liên kết (User)"
-        }
-      },
-      "environment": {
-        "title": "Cấu hình Cảm biến & Đồng bộ (Bước 3/5)",
-        "description": "Lựa chọn các cảm biến để M.A.I Tracker tự động điều chỉnh lượng nước khi trời nóng.",
-        "data": {
-          "temp_sensor": "Cảm biến nhiệt độ",
-          "humidity_sensor": "Cảm biến độ ẩm",
-          "weather_entity": "Thực thể thời tiết",
-          "low_battery_threshold": "Ngưỡng báo pin yếu của đồng hồ (%)",
-          "wearable_label": "========== [3] CẤU HÌNH THIẾT BỊ ĐEO THÔNG MINH (Wearables) ==========",
-          "wearable_1_label": "--- [1] THIẾT BỊ ĐEO THỨ NHẤT ---",
-          "wearable_1_name": "Tên thiết bị (Dùng khi thông báo)",
-          "wearable_1_on_body": "Cảm biến trạng thái đeo (On Body Sensor)",
-          "wearable_1_battery": "Cảm biến phần trăm pin (Battery Level)",
-          "wearable_1_calories": "Cảm biến calo tiêu thụ (Daily Calories)",
-          "wearable_2_label": "--- [2] THIẾT BỊ ĐEO THỨ HAI ---",
-          "wearable_2_name": "Tên thiết bị (Dùng khi thông báo)",
-          "wearable_2_on_body": "Cảm biến trạng thái đeo (On Body Sensor)",
-          "wearable_2_battery": "Cảm biến phần trăm pin (Battery Level)",
-          "wearable_2_calories": "Cảm biến calo tiêu thụ (Daily Calories)",
-          "wearable_3_label": "--- [3] THIẾT BỊ ĐEO THỨ BA ---",
-          "wearable_3_name": "Tên thiết bị (Dùng khi thông báo)",
-          "wearable_3_on_body": "Cảm biến trạng thái đeo (On Body Sensor)",
-          "wearable_3_battery": "Cảm biến phần trăm pin (Battery Level)",
-          "wearable_3_calories": "Cảm biến calo tiêu thụ (Daily Calories)",
-          "environment_label": "========== [1] CẢM BIẾN MÔI TRƯỜNG (Environment) ==========",
-          "bio_label": "========== [2] CẢM BIẾN SINH HỌC & ĐỒ ĐEO (Bio Wearables) ==========",
-          "sync_label": "========== [3] CHU KỲ ĐỒNG BỘ ĐIỆN THOẠI (Companion Sync) ==========",
-          "notify_dev_label": "========== [1] PHÂN CẤP THIẾT BỊ NHẬN THÔNG BÁO ==========",
-          "tts_voice_label": "========== [2] PHÁT THANH GIỌNG NÓI & NỘI DUNG TTS ==========",
-          "water_cycle_label": "========== [3] CHU KỲ NHẮC NHỞ UỐNG NƯỚC ==========",
-          "templates_label": "========== [4] KHO MẪU CÂU THOẠI TÙY BIẾN (Templates) ==========",
-          "calendar_label": "========== [1] TÍCH HỢP LỊCH TRÌNH & BẢN TIN AGENDAS ==========",
-          "med_label": "========== [2] LỊCH NHẮC UỐNG THUỐC LEO THANG (Medicine 1 đến 10) ==========",
-          "heart_rate_sensors": "Cảm biến nhịp tim (Heart Rate)",
-          "step_sensors": "Cảm biến số bước (Steps)",
-          "weight_sensor": "Cảm biến cân nặng (Weight)",
-          "bio_sync_interval": "Chu kỳ đồng bộ tự động"
-        }
-      },
-      "notifications": {
-        "title": "Trung tâm Thông báo & Loa (Bước 4/5)",
-        "description": "Thiết lập các cảnh báo y tế và nhắc nhở uống nước bằng giọng nói (TTS).",
-        "data": {
-          "notify_target": "Thiết bị nhận thông báo Cá nhân (Xưng hô 'Bạn')",
-          "notify_target_management": "Thiết bị nhận thông báo Giám sát (Xưng hô '{person_name}')",
-          "tts_target": "Loa phát thanh (TTS Target)",
-          "tts_message": "Nội dung phát thanh nhắc uống nước",
-          "water_reminder_interval": "Chu kỳ nhắc uống nước (Phút, 0 để tắt)",
-          "water_reminder_tts": "Mẫu phát nhắc nước qua Loa (dùng '{hours}')",
-          "water_reminder_notify": "Mẫu nhắc nước Cá nhân (dùng '{hours}')",
-          "water_reminder_notify_management": "Mẫu nhắc nước Giám sát (dùng '{hours}', '{person_name}')",
-          "drink_log_notify_personal": "Mẫu báo uống nước Cá nhân (dùng '{amount}', '{drink_name}')",
-          "drink_log_notify_management": "Mẫu báo uống nước Giám sát (dùng '{person_name}', '{amount}', '{drink_name}')",
-          "drink_log_notify_remove": "Mẫu báo hoàn tác uống nước (dùng '{person_name}')"
-        }
-      },
-      "medicine": {
-        "title": "Lịch trình & Thuốc uống (Bước 5/5)",
-        "description": "Khai báo tối đa 10 khung giờ uống thuốc nhắc qua Loa phát thanh hoặc Điện thoại.",
-        "data": {
-          "calendars": "Chọn lịch trình (Calendars)",
-          "medicine_1_name": "-------- [1] TÊN THUỐC --------",
-          "medicine_1_time": "Giờ uống",
-          "medicine_1_notify": "Điện thoại nhận thông báo",
-          "medicine_1_notify_secondary": "Điện thoại nhận thông báo phụ [1]",
-          "medicine_1_tts": "Loa phát thanh (TTS)",
-          "medicine_2_name": "-------- [2] TÊN THUỐC --------",
-          "medicine_2_time": "Giờ uống",
-          "medicine_2_notify": "Điện thoại nhận thông báo",
-          "medicine_2_notify_secondary": "Điện thoại nhận thông báo phụ [2]",
-          "medicine_2_tts": "Loa phát thanh (TTS)",
-          "medicine_3_name": "-------- [3] TÊN THUỐC --------",
-          "medicine_3_time": "Giờ uống",
-          "medicine_3_notify": "Điện thoại nhận thông báo",
-          "medicine_3_notify_secondary": "Điện thoại nhận thông báo phụ [3]",
-          "medicine_3_tts": "Loa phát thanh (TTS)",
-          "medicine_4_name": "-------- [4] TÊN THUỐC --------",
-          "medicine_4_time": "Giờ uống",
-          "medicine_4_notify": "Điện thoại nhận thông báo",
-          "medicine_4_notify_secondary": "Điện thoại nhận thông báo phụ [4]",
-          "medicine_4_tts": "Loa phát thanh (TTS)",
-          "medicine_5_name": "-------- [5] TÊN THUỐC --------",
-          "medicine_5_time": "Giờ uống",
-          "medicine_5_notify": "Điện thoại nhận thông báo",
-          "medicine_5_notify_secondary": "Điện thoại nhận thông báo phụ [5]",
-          "medicine_5_tts": "Loa phát thanh (TTS)",
-          "medicine_6_name": "-------- [6] TÊN THUỐC --------",
-          "medicine_6_time": "Giờ uống",
-          "medicine_6_notify": "Điện thoại nhận thông báo",
-          "medicine_6_notify_secondary": "Điện thoại nhận thông báo phụ [6]",
-          "medicine_6_tts": "Loa phát thanh (TTS)",
-          "medicine_7_name": "-------- [7] TÊN THUỐC --------",
-          "medicine_7_time": "Giờ uống",
-          "medicine_7_notify": "Điện thoại nhận thông báo",
-          "medicine_7_notify_secondary": "Điện thoại nhận thông báo phụ [7]",
-          "medicine_7_tts": "Loa phát thanh (TTS)",
-          "medicine_8_name": "-------- [8] TÊN THUỐC --------",
-          "medicine_8_time": "Giờ uống",
-          "medicine_8_notify": "Điện thoại nhận thông báo",
-          "medicine_8_notify_secondary": "Điện thoại nhận thông báo phụ [8]",
-          "medicine_8_tts": "Loa phát thanh (TTS)",
-          "medicine_9_name": "-------- [9] TÊN THUỐC --------",
-          "medicine_9_time": "Giờ uống",
-          "medicine_9_notify": "Điện thoại nhận thông báo",
-          "medicine_9_notify_secondary": "Điện thoại nhận thông báo phụ [9]",
-          "medicine_9_tts": "Loa phát thanh (TTS)",
-          "medicine_10_name": "-------- [10] TÊN THUỐC --------",
-          "medicine_10_time": "Giờ uống",
-          "medicine_10_notify": "Điện thoại nhận thông báo",
-          "medicine_10_notify_secondary": "Điện thoại nhận thông báo phụ [10]",
-          "medicine_10_tts": "Loa phát thanh (TTS)"
-        }
-      },
-      "basic_settings": {
-        "title": "Thông số Nền tảng & Sinh lý (Bước 2/5)",
-        "description": "Cấu hình lại các thông số cơ thể và mục tiêu Cafein/Nước của bạn.",
-        "data": {
-          "water_goal": "Mục tiêu nước (ml)",
-          "half_life_hours": "Thời gian bán phân hủy Cafein",
-          "sleep_safe_mg": "Ngưỡng Cafein an toàn để ngủ",
-          "enable_absorption": "Mô phỏng hấp thụ (Gradual Absorption)",
-          "absorption_time_min": "Thời gian hấp thụ (Phút)",
-          "weight_kg": "Cân nặng mặc định (kg)",
-          "gender": "Giới tính"
-        }
-      }
-    }
-  },
-  "entity": {
-    "sensor": {
-      "current": {
-        "name": "Caffeine Đang Hoạt Động"
-      },
-      "consumed_today": {
-        "name": "Caffeine Hôm Nay"
-      },
-      "consumed_today_count": {
-        "name": "Số lần uống Cafein"
-      },
-      "sleep_safe_at": {
-        "name": "Giờ đi ngủ an toàn"
-      },
-      "peak": {
-        "name": "Mức Cafein đỉnh điểm"
-      },
-      "water_today": {
-        "name": "Tổng Nước Hôm Nay"
-      },
-      "heat_index": {
-        "name": "Mức độ oi bức"
-      },
-      "caffeine_percent": {
-        "name": "Tỉ lệ giới hạn Cafein"
-      },
-      "bac_level": {
-        "name": "Nồng độ cồn (BAC)"
-      },
-      "drive_safe_at": {
-        "name": "Giờ lái xe an toàn"
-      },
-      "last_medicine": {
-        "name": "Liều thuốc gần nhất"
-      },
-      "caffeine_crash_risk": {
-        "name": "Nguy cơ sụp đổ năng lượng"
-      },
-      "caffeine_history": {
-        "name": "Lịch sử nạp Cafein"
-      },
-      "aggregated_heart_rate": {
-        "name": "Nhịp tim trung bình"
-      },
-      "aggregated_steps": {
-        "name": "Tổng số bước chân"
-      },
-      "dynamic_water_goal": {
-        "name": "Mục tiêu nước hôm nay"
-      },
-      "weight": {
-        "name": "Cân nặng"
-      },
-      "current_weight": {
-        "name": "Cân nặng hiện tại"
-      }
-    },
-    "number": {
-      "water_today": {
-        "name": "Nước lọc (Mục tiêu)"
-      },
-      "drink_nuoc_loc": {
-        "name": "Nước lọc"
-      },
-      "drink_cafe": {
-        "name": "Cà phê"
-      },
-      "drink_tra": {
-        "name": "Trà"
-      },
-      "drink_nuoc_ngot": {
-        "name": "Nước ngọt"
-      },
-      "drink_sua": {
-        "name": "Sữa"
-      },
-      "drink_bia": {
-        "name": "Bia"
-      },
-      "drink_ruou": {
-        "name": "Rượu"
-      }
-    }
-  }
+﻿{
+    "config":  {
+                   "step":  {
+                                "user":  {
+                                             "title":  "M.A.I Tracker - Táº¡o há»“ sÆ¡ (BÆ°á»›c 1/5)",
+                                             "description":  "Nháº­p tÃªn vÃ  tuá»³ chá»n thá»«a káº¿ cáº¥u hÃ¬nh.",
+                                             "data":  {
+                                                          "person_name":  "TÃªn ngÆ°á»i dÃ¹ng (Prefix)",
+                                                          "clone_from":  "Thá»«a káº¿ cáº¥u hÃ¬nh tá»« User (Chá»n Ä‘á»ƒ sao chÃ©p)",
+                                                          "linked_user":  "TÃ i khoáº£n liÃªn káº¿t (User)"
+                                                      }
+                                         },
+                                "basic_settings":  {
+                                                       "title":  "ThÃ´ng sá»‘ Ná»n táº£ng \u0026 Sinh lÃ½ (BÆ°á»›c 2/5)",
+                                                       "description":  "Nháº­p cÃ¡c thÃ´ng sá»‘ cÆ¡ thá»ƒ vÃ  má»¥c tiÃªu Cafein/NÆ°á»›c cÆ¡ báº£n cá»§a báº¡n.",
+                                                       "data":  {
+                                                                    "water_goal":  "Má»¥c tiÃªu uá»‘ng nÆ°á»›c má»—i ngÃ y (ml)",
+                                                                    "half_life_hours":  "Thá»i gian bÃ¡n phÃ¢n há»§y Cafein (Giá»)",
+                                                                    "sleep_safe_mg":  "NgÆ°á»¡ng Cafein an toÃ n Ä‘á»ƒ ngá»§ (mg)",
+                                                                    "enable_absorption":  "Báº­t mÃ´ phá»ng quÃ¡ trÃ¬nh háº¥p thá»¥ dáº§n",
+                                                                    "absorption_time_min":  "Thá»i gian Cafein ngáº¥m vÃ o mÃ¡u (PhÃºt)",
+                                                                    "weight_kg":  "CÃ¢n náº·ng máº·c Ä‘á»‹nh (kg)",
+                                                                    "gender":  "Giá»›i tÃ­nh"
+                                                                }
+                                                   },
+                                "environment":  {
+                                                    "title":  "Cáº¥u hÃ¬nh Cáº£m biáº¿n \u0026 Äá»“ng bá»™ (BÆ°á»›c 3/5)",
+                                                    "description":  "Lá»±a chá»n cÃ¡c cáº£m biáº¿n Ä‘á»ƒ M.A.I Tracker tá»± Ä‘á»™ng Ä‘iá»u chá»‰nh lÆ°á»£ng nÆ°á»›c uá»‘ng tÄƒng thÃªm khi trá»i nÃ³ng.",
+                                                    "data":  {
+                                                                 "temp_sensor":  "Cáº£m biáº¿n nhiá»‡t Ä‘á»™",
+                                                                 "humidity_sensor":  "Cáº£m biáº¿n Ä‘á»™ áº©m",
+                                                                 "weather_entity":  "Thá»±c thá»ƒ thá»i tiáº¿t",
+                                                                 "low_battery_threshold":  "NgÆ°á»¡ng bÃ¡o pin yáº¿u cá»§a Ä‘á»“ng há»“ (%)",
+                                                                 "wearable_label":  "========== [3] Cáº¤U HÃŒNH THIáº¾T Bá»Š ÄEO THÃ”NG MINH (Wearables) ==========",
+                                                                 "wearable_1_label":  "--- [1] THIáº¾T Bá»Š ÄEO THá»¨ NHáº¤T ---",
+                                                                 "wearable_1_name":  "TÃªn thiáº¿t bá»‹ (DÃ¹ng khi thÃ´ng bÃ¡o)",
+                                                                 "wearable_1_on_body":  "Cáº£m biáº¿n tráº¡ng thÃ¡i Ä‘eo (On Body Sensor)",
+                                                                 "wearable_1_battery":  "Cáº£m biáº¿n pháº§n trÄƒm pin (Battery Level)",
+                                                                 "wearable_1_calories":  "Cáº£m biáº¿n calo tiÃªu thá»¥ (Daily Calories)",
+                                                                 "wearable_2_label":  "--- [2] THIáº¾T Bá»Š ÄEO THá»¨ HAI ---",
+                                                                 "wearable_2_name":  "TÃªn thiáº¿t bá»‹ (DÃ¹ng khi thÃ´ng bÃ¡o)",
+                                                                 "wearable_2_on_body":  "Cáº£m biáº¿n tráº¡ng thÃ¡i Ä‘eo (On Body Sensor)",
+                                                                 "wearable_2_battery":  "Cáº£m biáº¿n pháº§n trÄƒm pin (Battery Level)",
+                                                                 "wearable_2_calories":  "Cáº£m biáº¿n calo tiÃªu thá»¥ (Daily Calories)",
+                                                                 "wearable_3_label":  "--- [3] THIáº¾T Bá»Š ÄEO THá»¨ BA ---",
+                                                                 "wearable_3_name":  "TÃªn thiáº¿t bá»‹ (DÃ¹ng khi thÃ´ng bÃ¡o)",
+                                                                 "wearable_3_on_body":  "Cáº£m biáº¿n tráº¡ng thÃ¡i Ä‘eo (On Body Sensor)",
+                                                                 "wearable_3_battery":  "Cáº£m biáº¿n pháº§n trÄƒm pin (Battery Level)",
+                                                                 "wearable_3_calories":  "Cáº£m biáº¿n calo tiÃªu thá»¥ (Daily Calories)",
+                                                                 "environment_label":  "========== [1] Cáº¢M BIáº¾N MÃ”I TRÆ¯á»œNG (Environment) ==========",
+                                                                 "bio_label":  "========== [2] Cáº¢M BIáº¾N SINH Há»ŒC \u0026 Äá»’ ÄEO (Bio Wearables) ==========",
+                                                                 "sync_label":  "========== [3] CHU Ká»² Äá»’NG Bá»˜ ÄIá»†N THOáº I (Companion Sync) ==========",
+                                                                 "notify_dev_label":  "========== [1] PHÃ‚N Cáº¤P THIáº¾T Bá»Š NHáº¬N THÃ”NG BÃO ==========",
+                                                                 "tts_voice_label":  "========== [2] PHÃT THANH GIá»ŒNG NÃ“I \u0026 Ná»˜I DUNG TTS ==========",
+                                                                 "water_cycle_label":  "========== [3] CHU Ká»² NHáº®C NHá»ž Uá»NG NÆ¯á»šC ==========",
+                                                                 "templates_label":  "========== [4] KHO MáºªU CÃ‚U THOáº I TÃ™Y BIáº¾N (Templates) ==========",
+                                                                 "calendar_label":  "========== [1] TÃCH Há»¢P Lá»ŠCH TRÃŒNH \u0026 Báº¢N TIN AGENDAS ==========",
+                                                                 "med_label":  "========== [2] Lá»ŠCH NHáº®C Uá»NG THUá»C LEO THANG (Medicine 1 Ä‘áº¿n 10) ==========",
+                                                                 "wearable_1_sleep_score":  "Cáº£m biáº¿n Ä‘iá»ƒm sá»‘ giáº¥c ngá»§ (Sleep Score)",
+                                                                 "wearable_1_sleep_duration":  "Cáº£m biáº¿n thá»i lÆ°á»£ng ngá»§ (Sleep Duration)",
+                                                                 "wearable_1_sleep_deep":  "Cáº£m biáº¿n thá»i gian ngá»§ sÃ¢u (Deep Sleep)",
+                                                                 "wearable_1_sleep_rem":  "Cáº£m biáº¿n thá»i gian ngá»§ REM (REM Sleep)",
+                                                                 "wearable_1_sleep_light":  "Cáº£m biáº¿n thá»i gian ngá»§ nÃ´ng (Light Sleep)",
+                                                                 "wearable_1_sleep_awake":  "Cáº£m biáº¿n thá»i gian thá»©c trong Ä‘Ãªm (Awake Time)",
+                                                                 "wearable_1_sleep_efficiency":  "Cáº£m biáº¿n hiá»‡u suáº¥t giáº¥c ngá»§ (Sleep Efficiency)",
+                                                                 "wearable_1_sleep_state":  "Cáº£m biáº¿n tráº¡ng thÃ¡i giáº¥c ngá»§ (Sleep State)",
+                                                                 "wearable_2_sleep_score":  "Cáº£m biáº¿n Ä‘iá»ƒm sá»‘ giáº¥c ngá»§ (Sleep Score)",
+                                                                 "wearable_2_sleep_duration":  "Cáº£m biáº¿n thá»i lÆ°á»£ng ngá»§ (Sleep Duration)",
+                                                                 "wearable_2_sleep_deep":  "Cáº£m biáº¿n thá»i gian ngá»§ sÃ¢u (Deep Sleep)",
+                                                                 "wearable_2_sleep_rem":  "Cáº£m biáº¿n thá»i gian ngá»§ REM (REM Sleep)",
+                                                                 "wearable_2_sleep_light":  "Cáº£m biáº¿n thá»i gian ngá»§ nÃ´ng (Light Sleep)",
+                                                                 "wearable_2_sleep_awake":  "Cáº£m biáº¿n thá»i gian thá»©c trong Ä‘Ãªm (Awake Time)",
+                                                                 "wearable_2_sleep_efficiency":  "Cáº£m biáº¿n hiá»‡u suáº¥t giáº¥c ngá»§ (Sleep Efficiency)",
+                                                                 "wearable_2_sleep_state":  "Cáº£m biáº¿n tráº¡ng thÃ¡i giáº¥c ngá»§ (Sleep State)",
+                                                                 "wearable_3_sleep_score":  "Cáº£m biáº¿n Ä‘iá»ƒm sá»‘ giáº¥c ngá»§ (Sleep Score)",
+                                                                 "wearable_3_sleep_duration":  "Cáº£m biáº¿n thá»i lÆ°á»£ng ngá»§ (Sleep Duration)",
+                                                                 "wearable_3_sleep_deep":  "Cáº£m biáº¿n thá»i gian ngá»§ sÃ¢u (Deep Sleep)",
+                                                                 "wearable_3_sleep_rem":  "Cáº£m biáº¿n thá»i gian ngá»§ REM (REM Sleep)",
+                                                                 "wearable_3_sleep_light":  "Cáº£m biáº¿n thá»i gian ngá»§ nÃ´ng (Light Sleep)",
+                                                                 "wearable_3_sleep_awake":  "Cáº£m biáº¿n thá»i gian thá»©c trong Ä‘Ãªm (Awake Time)",
+                                                                 "wearable_3_sleep_efficiency":  "Cáº£m biáº¿n hiá»‡u suáº¥t giáº¥c ngá»§ (Sleep Efficiency)",
+                                                                 "wearable_3_sleep_state":  "Cáº£m biáº¿n tráº¡ng thÃ¡i giáº¥c ngá»§ (Sleep State)"
+                                                             }
+                                                },
+                                "notifications":  {
+                                                      "title":  "Trung tÃ¢m ThÃ´ng bÃ¡o \u0026 Loa (BÆ°á»›c 4/5)",
+                                                      "description":  "Thiáº¿t láº­p cÃ¡c cáº£nh bÃ¡o y táº¿ vÃ  nháº¯c nhá»Ÿ uá»‘ng nÆ°á»›c báº±ng giá»ng nÃ³i (TTS).",
+                                                      "data":  {
+                                                                   "notify_target":  "Thiáº¿t bá»‹ nháº­n thÃ´ng bÃ¡o CÃ¡ nhÃ¢n (XÆ°ng hÃ´ \u0027Báº¡n\u0027)",
+                                                                   "notify_target_management":  "Thiáº¿t bá»‹ nháº­n thÃ´ng bÃ¡o GiÃ¡m sÃ¡t (XÆ°ng hÃ´ \u0027{person_name}\u0027)",
+                                                                   "tts_target":  "Loa phÃ¡t thanh (TTS Target)",
+                                                                   "tts_message":  "Ná»™i dung phÃ¡t thanh nháº¯c uá»‘ng nÆ°á»›c",
+                                                                   "water_reminder_interval":  "Chu ká»³ nháº¯c nhá»Ÿ uá»‘ng nÆ°á»›c (PhÃºt, 0 Ä‘á»ƒ táº¯t)",
+                                                                   "water_reminder_tts":  "Máº«u phÃ¡t thanh nháº¯c uá»‘ng nÆ°á»›c (dÃ¹ng \u0027{hours}\u0027)",
+                                                                   "water_reminder_notify":  "Máº«u nháº¯c uá»‘ng nÆ°á»›c CÃ¡ nhÃ¢n (dÃ¹ng \u0027{hours}\u0027)",
+                                                                   "water_reminder_notify_management":  "Máº«u nháº¯c uá»‘ng nÆ°á»›c GiÃ¡m sÃ¡t (dÃ¹ng \u0027{hours}\u0027, \u0027{person_name}\u0027)",
+                                                                   "drink_log_notify_personal":  "Máº«u thÃ´ng bÃ¡o uá»‘ng nÆ°á»›c CÃ¡ nhÃ¢n (dÃ¹ng \u0027{amount}\u0027, \u0027{drink_name}\u0027)",
+                                                                   "drink_log_notify_management":  "Máº«u thÃ´ng bÃ¡o uá»‘ng nÆ°á»›c GiÃ¡m sÃ¡t (dÃ¹ng \u0027{person_name}\u0027, \u0027{amount}\u0027, \u0027{drink_name}\u0027)",
+                                                                   "drink_log_notify_remove":  "Máº«u thÃ´ng bÃ¡o khi hoÃ n tÃ¡c (dÃ¹ng \u0027{person_name}\u0027)",
+                                                                   "environment_label":  "========== [1] Cáº¢M BIáº¾N MÃ”I TRÆ¯á»œNG (Environment) ==========",
+                                                                   "bio_label":  "========== [2] Cáº¢M BIáº¾N SINH Há»ŒC \u0026 Äá»’ ÄEO (Bio Wearables) ==========",
+                                                                   "sync_label":  "========== [3] CHU Ká»² Äá»’NG Bá»˜ ÄIá»†N THOáº I (Companion Sync) ==========",
+                                                                   "notify_dev_label":  "========== [1] PHÃ‚N Cáº¤P THIáº¾T Bá»Š NHáº¬N THÃ”NG BÃO ==========",
+                                                                   "tts_voice_label":  "========== [2] PHÃT THANH GIá»ŒNG NÃ“I \u0026 Ná»˜I DUNG TTS ==========",
+                                                                   "water_cycle_label":  "========== [3] CHU Ká»² NHáº®C NHá»ž Uá»NG NÆ¯á»šC ==========",
+                                                                   "templates_label":  "========== [4] KHO MáºªU CÃ‚U THOáº I TÃ™Y BIáº¾N (Templates) ==========",
+                                                                   "calendar_label":  "========== [1] TÃCH Há»¢P Lá»ŠCH TRÃŒNH \u0026 Báº¢N TIN AGENDAS ==========",
+                                                                   "med_label":  "========== [2] Lá»ŠCH NHáº®C Uá»NG THUá»C LEO THANG (Medicine 1 Ä‘áº¿n 10) =========="
+                                                               }
+                                                  },
+                                "medicine":  {
+                                                 "title":  "Lá»‹ch trÃ¬nh \u0026 Thuá»‘c uá»‘ng (BÆ°á»›c 5/5)",
+                                                 "description":  "Khai bÃ¡o tá»‘i Ä‘a 10 khung giá» uá»‘ng thuá»‘c nháº¯c qua Loa phÃ¡t thanh hoáº·c Äiá»‡n thoáº¡i. Äá»ƒ trá»‘ng TÃªn Thuá»‘c náº¿u khÃ´ng dÃ¹ng.",
+                                                 "data":  {
+                                                              "medicine_1_name":  "-------- [1] TÃŠN THUá»C --------",
+                                                              "medicine_1_time":  "Giá» uá»‘ng",
+                                                              "medicine_1_notify":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o",
+                                                              "medicine_1_tts":  "Loa phÃ¡t thanh (TTS)",
+                                                              "medicine_2_name":  "-------- [2] TÃŠN THUá»C --------",
+                                                              "medicine_2_time":  "Giá» uá»‘ng",
+                                                              "medicine_2_notify":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o",
+                                                              "medicine_2_tts":  "Loa phÃ¡t thanh (TTS)",
+                                                              "medicine_3_name":  "-------- [3] TÃŠN THUá»C --------",
+                                                              "medicine_3_time":  "Giá» uá»‘ng",
+                                                              "medicine_3_notify":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o",
+                                                              "medicine_3_tts":  "Loa phÃ¡t thanh (TTS)",
+                                                              "medicine_4_name":  "-------- [4] TÃŠN THUá»C --------",
+                                                              "medicine_4_time":  "Giá» uá»‘ng",
+                                                              "medicine_4_notify":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o",
+                                                              "medicine_4_tts":  "Loa phÃ¡t thanh (TTS)",
+                                                              "medicine_5_name":  "-------- [5] TÃŠN THUá»C --------",
+                                                              "medicine_5_time":  "Giá» uá»‘ng",
+                                                              "medicine_5_notify":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o",
+                                                              "medicine_5_tts":  "Loa phÃ¡t thanh (TTS)",
+                                                              "medicine_6_name":  "-------- [6] TÃŠN THUá»C --------",
+                                                              "medicine_6_time":  "Giá» uá»‘ng",
+                                                              "medicine_6_notify":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o",
+                                                              "medicine_6_tts":  "Loa phÃ¡t thanh (TTS)",
+                                                              "medicine_7_name":  "-------- [7] TÃŠN THUá»C --------",
+                                                              "medicine_7_time":  "Giá» uá»‘ng",
+                                                              "medicine_7_notify":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o",
+                                                              "medicine_7_tts":  "Loa phÃ¡t thanh (TTS)",
+                                                              "medicine_8_name":  "-------- [8] TÃŠN THUá»C --------",
+                                                              "medicine_8_time":  "Giá» uá»‘ng",
+                                                              "medicine_8_notify":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o",
+                                                              "medicine_8_tts":  "Loa phÃ¡t thanh (TTS)",
+                                                              "medicine_9_name":  "-------- [9] TÃŠN THUá»C --------",
+                                                              "medicine_9_time":  "Giá» uá»‘ng",
+                                                              "medicine_9_notify":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o",
+                                                              "medicine_9_tts":  "Loa phÃ¡t thanh (TTS)",
+                                                              "medicine_10_name":  "-------- [10] TÃŠN THUá»C --------",
+                                                              "medicine_10_time":  "Giá» uá»‘ng",
+                                                              "medicine_10_notify":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o",
+                                                              "medicine_10_tts":  "Loa phÃ¡t thanh (TTS)",
+                                                              "medicine_1_notify_secondary":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o phá»¥ [1]",
+                                                              "medicine_2_notify_secondary":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o phá»¥ [2]",
+                                                              "medicine_3_notify_secondary":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o phá»¥ [3]",
+                                                              "medicine_4_notify_secondary":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o phá»¥ [4]",
+                                                              "medicine_5_notify_secondary":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o phá»¥ [5]",
+                                                              "medicine_6_notify_secondary":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o phá»¥ [6]",
+                                                              "medicine_7_notify_secondary":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o phá»¥ [7]",
+                                                              "medicine_8_notify_secondary":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o phá»¥ [8]",
+                                                              "medicine_9_notify_secondary":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o phá»¥ [9]",
+                                                              "medicine_10_notify_secondary":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o phá»¥ [10]",
+                                                              "environment_label":  "========== [1] Cáº¢M BIáº¾N MÃ”I TRÆ¯á»œNG (Environment) ==========",
+                                                              "bio_label":  "========== [2] Cáº¢M BIáº¾N SINH Há»ŒC \u0026 Äá»’ ÄEO (Bio Wearables) ==========",
+                                                              "sync_label":  "========== [3] CHU Ká»² Äá»’NG Bá»˜ ÄIá»†N THOáº I (Companion Sync) ==========",
+                                                              "notify_dev_label":  "========== [1] PHÃ‚N Cáº¤P THIáº¾T Bá»Š NHáº¬N THÃ”NG BÃO ==========",
+                                                              "tts_voice_label":  "========== [2] PHÃT THANH GIá»ŒNG NÃ“I \u0026 Ná»˜I DUNG TTS ==========",
+                                                              "water_cycle_label":  "========== [3] CHU Ká»² NHáº®C NHá»ž Uá»NG NÆ¯á»šC ==========",
+                                                              "templates_label":  "========== [4] KHO MáºªU CÃ‚U THOáº I TÃ™Y BIáº¾N (Templates) ==========",
+                                                              "calendar_label":  "========== [1] TÃCH Há»¢P Lá»ŠCH TRÃŒNH \u0026 Báº¢N TIN AGENDAS ==========",
+                                                              "med_label":  "========== [2] Lá»ŠCH NHáº®C Uá»NG THUá»C LEO THANG (Medicine 1 Ä‘áº¿n 10) =========="
+                                                          }
+                                             }
+                            },
+                   "error":  {
+                                 "name_taken":  "TÃªn ngÆ°á»i dÃ¹ng nÃ y Ä‘Ã£ tá»“n táº¡i."
+                             }
+               },
+    "options":  {
+                    "step":  {
+                                 "init":  {
+                                              "title":  "M.A.I Tracker - Chá»‰nh sá»­a Há»“ sÆ¡ (BÆ°á»›c 1/5)",
+                                              "description":  "Cáº¥u hÃ¬nh láº¡i cÃ¡c thÃ´ng sá»‘ cÆ¡ thá»ƒ vÃ  má»¥c tiÃªu Cafein/NÆ°á»›c cá»§a báº¡n.",
+                                              "data":  {
+                                                           "person_name":  "TÃªn thÃ nh viÃªn (Prefix)",
+                                                           "linked_user":  "TÃ i khoáº£n liÃªn káº¿t (User)"
+                                                       }
+                                          },
+                                 "environment":  {
+                                                     "title":  "Cáº¥u hÃ¬nh Cáº£m biáº¿n \u0026 Äá»“ng bá»™ (BÆ°á»›c 3/5)",
+                                                     "description":  "Lá»±a chá»n cÃ¡c cáº£m biáº¿n Ä‘á»ƒ M.A.I Tracker tá»± Ä‘á»™ng Ä‘iá»u chá»‰nh lÆ°á»£ng nÆ°á»›c khi trá»i nÃ³ng.",
+                                                     "data":  {
+                                                                  "temp_sensor":  "Cáº£m biáº¿n nhiá»‡t Ä‘á»™",
+                                                                  "humidity_sensor":  "Cáº£m biáº¿n Ä‘á»™ áº©m",
+                                                                  "weather_entity":  "Thá»±c thá»ƒ thá»i tiáº¿t",
+                                                                  "low_battery_threshold":  "NgÆ°á»¡ng bÃ¡o pin yáº¿u cá»§a Ä‘á»“ng há»“ (%)",
+                                                                  "wearable_label":  "========== [3] Cáº¤U HÃŒNH THIáº¾T Bá»Š ÄEO THÃ”NG MINH (Wearables) ==========",
+                                                                  "wearable_1_label":  "--- [1] THIáº¾T Bá»Š ÄEO THá»¨ NHáº¤T ---",
+                                                                  "wearable_1_name":  "TÃªn thiáº¿t bá»‹ (DÃ¹ng khi thÃ´ng bÃ¡o)",
+                                                                  "wearable_1_on_body":  "Cáº£m biáº¿n tráº¡ng thÃ¡i Ä‘eo (On Body Sensor)",
+                                                                  "wearable_1_battery":  "Cáº£m biáº¿n pháº§n trÄƒm pin (Battery Level)",
+                                                                  "wearable_1_calories":  "Cáº£m biáº¿n calo tiÃªu thá»¥ (Daily Calories)",
+                                                                  "wearable_2_label":  "--- [2] THIáº¾T Bá»Š ÄEO THá»¨ HAI ---",
+                                                                  "wearable_2_name":  "TÃªn thiáº¿t bá»‹ (DÃ¹ng khi thÃ´ng bÃ¡o)",
+                                                                  "wearable_2_on_body":  "Cáº£m biáº¿n tráº¡ng thÃ¡i Ä‘eo (On Body Sensor)",
+                                                                  "wearable_2_battery":  "Cáº£m biáº¿n pháº§n trÄƒm pin (Battery Level)",
+                                                                  "wearable_2_calories":  "Cáº£m biáº¿n calo tiÃªu thá»¥ (Daily Calories)",
+                                                                  "wearable_3_label":  "--- [3] THIáº¾T Bá»Š ÄEO THá»¨ BA ---",
+                                                                  "wearable_3_name":  "TÃªn thiáº¿t bá»‹ (DÃ¹ng khi thÃ´ng bÃ¡o)",
+                                                                  "wearable_3_on_body":  "Cáº£m biáº¿n tráº¡ng thÃ¡i Ä‘eo (On Body Sensor)",
+                                                                  "wearable_3_battery":  "Cáº£m biáº¿n pháº§n trÄƒm pin (Battery Level)",
+                                                                  "wearable_3_calories":  "Cáº£m biáº¿n calo tiÃªu thá»¥ (Daily Calories)",
+                                                                  "environment_label":  "========== [1] Cáº¢M BIáº¾N MÃ”I TRÆ¯á»œNG (Environment) ==========",
+                                                                  "bio_label":  "========== [2] Cáº¢M BIáº¾N SINH Há»ŒC \u0026 Äá»’ ÄEO (Bio Wearables) ==========",
+                                                                  "sync_label":  "========== [3] CHU Ká»² Äá»’NG Bá»˜ ÄIá»†N THOáº I (Companion Sync) ==========",
+                                                                  "notify_dev_label":  "========== [1] PHÃ‚N Cáº¤P THIáº¾T Bá»Š NHáº¬N THÃ”NG BÃO ==========",
+                                                                  "tts_voice_label":  "========== [2] PHÃT THANH GIá»ŒNG NÃ“I \u0026 Ná»˜I DUNG TTS ==========",
+                                                                  "water_cycle_label":  "========== [3] CHU Ká»² NHáº®C NHá»ž Uá»NG NÆ¯á»šC ==========",
+                                                                  "templates_label":  "========== [4] KHO MáºªU CÃ‚U THOáº I TÃ™Y BIáº¾N (Templates) ==========",
+                                                                  "calendar_label":  "========== [1] TÃCH Há»¢P Lá»ŠCH TRÃŒNH \u0026 Báº¢N TIN AGENDAS ==========",
+                                                                  "med_label":  "========== [2] Lá»ŠCH NHáº®C Uá»NG THUá»C LEO THANG (Medicine 1 Ä‘áº¿n 10) ==========",
+                                                                  "heart_rate_sensors":  "Cáº£m biáº¿n nhá»‹p tim (Heart Rate)",
+                                                                  "step_sensors":  "Cáº£m biáº¿n sá»‘ bÆ°á»›c (Steps)",
+                                                                  "weight_sensor":  "Cáº£m biáº¿n cÃ¢n náº·ng (Weight)",
+                                                                  "bio_sync_interval":  "Chu ká»³ Ä‘á»“ng bá»™ tá»± Ä‘á»™ng",
+                                                                  "wearable_1_sleep_score":  "Cáº£m biáº¿n Ä‘iá»ƒm sá»‘ giáº¥c ngá»§ (Sleep Score)",
+                                                                  "wearable_1_sleep_duration":  "Cáº£m biáº¿n thá»i lÆ°á»£ng ngá»§ (Sleep Duration)",
+                                                                  "wearable_1_sleep_deep":  "Cáº£m biáº¿n thá»i gian ngá»§ sÃ¢u (Deep Sleep)",
+                                                                  "wearable_1_sleep_rem":  "Cáº£m biáº¿n thá»i gian ngá»§ REM (REM Sleep)",
+                                                                  "wearable_1_sleep_light":  "Cáº£m biáº¿n thá»i gian ngá»§ nÃ´ng (Light Sleep)",
+                                                                  "wearable_1_sleep_awake":  "Cáº£m biáº¿n thá»i gian thá»©c trong Ä‘Ãªm (Awake Time)",
+                                                                  "wearable_1_sleep_efficiency":  "Cáº£m biáº¿n hiá»‡u suáº¥t giáº¥c ngá»§ (Sleep Efficiency)",
+                                                                  "wearable_1_sleep_state":  "Cáº£m biáº¿n tráº¡ng thÃ¡i giáº¥c ngá»§ (Sleep State)",
+                                                                  "wearable_2_sleep_score":  "Cáº£m biáº¿n Ä‘iá»ƒm sá»‘ giáº¥c ngá»§ (Sleep Score)",
+                                                                  "wearable_2_sleep_duration":  "Cáº£m biáº¿n thá»i lÆ°á»£ng ngá»§ (Sleep Duration)",
+                                                                  "wearable_2_sleep_deep":  "Cáº£m biáº¿n thá»i gian ngá»§ sÃ¢u (Deep Sleep)",
+                                                                  "wearable_2_sleep_rem":  "Cáº£m biáº¿n thá»i gian ngá»§ REM (REM Sleep)",
+                                                                  "wearable_2_sleep_light":  "Cáº£m biáº¿n thá»i gian ngá»§ nÃ´ng (Light Sleep)",
+                                                                  "wearable_2_sleep_awake":  "Cáº£m biáº¿n thá»i gian thá»©c trong Ä‘Ãªm (Awake Time)",
+                                                                  "wearable_2_sleep_efficiency":  "Cáº£m biáº¿n hiá»‡u suáº¥t giáº¥c ngá»§ (Sleep Efficiency)",
+                                                                  "wearable_2_sleep_state":  "Cáº£m biáº¿n tráº¡ng thÃ¡i giáº¥c ngá»§ (Sleep State)",
+                                                                  "wearable_3_sleep_score":  "Cáº£m biáº¿n Ä‘iá»ƒm sá»‘ giáº¥c ngá»§ (Sleep Score)",
+                                                                  "wearable_3_sleep_duration":  "Cáº£m biáº¿n thá»i lÆ°á»£ng ngá»§ (Sleep Duration)",
+                                                                  "wearable_3_sleep_deep":  "Cáº£m biáº¿n thá»i gian ngá»§ sÃ¢u (Deep Sleep)",
+                                                                  "wearable_3_sleep_rem":  "Cáº£m biáº¿n thá»i gian ngá»§ REM (REM Sleep)",
+                                                                  "wearable_3_sleep_light":  "Cáº£m biáº¿n thá»i gian ngá»§ nÃ´ng (Light Sleep)",
+                                                                  "wearable_3_sleep_awake":  "Cáº£m biáº¿n thá»i gian thá»©c trong Ä‘Ãªm (Awake Time)",
+                                                                  "wearable_3_sleep_efficiency":  "Cáº£m biáº¿n hiá»‡u suáº¥t giáº¥c ngá»§ (Sleep Efficiency)",
+                                                                  "wearable_3_sleep_state":  "Cáº£m biáº¿n tráº¡ng thÃ¡i giáº¥c ngá»§ (Sleep State)"
+                                                              }
+                                                 },
+                                 "notifications":  {
+                                                       "title":  "Trung tÃ¢m ThÃ´ng bÃ¡o \u0026 Loa (BÆ°á»›c 4/5)",
+                                                       "description":  "Thiáº¿t láº­p cÃ¡c cáº£nh bÃ¡o y táº¿ vÃ  nháº¯c nhá»Ÿ uá»‘ng nÆ°á»›c báº±ng giá»ng nÃ³i (TTS).",
+                                                       "data":  {
+                                                                    "notify_target":  "Thiáº¿t bá»‹ nháº­n thÃ´ng bÃ¡o CÃ¡ nhÃ¢n (XÆ°ng hÃ´ \u0027Báº¡n\u0027)",
+                                                                    "notify_target_management":  "Thiáº¿t bá»‹ nháº­n thÃ´ng bÃ¡o GiÃ¡m sÃ¡t (XÆ°ng hÃ´ \u0027{person_name}\u0027)",
+                                                                    "tts_target":  "Loa phÃ¡t thanh (TTS Target)",
+                                                                    "tts_message":  "Ná»™i dung phÃ¡t thanh nháº¯c uá»‘ng nÆ°á»›c",
+                                                                    "water_reminder_interval":  "Chu ká»³ nháº¯c uá»‘ng nÆ°á»›c (PhÃºt, 0 Ä‘á»ƒ táº¯t)",
+                                                                    "water_reminder_tts":  "Máº«u phÃ¡t nháº¯c nÆ°á»›c qua Loa (dÃ¹ng \u0027{hours}\u0027)",
+                                                                    "water_reminder_notify":  "Máº«u nháº¯c nÆ°á»›c CÃ¡ nhÃ¢n (dÃ¹ng \u0027{hours}\u0027)",
+                                                                    "water_reminder_notify_management":  "Máº«u nháº¯c nÆ°á»›c GiÃ¡m sÃ¡t (dÃ¹ng \u0027{hours}\u0027, \u0027{person_name}\u0027)",
+                                                                    "drink_log_notify_personal":  "Máº«u bÃ¡o uá»‘ng nÆ°á»›c CÃ¡ nhÃ¢n (dÃ¹ng \u0027{amount}\u0027, \u0027{drink_name}\u0027)",
+                                                                    "drink_log_notify_management":  "Máº«u bÃ¡o uá»‘ng nÆ°á»›c GiÃ¡m sÃ¡t (dÃ¹ng \u0027{person_name}\u0027, \u0027{amount}\u0027, \u0027{drink_name}\u0027)",
+                                                                    "drink_log_notify_remove":  "Máº«u bÃ¡o hoÃ n tÃ¡c uá»‘ng nÆ°á»›c (dÃ¹ng \u0027{person_name}\u0027)"
+                                                                }
+                                                   },
+                                 "medicine":  {
+                                                  "title":  "Lá»‹ch trÃ¬nh \u0026 Thuá»‘c uá»‘ng (BÆ°á»›c 5/5)",
+                                                  "description":  "Khai bÃ¡o tá»‘i Ä‘a 10 khung giá» uá»‘ng thuá»‘c nháº¯c qua Loa phÃ¡t thanh hoáº·c Äiá»‡n thoáº¡i.",
+                                                  "data":  {
+                                                               "calendars":  "Chá»n lá»‹ch trÃ¬nh (Calendars)",
+                                                               "medicine_1_name":  "-------- [1] TÃŠN THUá»C --------",
+                                                               "medicine_1_time":  "Giá» uá»‘ng",
+                                                               "medicine_1_notify":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o",
+                                                               "medicine_1_notify_secondary":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o phá»¥ [1]",
+                                                               "medicine_1_tts":  "Loa phÃ¡t thanh (TTS)",
+                                                               "medicine_2_name":  "-------- [2] TÃŠN THUá»C --------",
+                                                               "medicine_2_time":  "Giá» uá»‘ng",
+                                                               "medicine_2_notify":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o",
+                                                               "medicine_2_notify_secondary":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o phá»¥ [2]",
+                                                               "medicine_2_tts":  "Loa phÃ¡t thanh (TTS)",
+                                                               "medicine_3_name":  "-------- [3] TÃŠN THUá»C --------",
+                                                               "medicine_3_time":  "Giá» uá»‘ng",
+                                                               "medicine_3_notify":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o",
+                                                               "medicine_3_notify_secondary":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o phá»¥ [3]",
+                                                               "medicine_3_tts":  "Loa phÃ¡t thanh (TTS)",
+                                                               "medicine_4_name":  "-------- [4] TÃŠN THUá»C --------",
+                                                               "medicine_4_time":  "Giá» uá»‘ng",
+                                                               "medicine_4_notify":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o",
+                                                               "medicine_4_notify_secondary":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o phá»¥ [4]",
+                                                               "medicine_4_tts":  "Loa phÃ¡t thanh (TTS)",
+                                                               "medicine_5_name":  "-------- [5] TÃŠN THUá»C --------",
+                                                               "medicine_5_time":  "Giá» uá»‘ng",
+                                                               "medicine_5_notify":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o",
+                                                               "medicine_5_notify_secondary":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o phá»¥ [5]",
+                                                               "medicine_5_tts":  "Loa phÃ¡t thanh (TTS)",
+                                                               "medicine_6_name":  "-------- [6] TÃŠN THUá»C --------",
+                                                               "medicine_6_time":  "Giá» uá»‘ng",
+                                                               "medicine_6_notify":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o",
+                                                               "medicine_6_notify_secondary":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o phá»¥ [6]",
+                                                               "medicine_6_tts":  "Loa phÃ¡t thanh (TTS)",
+                                                               "medicine_7_name":  "-------- [7] TÃŠN THUá»C --------",
+                                                               "medicine_7_time":  "Giá» uá»‘ng",
+                                                               "medicine_7_notify":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o",
+                                                               "medicine_7_notify_secondary":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o phá»¥ [7]",
+                                                               "medicine_7_tts":  "Loa phÃ¡t thanh (TTS)",
+                                                               "medicine_8_name":  "-------- [8] TÃŠN THUá»C --------",
+                                                               "medicine_8_time":  "Giá» uá»‘ng",
+                                                               "medicine_8_notify":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o",
+                                                               "medicine_8_notify_secondary":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o phá»¥ [8]",
+                                                               "medicine_8_tts":  "Loa phÃ¡t thanh (TTS)",
+                                                               "medicine_9_name":  "-------- [9] TÃŠN THUá»C --------",
+                                                               "medicine_9_time":  "Giá» uá»‘ng",
+                                                               "medicine_9_notify":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o",
+                                                               "medicine_9_notify_secondary":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o phá»¥ [9]",
+                                                               "medicine_9_tts":  "Loa phÃ¡t thanh (TTS)",
+                                                               "medicine_10_name":  "-------- [10] TÃŠN THUá»C --------",
+                                                               "medicine_10_time":  "Giá» uá»‘ng",
+                                                               "medicine_10_notify":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o",
+                                                               "medicine_10_notify_secondary":  "Äiá»‡n thoáº¡i nháº­n thÃ´ng bÃ¡o phá»¥ [10]",
+                                                               "medicine_10_tts":  "Loa phÃ¡t thanh (TTS)"
+                                                           }
+                                              },
+                                 "basic_settings":  {
+                                                        "title":  "ThÃ´ng sá»‘ Ná»n táº£ng \u0026 Sinh lÃ½ (BÆ°á»›c 2/5)",
+                                                        "description":  "Cáº¥u hÃ¬nh láº¡i cÃ¡c thÃ´ng sá»‘ cÆ¡ thá»ƒ vÃ  má»¥c tiÃªu Cafein/NÆ°á»›c cá»§a báº¡n.",
+                                                        "data":  {
+                                                                     "water_goal":  "Má»¥c tiÃªu nÆ°á»›c (ml)",
+                                                                     "half_life_hours":  "Thá»i gian bÃ¡n phÃ¢n há»§y Cafein",
+                                                                     "sleep_safe_mg":  "NgÆ°á»¡ng Cafein an toÃ n Ä‘á»ƒ ngá»§",
+                                                                     "enable_absorption":  "MÃ´ phá»ng háº¥p thá»¥ (Gradual Absorption)",
+                                                                     "absorption_time_min":  "Thá»i gian háº¥p thá»¥ (PhÃºt)",
+                                                                     "weight_kg":  "CÃ¢n náº·ng máº·c Ä‘á»‹nh (kg)",
+                                                                     "gender":  "Giá»›i tÃ­nh"
+                                                                 }
+                                                    }
+                             }
+                },
+    "entity":  {
+                   "sensor":  {
+                                  "current":  {
+                                                  "name":  "Caffeine Äang Hoáº¡t Äá»™ng"
+                                              },
+                                  "consumed_today":  {
+                                                         "name":  "Caffeine HÃ´m Nay"
+                                                     },
+                                  "consumed_today_count":  {
+                                                               "name":  "Sá»‘ láº§n uá»‘ng Cafein"
+                                                           },
+                                  "sleep_safe_at":  {
+                                                        "name":  "Giá» Ä‘i ngá»§ an toÃ n"
+                                                    },
+                                  "peak":  {
+                                               "name":  "Má»©c Cafein Ä‘á»‰nh Ä‘iá»ƒm"
+                                           },
+                                  "water_today":  {
+                                                      "name":  "Tá»•ng NÆ°á»›c HÃ´m Nay"
+                                                  },
+                                  "heat_index":  {
+                                                     "name":  "Má»©c Ä‘á»™ oi bá»©c"
+                                                 },
+                                  "caffeine_percent":  {
+                                                           "name":  "Tá»‰ lá»‡ giá»›i háº¡n Cafein"
+                                                       },
+                                  "bac_level":  {
+                                                    "name":  "Ná»“ng Ä‘á»™ cá»“n (BAC)"
+                                                },
+                                  "drive_safe_at":  {
+                                                        "name":  "Giá» lÃ¡i xe an toÃ n"
+                                                    },
+                                  "last_medicine":  {
+                                                        "name":  "Liá»u thuá»‘c gáº§n nháº¥t"
+                                                    },
+                                  "caffeine_crash_risk":  {
+                                                              "name":  "Nguy cÆ¡ sá»¥p Ä‘á»• nÄƒng lÆ°á»£ng"
+                                                          },
+                                  "caffeine_history":  {
+                                                           "name":  "Lá»‹ch sá»­ náº¡p Cafein"
+                                                       },
+                                  "aggregated_heart_rate":  {
+                                                                "name":  "Nhá»‹p tim trung bÃ¬nh"
+                                                            },
+                                  "aggregated_steps":  {
+                                                           "name":  "Tá»•ng sá»‘ bÆ°á»›c chÃ¢n"
+                                                       },
+                                  "dynamic_water_goal":  {
+                                                             "name":  "Má»¥c tiÃªu nÆ°á»›c hÃ´m nay"
+                                                         },
+                                  "weight":  {
+                                                 "name":  "CÃ¢n náº·ng"
+                                             },
+                                  "current_weight":  {
+                                                         "name":  "CÃ¢n náº·ng hiá»‡n táº¡i"
+                                                     },
+                                  "sleep_score":  {
+                                                      "name":  "Äiá»ƒm sá»‘ giáº¥c ngá»§"
+                                                  },
+                                  "sleep_duration":  {
+                                                         "name":  "Thá»i lÆ°á»£ng giáº¥c ngá»§"
+                                                     },
+                                  "deep_sleep":  {
+                                                     "name":  "Thá»i gian ngá»§ sÃ¢u"
+                                                 },
+                                  "rem_sleep":  {
+                                                    "name":  "Thá»i gian ngá»§ REM"
+                                                },
+                                  "light_sleep":  {
+                                                      "name":  "Thá»i gian ngá»§ nÃ´ng"
+                                                  },
+                                  "awake_time":  {
+                                                     "name":  "Thá»i gian thá»©c"
+                                                 },
+                                  "sleep_efficiency":  {
+                                                           "name":  "Hiá»‡u suáº¥t giáº¥c ngá»§"
+                                                       },
+                                  "sleep_state":  {
+                                                      "name":  "Tráº¡ng thÃ¡i giáº¥c ngá»§"
+                                                  },
+                                  "sleep_summary":  {
+                                                        "name":  "Tá»•ng quan giáº¥c ngá»§"
+                                                    }
+                              },
+                   "number":  {
+                                  "water_today":  {
+                                                      "name":  "NÆ°á»›c lá»c (Má»¥c tiÃªu)"
+                                                  },
+                                  "drink_nuoc_loc":  {
+                                                         "name":  "NÆ°á»›c lá»c"
+                                                     },
+                                  "drink_cafe":  {
+                                                     "name":  "CÃ  phÃª"
+                                                 },
+                                  "drink_tra":  {
+                                                    "name":  "TrÃ "
+                                                },
+                                  "drink_nuoc_ngot":  {
+                                                          "name":  "NÆ°á»›c ngá»t"
+                                                      },
+                                  "drink_sua":  {
+                                                    "name":  "Sá»¯a"
+                                                },
+                                  "drink_bia":  {
+                                                    "name":  "Bia"
+                                                },
+                                  "drink_ruou":  {
+                                                     "name":  "RÆ°á»£u"
+                                                 }
+                              }
+               }
 }

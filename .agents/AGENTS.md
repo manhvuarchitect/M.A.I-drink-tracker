@@ -6,7 +6,13 @@
 * Sau khi chỉnh sửa `strings.json`, phải chạy script `py scratch/update_strings.py` (hoặc lệnh tương ứng) để đồng bộ tự động sang `translations/vi.json` và dịch tự động/đồng bộ sang `translations/en.json`.
 * Tuyệt đối **không sửa đổi thủ công** các file dịch trong thư mục `translations/` để tránh lệch pha dữ liệu.
 
-## 2. Quy trình kiểm tra cú pháp và Deploy
-* Trước khi deploy phiên bản mới, bắt buộc phải chạy trình biên dịch kiểm tra lỗi cú pháp Python:
-  `py -m py_compile custom_components/mai_tracker/config_flow.py`
-* Sau khi xác nhận không có lỗi cú pháp, chạy `py secure_deploy.py` để đóng gói mã nguồn đã mã hóa lên GitHub.
+## 2. Quy trình kiểm tra cú pháp, Tạo phiên bản Build và Deploy lên GitHub
+* **Quy tắc đặt tên phiên bản Build**:
+  - Luôn sử dụng hậu tố định dạng: `_YYYYMMDD.bx` (ví dụ: `_20260827.b1`, `_20260827.b2`...).
+  - `YYYYMMDD`: Năm, tháng, ngày hiện tại.
+  - `bx`: Số thứ tự bản build trong ngày, tự động kiểm tra và tăng dần (`b1`, `b2`, `b3`...).
+* **Quy trình bắt buộc sau mỗi lần thay đổi mã nguồn hoặc build**:
+  1. Chạy trình biên dịch kiểm tra lỗi cú pháp Python:
+     `py -m py_compile custom_components/mai_tracker/config_flow.py`
+  2. Tạo bản build / tag / release có tên phiên bản kèm hậu tố `_YYYYMMDD.bx` tương ứng.
+  3. Tiến hành commit, gắn tag phiên bản (nếu có) và đẩy (push) toàn bộ mã nguồn lên GitHub.

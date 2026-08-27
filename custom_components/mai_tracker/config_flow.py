@@ -325,6 +325,30 @@ class MaiTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             schema[vol.Optional(f"wearable_{i}_calories")] = selector.EntitySelector(
                 selector.EntitySelectorConfig(multiple=False, domain="sensor")
             )
+            schema[vol.Optional(f"wearable_{i}_sleep_score")] = selector.EntitySelector(
+                selector.EntitySelectorConfig(multiple=False, domain="sensor")
+            )
+            schema[vol.Optional(f"wearable_{i}_sleep_duration")] = selector.EntitySelector(
+                selector.EntitySelectorConfig(multiple=False, domain="sensor")
+            )
+            schema[vol.Optional(f"wearable_{i}_sleep_deep")] = selector.EntitySelector(
+                selector.EntitySelectorConfig(multiple=False, domain="sensor")
+            )
+            schema[vol.Optional(f"wearable_{i}_sleep_rem")] = selector.EntitySelector(
+                selector.EntitySelectorConfig(multiple=False, domain="sensor")
+            )
+            schema[vol.Optional(f"wearable_{i}_sleep_light")] = selector.EntitySelector(
+                selector.EntitySelectorConfig(multiple=False, domain="sensor")
+            )
+            schema[vol.Optional(f"wearable_{i}_sleep_awake")] = selector.EntitySelector(
+                selector.EntitySelectorConfig(multiple=False, domain="sensor")
+            )
+            schema[vol.Optional(f"wearable_{i}_sleep_efficiency")] = selector.EntitySelector(
+                selector.EntitySelectorConfig(multiple=False, domain="sensor")
+            )
+            schema[vol.Optional(f"wearable_{i}_sleep_state")] = selector.EntitySelector(
+                selector.EntitySelectorConfig(multiple=False, domain=["sensor", "binary_sensor"])
+            )
 
         schema.update({
             vol.Optional("bio_sync_interval", default="60"): selector.SelectSelector(
@@ -642,36 +666,39 @@ class MaiTrackerOptionsFlow(config_entries.OptionsFlow):
             w_on_body = str(self._get(f"wearable_{i}_on_body", ""))
             w_battery = str(self._get(f"wearable_{i}_battery", ""))
             w_calories = str(self._get(f"wearable_{i}_calories", ""))
+            w_sleep_score = str(self._get(f"wearable_{i}_sleep_score", ""))
+            w_sleep_duration = str(self._get(f"wearable_{i}_sleep_duration", ""))
+            w_sleep_deep = str(self._get(f"wearable_{i}_sleep_deep", ""))
+            w_sleep_rem = str(self._get(f"wearable_{i}_sleep_rem", ""))
+            w_sleep_light = str(self._get(f"wearable_{i}_sleep_light", ""))
+            w_sleep_awake = str(self._get(f"wearable_{i}_sleep_awake", ""))
+            w_sleep_efficiency = str(self._get(f"wearable_{i}_sleep_efficiency", ""))
+            w_sleep_state = str(self._get(f"wearable_{i}_sleep_state", ""))
 
             schema[vol.Optional(f"wearable_{i}_label", default="")] = selector.TextSelector(selector.TextSelectorConfig(read_only=True))
             schema[vol.Optional(f"wearable_{i}_name", default=w_name)] = selector.TextSelector()
-            
-            if w_on_body:
-                schema[vol.Optional(f"wearable_{i}_on_body", default=w_on_body)] = selector.EntitySelector(
-                    selector.EntitySelectorConfig(multiple=False, domain="binary_sensor")
-                )
-            else:
-                schema[vol.Optional(f"wearable_{i}_on_body")] = selector.EntitySelector(
-                    selector.EntitySelectorConfig(multiple=False, domain="binary_sensor")
-                )
 
-            if w_battery:
-                schema[vol.Optional(f"wearable_{i}_battery", default=w_battery)] = selector.EntitySelector(
-                    selector.EntitySelectorConfig(multiple=False, domain="sensor")
-                )
-            else:
-                schema[vol.Optional(f"wearable_{i}_battery")] = selector.EntitySelector(
-                    selector.EntitySelectorConfig(multiple=False, domain="sensor")
-                )
-
-            if w_calories:
-                schema[vol.Optional(f"wearable_{i}_calories", default=w_calories)] = selector.EntitySelector(
-                    selector.EntitySelectorConfig(multiple=False, domain="sensor")
-                )
-            else:
-                schema[vol.Optional(f"wearable_{i}_calories")] = selector.EntitySelector(
-                    selector.EntitySelectorConfig(multiple=False, domain="sensor")
-                )
+            for key, val, dom in [
+                (f"wearable_{i}_on_body", w_on_body, "binary_sensor"),
+                (f"wearable_{i}_battery", w_battery, "sensor"),
+                (f"wearable_{i}_calories", w_calories, "sensor"),
+                (f"wearable_{i}_sleep_score", w_sleep_score, "sensor"),
+                (f"wearable_{i}_sleep_duration", w_sleep_duration, "sensor"),
+                (f"wearable_{i}_sleep_deep", w_sleep_deep, "sensor"),
+                (f"wearable_{i}_sleep_rem", w_sleep_rem, "sensor"),
+                (f"wearable_{i}_sleep_light", w_sleep_light, "sensor"),
+                (f"wearable_{i}_sleep_awake", w_sleep_awake, "sensor"),
+                (f"wearable_{i}_sleep_efficiency", w_sleep_efficiency, "sensor"),
+                (f"wearable_{i}_sleep_state", w_sleep_state, ["sensor", "binary_sensor"]),
+            ]:
+                if val:
+                    schema[vol.Optional(key, default=val)] = selector.EntitySelector(
+                        selector.EntitySelectorConfig(multiple=False, domain=dom)
+                    )
+                else:
+                    schema[vol.Optional(key)] = selector.EntitySelector(
+                        selector.EntitySelectorConfig(multiple=False, domain=dom)
+                    )
 
         schema[vol.Optional("bio_sync_interval", default=cur_sync)] = selector.SelectSelector(
             selector.SelectSelectorConfig(
