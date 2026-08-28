@@ -4,6 +4,13 @@ Tất cả các thay đổi, tính năng mới và bản sửa lỗi của integ
 
 ---
 
+## [2026.08.28.b1] - 2026-08-28
+
+### 🐛 Sửa lỗi hiển thị phông chữ tiếng Việt (Mojibake Fixes)
+- **Khắc phục triệt để lỗi vỡ chữ tiếng Việt**: Khôi phục và chuẩn hóa toàn bộ nội dung trong `strings.json` và `translations/vi.json` về chuẩn UTF-8 thuần (No BOM), sửa lỗi hiển thị các ký tự `Chá»%nh sá»a Há»" sÆ¡...` trên giao diện Home Assistant.
+
+---
+
 ## [2026.08.27.b3] - 2026-08-27
 
 ### 🐛 Sửa lỗi Encoding (Bug Fixes)
