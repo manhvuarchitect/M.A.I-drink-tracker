@@ -15,6 +15,7 @@ from .sensors.caffeine import (
     CaffeineCurrentSensor,
     CaffeineConsumedTodaySensor,
     CaffeineConsumedTodayCountSensor,
+    WaterConsumedTodaySensor,
     CaffeineSleepSafeAtSensor,
     CaffeinePercentSensor,
     CaffeinePeakSensor,
@@ -45,6 +46,7 @@ async def async_setup_entry(
     coordinator: CaffeineCoordinator = hass.data[DOMAIN][entry.entry_id]
 
     entities: list[_CaffeineBase] = [
+        WaterConsumedTodaySensor(coordinator, entry),
         CaffeineCurrentSensor(coordinator, entry),
         CaffeineConsumedTodaySensor(coordinator, entry),
         CaffeineConsumedTodayCountSensor(coordinator, entry),

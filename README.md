@@ -1,12 +1,13 @@
 # M.A.I Tracker (Home Assistant Custom Component)
 
-**Current Version: 2026.08.28.b1**
+**Current Version: 2026.08.31.b1**
 
 A powerful Home Assistant integration to track daily fluid intake, manage caffeine half-life, monitor sleep metrics (score, stages, duration, efficiency), track medicines, and calculate heat index.
 
 ---
 
 ## 🚀 Key Features
+- **Long-Term Statistics (LTS)**: Tự động lưu trữ lịch sử lâu dài (ngày, tuần, tháng, năm vĩnh viễn) cho tất cả chỉ số (nước, cafein, bước chân, giấc ngủ, nhịp tim, nhiệt độ) trên Home Assistant.
 - **Sleep Index Tracking (Theo dõi chỉ số giấc ngủ)**: Tích hợp đầy đủ 8 chỉ số giấc ngủ chuyên sâu (Điểm số, Thời lượng, Ngủ sâu, REM, Ngủ nông, Thức, Hiệu suất, Trạng thái) tương ứng với từng thiết bị đeo thông minh (Wearable 1..3).
 - **Smart Wearables Integration**: Hỗ trợ đồng bộ đa thiết bị đeo (Apple Watch, Garmin, Galaxy Watch...) với cảm biến on-body, pin, calo, nhịp tim, bước chân và giấc ngủ.
 - **Profile Cloning (Sao chép cấu hình)**: Easily duplicate complex settings (medicines, environment, notification devices) from an existing user when creating a new one!

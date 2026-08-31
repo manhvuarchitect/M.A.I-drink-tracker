@@ -1,5 +1,5 @@
 from homeassistant.components.sensor import SensorEntity
-from homeassistant.components.sensor.const import SensorStateClass
+from homeassistant.components.sensor.const import SensorDeviceClass, SensorStateClass
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceInfo
@@ -11,7 +11,9 @@ from ..coordinator import CaffeineCoordinator
 class HeatIndexSensor(SensorEntity):
     _attr_icon = "mdi:sun-thermometer"
     _attr_native_unit_of_measurement = "°C"
+    _attr_device_class = SensorDeviceClass.TEMPERATURE
     _attr_state_class = SensorStateClass.MEASUREMENT
+    _attr_suggested_display_precision = 1
     _attr_should_poll = False
     _attr_has_entity_name = True
 
@@ -94,7 +96,9 @@ class HeatIndexSensor(SensorEntity):
 class DynamicWaterGoalSensor(SensorEntity):
     _attr_icon = "mdi:water-plus"
     _attr_native_unit_of_measurement = "ml"
+    _attr_device_class = SensorDeviceClass.WATER
     _attr_state_class = SensorStateClass.MEASUREMENT
+    _attr_suggested_display_precision = 0
     _attr_should_poll = False
     _attr_has_entity_name = True
 

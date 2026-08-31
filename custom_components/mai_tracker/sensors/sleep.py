@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import Any
-from homeassistant.components.sensor.const import SensorStateClass
+from homeassistant.components.sensor.const import SensorDeviceClass, SensorStateClass
 from homeassistant.config_entries import ConfigEntry
 
 from ..coordinator import CaffeineCoordinator
@@ -14,7 +14,9 @@ class SleepScoreSensor(_CaffeineBase):
     """Sleep Quality Score Sensor (0-100)."""
 
     _attr_icon = "mdi:sleep"
+    _attr_native_unit_of_measurement = "đ"
     _attr_state_class = SensorStateClass.MEASUREMENT
+    _attr_suggested_display_precision = 0
 
     def __init__(self, coordinator: CaffeineCoordinator, entry: ConfigEntry) -> None:
         super().__init__(coordinator, entry, suffix="sleep_score")
@@ -37,7 +39,10 @@ class SleepDurationSensor(_CaffeineBase):
     """Total Sleep Duration Sensor."""
 
     _attr_icon = "mdi:bed-clock"
+    _attr_native_unit_of_measurement = "h"
+    _attr_device_class = SensorDeviceClass.DURATION
     _attr_state_class = SensorStateClass.MEASUREMENT
+    _attr_suggested_display_precision = 1
 
     def __init__(self, coordinator: CaffeineCoordinator, entry: ConfigEntry) -> None:
         super().__init__(coordinator, entry, suffix="sleep_duration")
@@ -54,7 +59,10 @@ class DeepSleepSensor(_CaffeineBase):
     """Deep Sleep Stage Sensor."""
 
     _attr_icon = "mdi:power-sleep"
+    _attr_native_unit_of_measurement = "h"
+    _attr_device_class = SensorDeviceClass.DURATION
     _attr_state_class = SensorStateClass.MEASUREMENT
+    _attr_suggested_display_precision = 1
 
     def __init__(self, coordinator: CaffeineCoordinator, entry: ConfigEntry) -> None:
         super().__init__(coordinator, entry, suffix="deep_sleep")
@@ -71,7 +79,10 @@ class RemSleepSensor(_CaffeineBase):
     """REM Sleep Stage Sensor."""
 
     _attr_icon = "mdi:brain"
+    _attr_native_unit_of_measurement = "h"
+    _attr_device_class = SensorDeviceClass.DURATION
     _attr_state_class = SensorStateClass.MEASUREMENT
+    _attr_suggested_display_precision = 1
 
     def __init__(self, coordinator: CaffeineCoordinator, entry: ConfigEntry) -> None:
         super().__init__(coordinator, entry, suffix="rem_sleep")
@@ -88,7 +99,10 @@ class LightSleepSensor(_CaffeineBase):
     """Light Sleep Stage Sensor."""
 
     _attr_icon = "mdi:weather-night"
+    _attr_native_unit_of_measurement = "h"
+    _attr_device_class = SensorDeviceClass.DURATION
     _attr_state_class = SensorStateClass.MEASUREMENT
+    _attr_suggested_display_precision = 1
 
     def __init__(self, coordinator: CaffeineCoordinator, entry: ConfigEntry) -> None:
         super().__init__(coordinator, entry, suffix="light_sleep")
@@ -105,7 +119,10 @@ class SleepAwakeSensor(_CaffeineBase):
     """Awake Time during Sleep Sensor."""
 
     _attr_icon = "mdi:alarm-snooze"
+    _attr_native_unit_of_measurement = "min"
+    _attr_device_class = SensorDeviceClass.DURATION
     _attr_state_class = SensorStateClass.MEASUREMENT
+    _attr_suggested_display_precision = 0
 
     def __init__(self, coordinator: CaffeineCoordinator, entry: ConfigEntry) -> None:
         super().__init__(coordinator, entry, suffix="awake_time")
@@ -124,6 +141,7 @@ class SleepEfficiencySensor(_CaffeineBase):
     _attr_icon = "mdi:chart-arc"
     _attr_native_unit_of_measurement = "%"
     _attr_state_class = SensorStateClass.MEASUREMENT
+    _attr_suggested_display_precision = 0
 
     def __init__(self, coordinator: CaffeineCoordinator, entry: ConfigEntry) -> None:
         super().__init__(coordinator, entry, suffix="sleep_efficiency")

@@ -67,7 +67,30 @@ class CaffeinePercentSensor(_CaffeineBase):
         if not self.coordinator.data: return None
         return round((self.coordinator.data.consumed_today_mg / 400.0) * 100.0, 0)
 
+class WaterConsumedTodaySensor(_CaffeineBase):
+    _attr_native_unit_of_measurement = "ml"
+    _attr_state_class = SensorStateClass.TOTAL_INCREASING
+    _attr_device_class = SensorDeviceClass.WATER
+    _attr_icon = "mdi:cup-water"
+    _attr_suggested_display_precision = 0
+
+    def __init__(self, coordinator: CaffeineCoordinator, entry: ConfigEntry) -> None:
+        super().__init__(coordinator, entry, suffix="water_today")
+        self._attr_unique_id = f"{entry.entry_id}_water_today_sensor"
+
+    @property
+    def native_value(self) -> float | None:
+        return self.coordinator.data.water_total if self.coordinator.data else 0.0
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any]:
+        if not self.coordinator.data: return {}
+        return {
+            "drinks_total": self.coordinator.data.drinks_total,
+        }
+
 class CaffeineConsumedTodayCountSensor(_CaffeineBase):
+    _attr_native_unit_of_measurement = "cốc"
     _attr_state_class = SensorStateClass.TOTAL_INCREASING
     _attr_icon = "mdi:counter"
 

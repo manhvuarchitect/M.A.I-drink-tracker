@@ -4,6 +4,20 @@ Tất cả các thay đổi, tính năng mới và bản sửa lỗi của integ
 
 ---
 
+## [2026.08.31.b1] - 2026-08-31
+
+### ✨ Tính năng mới (Features)
+- **Tích hợp Long-Term Statistics (LTS) toàn diện**:
+  - Hỗ trợ lưu trữ và vẽ biểu đồ lịch sử lâu dài (theo tuần, tháng, năm vĩnh viễn) trực tiếp trên Home Assistant Dashboard (Statistics Graph Card, ApexCharts, Plotly).
+  - Bổ sung cảm biến tổng lượng nước tiêu thụ `sensor.mait_{person}_water_today` với `state_class = TOTAL_INCREASING`, `device_class = WATER` và `unit_of_measurement = ml`.
+  - Khai báo chuẩn hóa `state_class`, `device_class`, đơn vị đo lường (`unit_of_measurement`) và độ chính xác hiển thị (`suggested_display_precision`) cho toàn bộ cảm biến:
+    - **Nước & Đồ uống**: `water_today` (`ml`, `TOTAL_INCREASING`), `consumed_today_count` (`cốc`, `TOTAL_INCREASING`), `dynamic_water_goal` (`ml`, `MEASUREMENT`).
+    - **Cafein & Cồn**: `current` (`mg`, `MEASUREMENT`), `consumed_today` (`mg`, `TOTAL_INCREASING`), `peak` (`mg`, `MEASUREMENT`), `caffeine_percent` (`%`, `MEASUREMENT`), `bac_level` (`%`, `MEASUREMENT`).
+    - **Chỉ số Giấc ngủ**: `sleep_score` (`đ`, `MEASUREMENT`), `sleep_duration` (`h`, `DURATION`), `deep_sleep` (`h`, `DURATION`), `rem_sleep` (`h`, `DURATION`), `light_sleep` (`h`, `DURATION`), `awake_time` (`min`, `DURATION`), `sleep_efficiency` (`%`, `MEASUREMENT`).
+    - **Sinh học & Môi trường**: `aggregated_steps` (`steps`, `TOTAL_INCREASING`), `aggregated_heart_rate` (`bpm`, `MEASUREMENT`), `weight` (`kg`, `WEIGHT`), `heat_index` (`°C`, `TEMPERATURE`).
+
+---
+
 ## [2026.08.28.b1] - 2026-08-28
 
 ### 🐛 Sửa lỗi hiển thị phông chữ tiếng Việt (Mojibake Fixes)

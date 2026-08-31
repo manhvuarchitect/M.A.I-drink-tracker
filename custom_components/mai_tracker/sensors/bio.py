@@ -1,5 +1,5 @@
 from typing import Any
-from homeassistant.components.sensor.const import SensorStateClass
+from homeassistant.components.sensor.const import SensorDeviceClass, SensorStateClass
 from homeassistant.config_entries import ConfigEntry
 
 from ..coordinator import CaffeineCoordinator
@@ -95,7 +95,9 @@ class AggregatedStepsSensor(_CaffeineBase):
 class WeightSensor(_CaffeineBase):
     _attr_icon = "mdi:weight-kilogram"
     _attr_native_unit_of_measurement = "kg"
+    _attr_device_class = SensorDeviceClass.WEIGHT
     _attr_state_class = SensorStateClass.MEASUREMENT
+    _attr_suggested_display_precision = 1
 
     def __init__(self, coordinator: CaffeineCoordinator, entry: ConfigEntry) -> None:
         super().__init__(coordinator, entry, suffix="weight")
