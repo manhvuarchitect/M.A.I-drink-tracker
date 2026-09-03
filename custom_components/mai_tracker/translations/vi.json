@@ -468,6 +468,16 @@
       "drink_ruou": {
         "name": "Rượu"
       }
+    },
+    "text": {
+      "custom_tts_message": {
+        "name": "Nội dung cần nói (TTS)"
+      }
+    },
+    "button": {
+      "play_tts": {
+        "name": "Phát thông báo ra loa"
+      }
     }
   }
 }

@@ -449,6 +449,16 @@
       "drink_ruou": {
         "name": "Liquor"
       }
+    },
+    "text": {
+      "custom_tts_message": {
+        "name": "Custom TTS Message"
+      }
+    },
+    "button": {
+      "play_tts": {
+        "name": "Play TTS to Speaker"
+      }
     }
   }
 }

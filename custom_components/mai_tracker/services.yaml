@@ -60,3 +60,54 @@ clear_today:
   target:
     entity:
       integration: mai_tracker
+
+log_medicine:
+  name: Log Medicine (Ghi nhận uống thuốc)
+  description: Record a medicine intake event.
+  target:
+    entity:
+      integration: mai_tracker
+  fields:
+    name:
+      name: Tên thuốc
+      description: Tên loại thuốc đã uống.
+      required: true
+      selector:
+        text:
+    med_type:
+      name: Nhóm thuốc
+      description: Phân loại thuốc (iron, antibiotic, vitamin, general).
+      required: false
+      selector:
+        select:
+          options:
+            - iron
+            - antibiotic
+            - vitamin
+            - general
+    reminder_time:
+      name: Giờ nhắc nhở
+      description: Thời gian nhắc nhở cữ tiếp theo (ISO 8601).
+      required: false
+      selector:
+        text:
+    timestamp:
+      name: Timestamp
+      description: Thời gian uống thuốc (ISO 8601). Mặc định là hiện tại.
+      required: false
+      selector:
+        text:
+
+speak:
+  name: Phát thông báo ra loa (Speak Custom TTS)
+  description: Phát câu thông báo tùy biến ra Loa phát thanh (TTS Speaker) đã cấu hình.
+  target:
+    entity:
+      integration: mai_tracker
+  fields:
+    message:
+      name: Nội dung phát loa
+      description: Nội dung câu nói cần phát ra loa (để trống sẽ lấy từ ô nhập văn bản của người dùng).
+      required: false
+      selector:
+        text:

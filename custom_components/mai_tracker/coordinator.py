@@ -84,6 +84,7 @@ class CaffeineCoordinator(DataUpdateCoordinator[CaffeineData]):
         # Medicine actionable reminders: dict mapping unique_key to { "name": med_name, "user_1": notify_1, "user_2": notify_2, "fired_at": datetime, "level": 1, "task": CancelableCallback }
         self.active_med_reminders: dict[str, dict[str, Any]] = {}
         self.last_bio_sync: datetime | None = None
+        self.custom_tts_message: str = ""
 
     async def async_load(self) -> None:
         """Load persisted events from storage."""
@@ -820,3 +821,55 @@ class CaffeineCoordinator(DataUpdateCoordinator[CaffeineData]):
         await self._async_save()
         await self.async_refresh()
         _LOGGER.info("Cleared today's events and water for %s", self.person_name)
+
+    async def async_set_custom_tts_message(self, message: str) -> None:
+        """Update the custom TTS message text."""
+        self.custom_tts_message = message
+        await self.async_refresh()
+
+    async def async_play_custom_tts(self, message: str | None = None) -> bool:
+        """Play custom TTS message on the configured speaker."""
+        entry = self.hass.config_entries.async_get_entry(self.entry_id)
+        if not entry:
+            return False
+
+        tts_target = entry.options.get("tts_target", entry.data.get("tts_target", ""))
+        if not tts_target:
+            _LOGGER.warning("Cannot play TTS: No speaker (tts_target) configured for %s", self.person_name)
+            self.hass.components.persistent_notification.async_create(
+                f"Chưa cấu hình loa thông báo (TTS Speaker) cho {self.person_name}. Vui lòng vào Cấu hình Bước 4/5 để chọn Loa phát thanh.",
+                title="M.A.I Tracker - Thông báo TTS ⚠️"
+            )
+            return False
+
+        msg = (message or self.custom_tts_message or "").strip()
+        if not msg:
+            _LOGGER.warning("Cannot play TTS: Message is empty for %s", self.person_name)
+            return False
+
+        try:
+            if self.hass.services.has_service("tts", "cloud_say"):
+                await self.hass.services.async_call("tts", "cloud_say", {
+                    "entity_id": tts_target,
+                    "message": msg,
+                }, blocking=False)
+            elif self.hass.services.has_service("tts", "google_translate_say"):
+                await self.hass.services.async_call("tts", "google_translate_say", {
+                    "entity_id": tts_target,
+                    "message": msg,
+                }, blocking=False)
+            elif self.hass.services.has_service("tts", "speak"):
+                await self.hass.services.async_call("tts", "speak", {
+                    "media_player_entity_id": tts_target,
+                    "message": msg,
+                }, blocking=False)
+            else:
+                await self.hass.services.async_call("tts", "cloud_say", {
+                    "entity_id": tts_target,
+                    "message": msg,
+                }, blocking=False)
+            _LOGGER.info("Played custom TTS on %s for %s: %s", tts_target, self.person_name, msg)
+            return True
+        except Exception as err:
+            _LOGGER.error("Failed to play custom TTS for %s: %s", self.person_name, err)
+            return False

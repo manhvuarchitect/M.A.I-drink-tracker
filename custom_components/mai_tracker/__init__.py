@@ -44,7 +44,7 @@ from .helpers import resolve_entry_id_by_user_id
 
 _LOGGER = logging.getLogger(__name__)
 
-PLATFORMS = [Platform.SENSOR, Platform.NUMBER]
+PLATFORMS = [Platform.SENSOR, Platform.NUMBER, Platform.TEXT, Platform.BUTTON]
 
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
@@ -203,6 +203,10 @@ async def async_setup(hass: HomeAssistant, config: dict) -> bool:
                     name=name, med_type=med_type, reminder_time=rm, timestamp=ts
                 )
 
+            elif call.service == "speak":
+                message = call.data.get("message")
+                await coordinator.async_play_custom_tts(message=message)
+
     hass.services.async_register(
         DOMAIN,
         "log_drink",
@@ -245,6 +249,16 @@ async def async_setup(hass: HomeAssistant, config: dict) -> bool:
                 vol.Optional("med_type"): vol.In(["iron", "antibiotic", "vitamin", "general"]),
                 vol.Optional("reminder_time"): cv.string,
                 vol.Optional(ATTR_TIMESTAMP): cv.string,
+            }
+        ),
+    )
+    hass.services.async_register(
+        DOMAIN,
+        "speak",
+        handle_service,
+        schema=cv.make_entity_service_schema(
+            {
+                vol.Optional("message"): cv.string,
             }
         ),
     )

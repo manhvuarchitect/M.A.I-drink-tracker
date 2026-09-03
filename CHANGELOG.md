@@ -4,6 +4,16 @@ Tất cả các thay đổi, tính năng mới và bản sửa lỗi của integ
 
 ---
 
+## [2026.09.03.b1] - 2026-09-03
+
+### ✨ Tính năng mới (Features)
+- **Bổ sung Entity nhập nội dung & nút phát loa TTS tùy biến**:
+  - Tạo entity nhập văn bản `text.mait_{person}_tts_message`: Cho phép nhập trực tiếp nội dung câu thông báo tùy ý từ Dashboard.
+  - Tạo entity nút bấm `button.mait_{person}_play_tts`: Nhấn nút để phát ngay nội dung vừa nhập ra Loa phát thanh (TTS Speaker / Media Player) đã chọn ở Bước 4/5.
+  - Bổ sung service `mai_tracker.speak`: Hỗ trợ phát nhanh câu nói tùy biến từ Script / Automation.
+
+---
+
 ## [2026.08.31.b1] - 2026-08-31
 
 ### ✨ Tính năng mới (Features)
